@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
+import java.util.List;
+
 @Setter
 @Getter
 @Entity
@@ -33,4 +35,8 @@ public class EmployeeEntity {
     private String phoneNumber;
     @Range(min = 0, max = 3)
     private int accessLevel;
+    @OneToMany(mappedBy = "employee")
+    private List<TimeOffTypeYearlyLimitPerEmployeeEntity> yearlyTimeOffLimits;
+    @OneToMany(mappedBy = "employee")
+    private List<TimeOffEntity> timeOffs;
 }
