@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TimeOffTypeRepository extends JpaRepository<TimeOffTypeEntity, Long> {
+    boolean existsByName(String name);
 }

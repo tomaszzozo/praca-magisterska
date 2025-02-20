@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
 
 import java.util.List;
 
@@ -18,10 +17,10 @@ public class TimeOffTypeEntity {
     @NotBlank
     @Column(unique = true, nullable = false)
     private String name;
-    @Range(min = 0, max = 100)
-    private double compensationPercentage;
     @OneToMany(mappedBy = "timeOffType")
     private List<TimeOffTypeYearlyLimitPerEmployeeEntity> yearlyLimits;
     @OneToMany(mappedBy = "timeOffType")
     private List<TimeOffEntity> timeOffs;
+    @OneToMany(mappedBy = "timeOffType")
+    private List<TimeOffTypeCompensationForYearEntity> yearlyCompensations;
 }

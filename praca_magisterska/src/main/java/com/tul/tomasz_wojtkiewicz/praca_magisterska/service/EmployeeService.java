@@ -50,8 +50,7 @@ public class EmployeeService {
         } else if (!original.getPhoneNumber().equals(putDto.getPhoneNumber()) && employeeRepository.existsByPhoneNumber(putDto.getPhoneNumber())) {
             throw new ApiException(HttpStatus.CONFLICT, "Numer telefonu jest już zajęty");
         }
-        var result = new EmployeeEntity();
-        BeanUtils.copyProperties(putDto, result);
-        employeeRepository.save(result);
+        BeanUtils.copyProperties(putDto, original);
+        employeeRepository.save(original);
     }
 }
