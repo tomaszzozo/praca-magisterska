@@ -3,7 +3,6 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.service;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ApiException;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeRepository;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post.TimeOffTypePostDto;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffTypePutDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -31,31 +30,20 @@ public class TimeOffTypeService {
     }
 
     @Transactional
-    public void post(@Valid TimeOffTypePostDto dto) {
-        if (timeOffTypeRepository.existsByName(dto.getName())) {
-            throw new ApiException(HttpStatus.CONFLICT, "Typ urlopu z podaną nazwą już istnieje.");
+    public void putAll(@Valid List<TimeOffTypePutDto> dtos) {
+        var ids = dtos.stream().map(TimeOffTypePutDto::getId).toList();
+        var toDelete = timeOffTypeRepository.findAll().stream().filter(e -> !ids.contains(e.getId())).toList();
+        if (toDelete.stream().anyMatch(e -> !e.getTimeOffs().isEmpty())) {
+            throw new ApiException(HttpStatus.CONFLICT, "Typ urlopu jest używany - nie można usunąć");
         }
-        var result = new TimeOffTypeEntity();
-        BeanUtils.copyProperties(dto, result);
-        timeOffTypeRepository.save(result);
-    }
-
-    @Transactional
-    public void put( @Min(1) long id, @Valid TimeOffTypePutDto dto) {
-        var original = getById(id);
-        if (!original.getName().equals(dto.getName()) && timeOffTypeRepository.existsByName(dto.getName())) {
-            throw new ApiException(HttpStatus.CONFLICT, "Typ urlopu z podaną nazwą już istnieje.");
-        }
-        BeanUtils.copyProperties(dto, original);
-        timeOffTypeRepository.save(original);
-    }
-
-    @Transactional
-    public void delete(@Min(1) long id) {
-        var original = getById(id);
-        if (!original.getYearlyCompensations().isEmpty() || !original.getYearlyLimits().isEmpty()) {
-            throw new ApiException(HttpStatus.CONFLICT, "Nie można usunać tego typu urlopu, ponieważ jest on używany przez istniejące zasoby.");
-        }
-        timeOffTypeRepository.deleteById(id);
+        timeOffTypeRepository.deleteAll(toDelete);
+        dtos.forEach(dto -> {
+            var entity = dto.getId() == 0 ? new TimeOffTypeEntity() : getById(dto.getId());
+            if (!entity.getName().equals(dto.getName()) && timeOffTypeRepository.existsByName(dto.getName())) {
+                throw new ApiException(HttpStatus.CONFLICT, "Podana nazwa jest już zajęta");
+            }
+            BeanUtils.copyProperties(dto, entity, "id");
+            timeOffTypeRepository.save(entity);
+        });
     }
 }
