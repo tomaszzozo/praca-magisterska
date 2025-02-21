@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(uniqueConstraints = {@UniqueConstraint(name = "UniqueYearAndTimeOffType", columnNames = {"year", "timeOffType", "employee"})})
-public class TimeOffTypeYearlyLimitPerEmployeeEntity {
+public class TimeOffTypeLimitPerYearAndEmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

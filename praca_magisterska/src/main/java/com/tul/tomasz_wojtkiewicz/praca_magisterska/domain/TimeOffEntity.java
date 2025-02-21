@@ -26,7 +26,7 @@ public class TimeOffEntity {
     private int hoursCount;
     @ManyToOne
     @JoinColumn(name = "yearly_limit_id", nullable = false)
-    private TimeOffTypeYearlyLimitPerEmployeeEntity timeOffYearlyLimit;
+    private TimeOffTypeLimitPerYearAndEmployeeEntity timeOffYearlyLimit;
     @ManyToOne
     @JoinColumn(name = "type_id", nullable = false)
     private TimeOffTypeEntity timeOffType;

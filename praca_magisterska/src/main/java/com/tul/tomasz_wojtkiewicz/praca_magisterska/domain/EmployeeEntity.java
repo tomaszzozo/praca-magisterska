@@ -36,7 +36,7 @@ public class EmployeeEntity {
     @Range(min = 0, max = 3)
     private int accessLevel;
     @OneToMany(mappedBy = "employee")
-    private List<TimeOffTypeYearlyLimitPerEmployeeEntity> yearlyTimeOffLimits;
+    private List<TimeOffTypeLimitPerYearAndEmployeeEntity> yearlyTimeOffLimits;
     @OneToMany(mappedBy = "employee")
     private List<TimeOffEntity> timeOffs;
 }
