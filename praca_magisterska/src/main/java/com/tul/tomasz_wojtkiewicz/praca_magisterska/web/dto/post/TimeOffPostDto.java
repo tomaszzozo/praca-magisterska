@@ -1,6 +1,5 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
@@ -11,31 +10,23 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-@Entity
 @Getter
 @Setter
-@Table(uniqueConstraints = {@UniqueConstraint(name = "UniqueFirstDayAndEmployee", columnNames = {"firstDay", "employee"}), @UniqueConstraint(name = "UniqueLastDayAndEmployee", columnNames = {"lastDayInclusive", "employee"})})
-public class TimeOffEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(nullable = false, unique = true)
+public class TimeOffPostDto {
+    @NotNull
     private LocalDate firstDay;
-    @Column(nullable = false, unique = true)
+    @NotNull
     private LocalDate lastDayInclusive;
     @Min(0)
     private int hoursCount;
+    @Min(1)
+    private long typeId;
+    @Min(1)
+    private long yearlyLimitId;
+    @Min(1)
+    private long employeeId;
     @NotNull
     private String comment;
-    @ManyToOne
-    @JoinColumn(name = "yearly_limit_id", nullable = false)
-    private TimeOffTypeLimitPerYearAndEmployeeEntity timeOffYearlyLimit;
-    @ManyToOne
-    @JoinColumn(name = "type_id", nullable = false)
-    private TimeOffTypeEntity timeOffType;
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    private EmployeeEntity employee;
 
     @AssertFalse
     public boolean firstDayNotAfterLastDay() {
@@ -51,4 +42,5 @@ public class TimeOffEntity {
     public boolean hoursCountLessThanDaysInTimeOff() {
         return hoursCount <= firstDay.until(lastDayInclusive.plusDays(1), ChronoUnit.HOURS);
     }
+
 }

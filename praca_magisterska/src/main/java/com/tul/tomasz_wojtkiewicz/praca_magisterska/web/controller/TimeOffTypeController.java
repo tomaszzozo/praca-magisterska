@@ -5,6 +5,7 @@ import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.get.TimeOffTypeGetDt
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffTypePutDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,6 @@ public class TimeOffTypeController {
     @PutMapping
     public ResponseEntity<Void> putAll(@Valid @RequestBody List<TimeOffTypePutDto> body) {
         timeOffTypeService.putAll(body);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
