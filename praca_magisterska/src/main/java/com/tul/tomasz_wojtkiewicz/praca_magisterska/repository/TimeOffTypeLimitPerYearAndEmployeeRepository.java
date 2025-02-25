@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface TimeOffTypeLimitPerYearAndEmployeeRepository extends JpaRepository<TimeOffTypeLimitPerYearAndEmployeeEntity, Long> {
-    List<TimeOffTypeLimitPerYearAndEmployeeEntity> findAllByYearAndEmployeeId(int year, long employeeId);
-    boolean existsByYearAndEmployeeIdAndTimeOffTypeId(int year, long employeeId, long timeOffTypeId);
+    List<TimeOffTypeLimitPerYearAndEmployeeEntity> findAllByLeaveYearAndEmployeeId(int year, long employeeId);
+    boolean existsByLeaveYearAndEmployeeIdAndTimeOffTypeId(int year, long employeeId, long timeOffTypeId);
 }

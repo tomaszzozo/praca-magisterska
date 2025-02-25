@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface TimeOffRepository extends JpaRepository<TimeOffEntity, Long> {
-    @Query("SELECT t FROM time_off_entity t WHERE t.account.id = :accountId " +
-            "AND YEAR(t.startDate) = :year ")
-    List<TimeOffEntity> findAllByYearAndEmployeeId(@Param("accountId") long accountId, @Param("year") int year);
+    @Query("SELECT t FROM TimeOffEntity t WHERE t.employee.id = :accountId " +
+            "AND YEAR(t.firstDay) = :leaveYear ")
+    List<TimeOffEntity> findAllByYearAndEmployeeId(@Param("accountId") long accountId, @Param("leaveYear") int year);
 }

@@ -27,7 +27,7 @@ public class TimeOffTypeLimitPerYearAndEmployeeService {
 
     public List<TimeOffTypeLimitPerYearAndEmployeeEntity> getAllByYear(@Range(min = 2020, max = 2100) int year, @Min(1) long employeeId) {
         var types = timeOffTypeService.getAll();
-        var existingLimits = timeOffTypeLimitPerYearAndEmployeeRepository.findAllByYearAndEmployeeId(year, employeeId);
+        var existingLimits = timeOffTypeLimitPerYearAndEmployeeRepository.findAllByLeaveYearAndEmployeeId(year, employeeId);
         var existingLimitsTypes = existingLimits.stream().map(e -> e.getTimeOffType().getId()).toList();
         var result = new ArrayList<>(types.stream().filter(t -> !existingLimitsTypes.contains(t.getId())).map(t -> defaultFromYearAndEmployeeId(year, employeeId, t)).toList());
         result.addAll(existingLimits);
@@ -40,7 +40,7 @@ public class TimeOffTypeLimitPerYearAndEmployeeService {
 
     public TimeOffTypeLimitPerYearAndEmployeeEntity defaultFromYearAndEmployeeId(int year, long employeeId, TimeOffTypeEntity type) {
         var result = new TimeOffTypeLimitPerYearAndEmployeeEntity();
-        result.setYear(year);
+        result.setLeaveYear(year);
         result.setMaxHours(0);
         result.setEmployee(employeeService.getById(employeeId));
         result.setTimeOffType(type);
@@ -52,7 +52,7 @@ public class TimeOffTypeLimitPerYearAndEmployeeService {
         dtos.forEach(dto -> {
             TimeOffTypeLimitPerYearAndEmployeeEntity object;
             if (dto.getId() == 0) {
-                if (timeOffTypeLimitPerYearAndEmployeeRepository.existsByYearAndEmployeeIdAndTimeOffTypeId(dto.getYear(), dto.getEmployeeId(), dto.getTypeId())) {
+                if (timeOffTypeLimitPerYearAndEmployeeRepository.existsByLeaveYearAndEmployeeIdAndTimeOffTypeId(dto.getYear(), dto.getEmployeeId(), dto.getTypeId())) {
                     throw new ApiException(HttpStatus.CONFLICT, "Limit dla danego roku pracownika i typu urlopu już istnieje");
                 }
                 object = defaultFromYearAndEmployeeId(dto.getYear(), dto.getEmployeeId(), timeOffTypeService.getById(dto.getTypeId()));

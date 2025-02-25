@@ -17,21 +17,21 @@ public class EmployeeEntity {
     @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Email(regexp = "^.+@([a-zA-Z0-9.])+[a-zA-Z0-9]+$")
+    @Email
     @NotBlank
     @Column(unique = true, nullable = false)
     private String email;
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z '.,-ęółśążźćń]{3,}$")
+    @Pattern(regexp = "^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$")
     @Column(nullable = false)
     private String firstName;
     @NotBlank
     @Column(nullable = false)
-    @Pattern(regexp = "^[a-zA-Z '.,-ęółśążźćń]{3,}$")
+    @Pattern(regexp = "^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$")
     private String lastName;
     @NotBlank
-    @Pattern(regexp = "^\\d{7,20}$")
-    @Column(unique = true, nullable = false, length = 20)
+    @Pattern(regexp = "^\\d{9}$")
+    @Column(unique = true, nullable = false, length = 9)
     private String phoneNumber;
     @Range(min = 0, max = 3)
     private int accessLevel;

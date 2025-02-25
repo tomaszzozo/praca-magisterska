@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(uniqueConstraints = {@UniqueConstraint(name = "UniqueYearAndTimeOffType", columnNames = {"year", "timeOffType", "employee"})})
+@Table(uniqueConstraints = {@UniqueConstraint(name = "UniqueYearAndTimeOffType", columnNames = {"leaveYear", "type_id", "employee_id"})})
 public class TimeOffTypeLimitPerYearAndEmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class TimeOffTypeLimitPerYearAndEmployeeEntity {
     @Min(0)
     private int maxHours;
     @Range(min = 2020, max = 2100)
-    private int year;
+    private int leaveYear;
     @ManyToOne
     @JoinColumn(name = "type_id", nullable = false)
     private TimeOffTypeEntity timeOffType;
@@ -33,6 +33,6 @@ public class TimeOffTypeLimitPerYearAndEmployeeEntity {
 
     @AssertTrue
     public boolean maxHoursNotHigherThanHoursInYear() {
-        return maxHours <= LocalDate.of(year, 12, 31).getDayOfYear();
+        return maxHours <= LocalDate.of(leaveYear, 12, 31).getDayOfYear();
     }
 }
