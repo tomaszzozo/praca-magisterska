@@ -18,7 +18,7 @@ public class DefaultTestEntities {
 
         testTimeOffType = new TimeOffTypeEntity();
         testTimeOffType.setName("Test time off type");
-        testTimeOffType.setCompensationPercentage(0.8);
+        testTimeOffType.setCompensationPercentage(0.8f);
 
         testTimeOffLimit = new TimeOffTypeLimitPerYearAndEmployeeEntity();
         testTimeOffLimit.setLeaveYear(2025);

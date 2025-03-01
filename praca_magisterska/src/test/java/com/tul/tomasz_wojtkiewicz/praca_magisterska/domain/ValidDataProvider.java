@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @UtilityClass
@@ -73,10 +74,10 @@ class ValidDataProvider {
     }
 
     static List<TimeOffTypeEntity> getTimeOffTypes() {
-        return Stream.of(Arguments.of("Urlop wypoczynkowy", 1.0), Arguments.of("Urlop na żądanie", 0.8), Arguments.of("Urlop zdrowotny", 0.5), Arguments.of("Urlop szkoleniowy", 0.7), Arguments.of("Urlop rodzicielski", 1.0), Arguments.of("Urlop okolicznościowy", 0.3), Arguments.of("Urlop bezpłatny", 0.0), Arguments.of("Urlop wychowawczy", 0.9), Arguments.of("Urlop rehabilitacyjny", 0.6), Arguments.of("Urlop studencki", 0.4)).map(a -> {
+        return Map.of("Urlop wypoczynkowy", 1.0f, "Urlop na żądanie", 0.8f, "Urlop zdrowotny", 0.5f, "Urlop szkoleniowy", 0.7f, "Urlop rodzicielski", 1.0f, "Urlop okolicznościowy", 0.3f, "Urlop bezpłatny", 0.0f, "Urlop wychowawczy", 0.9f, "Urlop rehabilitacyjny", 0.6f, "Urlop studencki", 0.4f).entrySet().stream().map(e -> {
             var timeOffType = new TimeOffTypeEntity();
-            timeOffType.setName((String) a.get()[0]);
-            timeOffType.setCompensationPercentage((double) a.get()[1]);
+            timeOffType.setName(e.getKey());
+            timeOffType.setCompensationPercentage(e.getValue());
             return timeOffType;
         }).toList();
     }

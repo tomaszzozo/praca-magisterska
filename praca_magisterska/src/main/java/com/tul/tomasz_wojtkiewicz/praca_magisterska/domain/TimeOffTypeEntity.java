@@ -20,8 +20,7 @@ public class TimeOffTypeEntity {
     @NotBlank
     @Column(unique = true, nullable = false)
     private String name;
-    @Range(min = 0, max = 100)
-    private double compensationPercentage;
+    private @Range(min = 0, max = 100) float compensationPercentage;
     @OneToMany(mappedBy = "timeOffType", cascade = CascadeType.REMOVE)
     private List<TimeOffTypeLimitPerYearAndEmployeeEntity> yearlyLimits;
     @OneToMany(mappedBy = "timeOffType")
