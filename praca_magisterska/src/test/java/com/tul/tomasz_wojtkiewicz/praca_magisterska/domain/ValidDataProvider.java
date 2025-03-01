@@ -3,12 +3,15 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 import lombok.experimental.UtilityClass;
 import org.junit.jupiter.params.provider.Arguments;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 @UtilityClass
 class ValidDataProvider {
 
-    static Stream<Arguments> provideValidEmployeeCreationData() {
+    static List<EmployeeEntity> getEmployees() {
         return Stream.of(
                 Arguments.of("Ruggiero","Stealy","rstealy0@plala.or.jp","712568069"),
                 Arguments.of("Jan","Żółcik","cbiggin1@tiny.cc","709347655"),
@@ -59,7 +62,82 @@ class ValidDataProvider {
                 Arguments.of("Audrie","Spedding","aspedding1a@amazon.co.uk","260369861"),
                 Arguments.of("Yasmin","Kingswell","ykingswell1b@alexa.com","203146008"),
                 Arguments.of("Alyce","Geekin","ageekin1c@i2i.jp","951254209"),
-                Arguments.of("Bellina","Candish","bcandish1d@dropbox.com","609772747")
+                Arguments.of("Bellina","Candish","bcandish1d@dropbox.com","609772747")).map(a -> {
+            var employee = new EmployeeEntity();
+            employee.setFirstName((String) a.get()[0]);
+            employee.setLastName((String) a.get()[1]);
+            employee.setEmail((String) a.get()[2]);
+            employee.setPhoneNumber((String) a.get()[3]);
+            return employee;
+        }).toList();
+    }
+
+    static List<TimeOffTypeEntity> getTimeOffTypes() {
+        return Stream.of(Arguments.of("Urlop wypoczynkowy", 1.0), Arguments.of("Urlop na żądanie", 0.8), Arguments.of("Urlop zdrowotny", 0.5), Arguments.of("Urlop szkoleniowy", 0.7), Arguments.of("Urlop rodzicielski", 1.0), Arguments.of("Urlop okolicznościowy", 0.3), Arguments.of("Urlop bezpłatny", 0.0), Arguments.of("Urlop wychowawczy", 0.9), Arguments.of("Urlop rehabilitacyjny", 0.6), Arguments.of("Urlop studencki", 0.4)).map(a -> {
+            var timeOffType = new TimeOffTypeEntity();
+            timeOffType.setName((String) a.get()[0]);
+            timeOffType.setCompensationPercentage((double) a.get()[1]);
+            return timeOffType;
+        }).toList();
+    }
+
+    static List<TimeOffTypeLimitPerYearAndEmployeeEntity> getTimeOffLimits(List<EmployeeEntity> employees, List<TimeOffTypeEntity> types) {
+        var result = new ArrayList<TimeOffTypeLimitPerYearAndEmployeeEntity>();
+        for (var e : employees) {
+            for (var t : types) {
+                for (int y = 2025; y < 2050; y += 3) {
+                    var timeOffLimit = new TimeOffTypeLimitPerYearAndEmployeeEntity();
+                    timeOffLimit.setLeaveYear(y);
+                    timeOffLimit.setEmployee(e);
+                    timeOffLimit.setTimeOffType(t);
+                    timeOffLimit.setMaxHours((y % 100) * 10);
+                    result.add(timeOffLimit);
+                }
+            }
+        }
+        return result;
+    }
+
+    static List<TimeOffEntity> getTimeOffs(List<TimeOffTypeLimitPerYearAndEmployeeEntity> limits) {
+        List<String> vacationComments = List.of(
+                "Urlop zaplanowany na lipiec, wyjazd nad morze.",
+                "Krótki urlop na regenerację sił.",
+                "Urlop rodzinny, wycieczka w góry.",
+                "Weekendowy wypad za miasto.",
+                "Urlop zdrowotny, konieczny odpoczynek.",
+                "Wyjazd służbowy połączony z urlopem.",
+                "Urlop na żądanie, pilna sprawa rodzinna.",
+                "Wakacje za granicą, zwiedzanie Europy.",
+                "Urlop rodzicielski, opieka nad dzieckiem.",
+                "Krótki urlop na urodziny.",
+                "Urlop szkoleniowy, podnoszenie kwalifikacji.",
+                "Wyjazd na festiwal muzyczny.",
+                "Urlop okolicznościowy, ślub przyjaciela.",
+                "Wypoczynek w spa, relaks i odprężenie.",
+                "Urlop bezpłatny, podróż życia.",
+                "Wyjazd na narty w Alpy.",
+                "Urlop wychowawczy, czas z rodziną.",
+                "Krótki urlop na remont mieszkania.",
+                "Urlop rehabilitacyjny, powrót do zdrowia.",
+                "Wakacje w tropikach, plaża i słońce."
         );
+        int i = 0;
+
+        var result = new ArrayList<TimeOffEntity>();
+        for (var l : limits) {
+            for (int m = 1; m <= 12; m += 2) {
+                var timeOff = new TimeOffEntity();
+                timeOff.setTimeOffYearlyLimit(l);
+                timeOff.setEmployee(l.getEmployee());
+                timeOff.setTimeOffType(l.getTimeOffType());
+                timeOff.setComment(vacationComments.get(i));
+                if (++i == vacationComments.size()) i = 0;
+                timeOff.setHoursCount(i%2 == 0 ? 8 : 16);
+                timeOff.setFirstDay(LocalDate.of(l.getLeaveYear(), m, i+1));
+                timeOff.setLastDayInclusive(LocalDate.of(l.getLeaveYear(), m, i+3));
+                result.add(timeOff);
+            }
+        }
+        return result;
     }
 }

@@ -21,9 +21,9 @@ public class TimeOffEntity {
     @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private LocalDate firstDay;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private LocalDate lastDayInclusive;
     @Min(0)
     private int hoursCount;
@@ -40,17 +40,22 @@ public class TimeOffEntity {
     private EmployeeEntity employee;
 
     @AssertFalse
-    public boolean firstDayNotAfterLastDay() {
+    public boolean isFirstDayAfterLastDay() {
         return firstDay.isAfter(lastDayInclusive);
     }
 
     @AssertTrue
-    public boolean datesHaveSameYearAndMonth() {
+    public boolean isYearAndMonthEqual() {
         return firstDay.withDayOfMonth(1).equals(lastDayInclusive.withDayOfMonth(1));
     }
 
     @AssertTrue
-    public boolean hoursCountLessThanDaysInTimeOff() {
-        return hoursCount <= firstDay.until(lastDayInclusive.plusDays(1), ChronoUnit.HOURS);
+    public boolean isHoursCountLessThanDaysInTimeOff() {
+        return hoursCount <= firstDay.until(lastDayInclusive.plusDays(1), ChronoUnit.DAYS)*24;
+    }
+
+    @AssertTrue
+    public boolean isYearInAcceptableRange() {
+        return firstDay.getYear() >= 2020 && firstDay.getYear() <= 2100 && lastDayInclusive.getYear() >= 2020 && lastDayInclusive.getYear() <= 2100;
     }
 }

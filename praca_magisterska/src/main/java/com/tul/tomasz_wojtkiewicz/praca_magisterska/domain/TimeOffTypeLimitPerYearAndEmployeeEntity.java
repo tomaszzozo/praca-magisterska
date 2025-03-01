@@ -3,6 +3,7 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -16,6 +17,7 @@ import java.util.List;
 @Table(uniqueConstraints = {@UniqueConstraint(name = "UniqueYearAndTimeOffType", columnNames = {"leaveYear", "type_id", "employee_id"})})
 public class TimeOffTypeLimitPerYearAndEmployeeEntity {
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Min(0)

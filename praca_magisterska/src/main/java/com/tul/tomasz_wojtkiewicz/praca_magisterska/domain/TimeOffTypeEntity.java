@@ -2,6 +2,7 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 public class TimeOffTypeEntity {
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotBlank
