@@ -1,5 +1,8 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska;
 
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeLimitPerYearAndEmployeeEntity;
 import lombok.experimental.UtilityClass;
 import org.springframework.beans.BeanUtils;
 

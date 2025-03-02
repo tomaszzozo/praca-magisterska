@@ -1,5 +1,7 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestEntities;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.EmployeeRepository;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeLimitPerYearAndEmployeeRepository;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeRepository;

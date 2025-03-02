@@ -1,5 +1,9 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska;
 
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeLimitPerYearAndEmployeeEntity;
 import lombok.experimental.UtilityClass;
 import org.junit.jupiter.params.provider.Arguments;
 
@@ -10,9 +14,9 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 @UtilityClass
-class ValidDataProvider {
+public class ValidDataProvider {
 
-    static List<EmployeeEntity> getEmployees() {
+    public static List<EmployeeEntity> getEmployees() {
         return Stream.of(
                 Arguments.of("Ruggiero","Stealy","rstealy0@plala.or.jp","712568069"),
                 Arguments.of("Jan","Żółcik","cbiggin1@tiny.cc","709347655"),
@@ -73,7 +77,7 @@ class ValidDataProvider {
         }).toList();
     }
 
-    static List<TimeOffTypeEntity> getTimeOffTypes() {
+    public static List<TimeOffTypeEntity> getTimeOffTypes() {
         return Map.of("Urlop wypoczynkowy", 1.0f, "Urlop na żądanie", 0.8f, "Urlop zdrowotny", 0.5f, "Urlop szkoleniowy", 0.7f, "Urlop rodzicielski", 1.0f, "Urlop okolicznościowy", 0.3f, "Urlop bezpłatny", 0.0f, "Urlop wychowawczy", 0.9f, "Urlop rehabilitacyjny", 0.6f, "Urlop studencki", 0.4f).entrySet().stream().map(e -> {
             var timeOffType = new TimeOffTypeEntity();
             timeOffType.setName(e.getKey());
@@ -82,7 +86,7 @@ class ValidDataProvider {
         }).toList();
     }
 
-    static List<TimeOffTypeLimitPerYearAndEmployeeEntity> getTimeOffLimits(List<EmployeeEntity> employees, List<TimeOffTypeEntity> types) {
+    public static List<TimeOffTypeLimitPerYearAndEmployeeEntity> getTimeOffLimits(List<EmployeeEntity> employees, List<TimeOffTypeEntity> types) {
         var result = new ArrayList<TimeOffTypeLimitPerYearAndEmployeeEntity>();
         for (var e : employees) {
             for (var t : types) {
@@ -99,7 +103,7 @@ class ValidDataProvider {
         return result;
     }
 
-    static List<TimeOffEntity> getTimeOffs(List<TimeOffTypeLimitPerYearAndEmployeeEntity> limits) {
+    public static List<TimeOffEntity> getTimeOffs(List<TimeOffTypeLimitPerYearAndEmployeeEntity> limits) {
         List<String> vacationComments = List.of(
                 "Urlop zaplanowany na lipiec, wyjazd nad morze.",
                 "Krótki urlop na regenerację sił.",

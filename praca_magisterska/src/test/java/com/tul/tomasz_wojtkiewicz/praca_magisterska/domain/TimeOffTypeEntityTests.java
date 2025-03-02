@@ -1,5 +1,7 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestEntities;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeRepository;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.AfterEach;

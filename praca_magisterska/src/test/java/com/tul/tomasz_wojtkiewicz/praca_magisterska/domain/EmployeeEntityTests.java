@@ -1,5 +1,7 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestEntities;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.EmployeeRepository;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.AfterEach;
@@ -24,7 +26,7 @@ class EmployeeEntityTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.InvalidDataProvider#provideInvalidEmails")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#provideInvalidEmails")
     void emailValidation(String invalidEmail) {
         var employee = DefaultTestEntities.getTestEmployee();
         employee.setEmail(invalidEmail);
@@ -32,7 +34,7 @@ class EmployeeEntityTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.InvalidDataProvider#provideInvalidNames")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#provideInvalidNames")
     void firstAndLastNameValidation(String invalidName) {
         var employee1 = DefaultTestEntities.getTestEmployee();
         employee1.setFirstName(invalidName);
@@ -43,7 +45,7 @@ class EmployeeEntityTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.InvalidDataProvider#provideInvalidPhoneNumbers")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#provideInvalidPhoneNumbers")
     void phoneNumberValidation(String invalidPhoneNumber) {
         var employee = DefaultTestEntities.getTestEmployee();
         employee.setPhoneNumber(invalidPhoneNumber);

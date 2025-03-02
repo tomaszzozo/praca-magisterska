@@ -1,4 +1,4 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska;
 
 import lombok.experimental.UtilityClass;
 import org.junit.jupiter.params.provider.Arguments;
@@ -6,8 +6,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import java.util.stream.Stream;
 
 @UtilityClass
-class InvalidDataProvider {
-    static Stream<Arguments> provideInvalidEmails() {
+public class InvalidDataProvider {
+    public static Stream<Arguments> provideInvalidEmails() {
         return Stream.of(
                 Arguments.of(""),
                 Arguments.of("invalid-email"),
@@ -18,7 +18,7 @@ class InvalidDataProvider {
         );
     }
 
-    static Stream<Arguments> provideInvalidNames() {
+    public static Stream<Arguments> provideInvalidNames() {
         return Stream.of(
                 "Al",
                 "Jo",
@@ -45,7 +45,7 @@ class InvalidDataProvider {
         ).map(Arguments::of);
     }
 
-    static Stream<Arguments> provideInvalidPhoneNumbers() {
+    public static Stream<Arguments> provideInvalidPhoneNumbers() {
         return Stream.of(
                 "",
                 " ",
