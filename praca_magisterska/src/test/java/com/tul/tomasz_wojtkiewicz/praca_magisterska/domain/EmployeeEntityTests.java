@@ -25,7 +25,7 @@ class EmployeeEntityTests {
 
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.InvalidDataProvider#provideInvalidEmails")
-    void when_iSaveEmployeeWithInvalidEmail_then_validationExceptionExceptionIsThrown(String invalidEmail) {
+    void emailValidation(String invalidEmail) {
         var employee = DefaultTestEntities.getTestEmployee();
         employee.setEmail(invalidEmail);
         Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
@@ -33,7 +33,7 @@ class EmployeeEntityTests {
 
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.InvalidDataProvider#provideInvalidNames")
-    void when_iSaveEmployeeWithInvalidFirstNameOrInvalidLastName_then_validationExceptionExceptionIsThrown(String invalidName) {
+    void firstAndLastNameValidation(String invalidName) {
         var employee1 = DefaultTestEntities.getTestEmployee();
         employee1.setFirstName(invalidName);
         Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee1));
@@ -44,23 +44,29 @@ class EmployeeEntityTests {
 
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.InvalidDataProvider#provideInvalidPhoneNumbers")
-    void when_iSaveEmployeeWithInvalidPhoneNumber_then_validationExceptionExceptionIsThrown(String invalidPhoneNumber) {
+    void phoneNumberValidation(String invalidPhoneNumber) {
         var employee = DefaultTestEntities.getTestEmployee();
         employee.setPhoneNumber(invalidPhoneNumber);
         Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
     }
 
     @Test
-    void when_iSaveEmployeeWithInvalidAccessLevel_then_validationExceptionExceptionIsThrown() {
+    void accessLevelValidation() {
         List.of(Integer.MIN_VALUE, -1234567890, -123456789, -12345678, -1234567, -123456, -12345, -1234, -123, -12, -1, 4, 12, 123, 1234, 12345, 123456, 1234567, 12345678, 123456789, 1234567890, Integer.MAX_VALUE).forEach(i -> {
             var employee = DefaultTestEntities.getTestEmployee();
             employee.setAccessLevel(i);
             Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
         });
+        for (int lvl = 0; lvl <= 3; lvl++) {
+            var employee = DefaultTestEntities.getTestEmployee();
+            employee.setAccessLevel(lvl);
+            Assertions.assertDoesNotThrow(() -> employeeRepository.save(employee));
+            employeeRepository.deleteAll();
+        }
     }
 
     @Test
-    void when_iSaveEmployeeWithNullInOneOfStrings_then_validationExceptionIsThrown() {
+    void notNullFieldsValidation() {
         {
             var employee = DefaultTestEntities.getTestEmployee();
             employee.setEmail(null);
@@ -84,12 +90,12 @@ class EmployeeEntityTests {
     }
 
     @Test
-    void when_iSaveEmployeesWithValidData_then_noExceptionIsThrown() {
+    void validData() {
         ValidDataProvider.getEmployees().forEach(e -> Assertions.assertDoesNotThrow(() -> employeeRepository.save(e)));
     }
 
     @Test
-    void given_employeeWithCertainEmailExists_when_iSaveAnotherEmployeeWithSameEmail_then_dataIntegrityViolationExceptionIsThrown() {
+    void emailUniqueness() {
         var defaultEmployee = DefaultTestEntities.getTestEmployee();
         employeeRepository.save(defaultEmployee);
         var employee = DefaultTestEntities.getTestEmployee();
@@ -98,7 +104,7 @@ class EmployeeEntityTests {
     }
 
     @Test
-    void given_employeeWithCertainPhoneNumberExists_when_iSaveAnotherEmployeeWithSamePhoneNumber_then_dataIntegrityViolationExceptionIsThrown() {
+    void phoneNumberUniqueness() {
         var defaultEmployee = DefaultTestEntities.getTestEmployee();
         employeeRepository.save(defaultEmployee);
         var employee = DefaultTestEntities.getTestEmployee();

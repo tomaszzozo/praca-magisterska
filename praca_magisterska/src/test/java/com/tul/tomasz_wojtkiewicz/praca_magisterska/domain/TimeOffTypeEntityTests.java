@@ -22,31 +22,39 @@ class TimeOffTypeEntityTests {
     }
 
     @Test
-    void when_iSaveTimeOffTypeWithBlankOrNullName_then_validationExceptionIsThrown() {
+    void nameValidation() {
         var type = DefaultTestEntities.getTestTimeOffType();
         type.setName("");
         Assertions.assertThrows(ValidationException.class, () -> timeOffTypeRepository.save(type));
         type.setName(null);
         Assertions.assertThrows(ValidationException.class, () -> timeOffTypeRepository.save(type));
+        type.setName("a");
+        Assertions.assertDoesNotThrow(() -> timeOffTypeRepository.save(type));
     }
 
     @Test
-    void given_thereIsTimeOffTypeSaved_when_iSaveAnotherTimeOffTypeWithTheSameName_then_dataIntegrityViolationExceptionIsThrown() {
+    void nameUniqueness() {
         timeOffTypeRepository.save(DefaultTestEntities.getTestTimeOffType());
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffTypeRepository.save(DefaultTestEntities.getTestTimeOffType()));
     }
 
     @Test
-    void when_iSaveTimeOffTypeWithInvalidCompensationPercentage_then_validationExceptionIsThrown() {
+    void compensationPercentageValidation() {
         List.of(-Float.MAX_VALUE, -123456f, -Float.MIN_VALUE, 100.1f, 123f, 1234f, 12345f, 123456f, Float.MAX_VALUE).forEach(e -> {
             var type = DefaultTestEntities.getTestTimeOffType();
             type.setCompensationPercentage(e);
             Assertions.assertThrows(ValidationException.class, () -> timeOffTypeRepository.save(type));
         });
+        List.of(0f, 2.23f, 25.86f ,50f, 75.75f, 100f).forEach(cp -> {
+            var type = DefaultTestEntities.getTestTimeOffType();
+            type.setCompensationPercentage(cp);
+            Assertions.assertDoesNotThrow(() -> timeOffTypeRepository.save(type));
+            timeOffTypeRepository.deleteAll();
+        });
     }
 
     @Test
-    void when_iSaveTimeOffTypesWithValidData_then_noExceptionIsThrown() {
+    void validData() {
         Assertions.assertDoesNotThrow(() -> timeOffTypeRepository.saveAll(ValidDataProvider.getTimeOffTypes()));
     }
 }

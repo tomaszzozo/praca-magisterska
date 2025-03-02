@@ -34,7 +34,7 @@ public class TimeOffTypeLimitPerYearAndEmployeeEntity {
     private List<TimeOffEntity> timeOffs;
 
     @AssertTrue
-    public boolean maxHoursNotHigherThanHoursInYear() {
-        return maxHours <= LocalDate.of(leaveYear, 12, 31).getDayOfYear();
+    public boolean isMaxHoursNotHigherThanHoursInYear() {
+        return maxHours <= LocalDate.of(leaveYear, 12, 31).getDayOfYear()*24;
     }
 }

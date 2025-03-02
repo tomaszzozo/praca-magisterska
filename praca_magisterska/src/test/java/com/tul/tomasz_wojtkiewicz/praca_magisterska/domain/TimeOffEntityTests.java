@@ -32,6 +32,8 @@ class TimeOffEntityTests {
     private TimeOffTypeEntity testType;
     private TimeOffTypeLimitPerYearAndEmployeeEntity testLimit;
 
+    private static final LocalDate NOW = LocalDate.now();
+
     @BeforeEach
     void beforeEach() {
         testEmployee = DefaultTestEntities.getTestEmployee();
@@ -52,8 +54,8 @@ class TimeOffEntityTests {
 
     private TimeOffEntity createTestTimeOff() {
         var timeOff = new TimeOffEntity();
-        timeOff.setFirstDay(LocalDate.now());
-        timeOff.setLastDayInclusive(LocalDate.now().plusDays(1));
+        timeOff.setFirstDay(NOW);
+        timeOff.setLastDayInclusive(NOW.plusDays(1));
         timeOff.setComment("");
         timeOff.setHoursCount(16);
         timeOff.setEmployee(testEmployee);
@@ -63,28 +65,33 @@ class TimeOffEntityTests {
     }
 
     @Test
-    void when_iSaveTimeOffWithNegativeHoursCount_then_validationExceptionIsThrown() {
-        for (int i = Integer.MIN_VALUE; i < 0; i += 7483648) {
+    void negativeHoursCountValidation() {
+        List.of(Integer.MIN_VALUE, -1000, -1).forEach(h -> {
             var timeOff = createTestTimeOff();
-            timeOff.setHoursCount(i);
+            timeOff.setHoursCount(h);
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
-        }
+        });
         var timeOff = createTestTimeOff();
-        timeOff.setHoursCount(-1);
-        Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
+        timeOff.setHoursCount(0);
+        Assertions.assertDoesNotThrow(() -> timeOffRepository.save(timeOff));
     }
 
     @Test
-    void when_iSaveTimeOffWithFirstDayAfterLastDay_then_validationExceptionIsThrown() {
-        for (int i = 2; i < 1000; i += 3) {
+    void firstDayAfterLastDayValidation() {
+        List.of(1, 5, 10, 30).forEach(d -> {
             var timeOff = createTestTimeOff();
-            timeOff.setFirstDay(LocalDate.now().plusDays(i));
+            timeOff.setLastDayInclusive(LocalDate.now());
+            timeOff.setFirstDay(timeOff.getLastDayInclusive().plusDays(d));
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
-        }
+        });
+        var timeOff = createTestTimeOff();
+        timeOff.setFirstDay(LocalDate.now());
+        timeOff.setLastDayInclusive(timeOff.getFirstDay());
+        Assertions.assertDoesNotThrow(() -> timeOffRepository.save(timeOff));
     }
 
     @Test
-    void when_iSaveTimeOffWithFirstDayOrLastDayWithNotAcceptableYear_then_validationExceptionIsThrown() {
+    void firstAndLastDayYearRangeValidation() {
         List.of(LocalDate.MIN.getYear(), -123456789, -12345678, -1234567, -123456, -12345, -1234, -123, -1, 0, 1, 123, 1234, 2000, 2019, 2101, 2200, 12345, 123456, 1234567, 12345678, 123456789, LocalDate.MAX.getYear()).forEach(y -> {
             var timeOff = createTestTimeOff();
             var timeOff2 = createTestTimeOff();
@@ -93,10 +100,25 @@ class TimeOffEntityTests {
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         });
+        {
+            var timeOff = createTestTimeOff();
+            timeOff.setFirstDay(LocalDate.of(2020, 1, 1));
+            timeOff.setLastDayInclusive(timeOff.getFirstDay());
+            Assertions.assertDoesNotThrow(() -> timeOffRepository.save(timeOff));
+            timeOffRepository.deleteAll();
+        }
+        {
+            var timeOff = createTestTimeOff();
+            timeOff.setFirstDay(LocalDate.of(2100, 12, 31));
+            timeOff.setLastDayInclusive(timeOff.getFirstDay());
+            Assertions.assertDoesNotThrow(() -> timeOffRepository.save(timeOff));
+            timeOffRepository.deleteAll();
+        }
+
     }
 
     @Test
-    void when_iSaveTimeOffWithDifferentMonthOrYear_then_validationExceptionIsThrown() {
+    void firstAndLastDayMonthAndYearMatchValidation() {
         for (int i = 2; i <= 12; i++) {
             var timeOff = createTestTimeOff();
             timeOff.setLastDayInclusive(LocalDate.of(2025, 1, 1));
@@ -112,14 +134,16 @@ class TimeOffEntityTests {
     }
 
     @Test
-    void when_iSaveTimeOffWithHoursCountBiggerThanHoursInTimeOffPeriod_then_validationExceptionIsThrown() {
+    void hoursCountNotMoreThanHoursInTimeOffPeriodValidation() {
         var timeOff = createTestTimeOff();
         timeOff.setHoursCount((int) timeOff.getFirstDay().until(timeOff.getLastDayInclusive().plusDays(1), ChronoUnit.DAYS) * 24 + 1);
         Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
+        timeOff.setHoursCount((int) timeOff.getFirstDay().until(timeOff.getLastDayInclusive().plusDays(1), ChronoUnit.DAYS) * 24);
+        Assertions.assertDoesNotThrow(() -> timeOffRepository.save(timeOff));
     }
 
     @Test
-    void when_iSaveTimeOffWithNullCommentOrDayOrManyToOneRelation_then_validationExceptionOrDataIntegrityViolationExceptionIsThrown() {
+    void notNullFieldsValidation() {
         {
             var timeOff = createTestTimeOff();
             timeOff.setComment(null);
@@ -153,7 +177,7 @@ class TimeOffEntityTests {
     }
 
     @Test
-    void given_thereIsTimeOffSaved_when_iSaveAnotherTimeOffWithSameEmployeeAndSameStartOrEndDate_then_dataIntegrityViolationExceptionIsThrown() {
+    void employeeFirstDayAndEmployeeLastDayUniqueness() {
         timeOffRepository.save(createTestTimeOff());
         {
             var timeOff = createTestTimeOff();
@@ -162,13 +186,13 @@ class TimeOffEntityTests {
         }
         {
             var timeOff = createTestTimeOff();
-            timeOff.setLastDayInclusive(timeOff.getFirstDay().plusDays(1));
+            timeOff.setFirstDay(timeOff.getFirstDay().plusDays(1));
             Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffRepository.save(timeOff));
         }
     }
 
     @Test
-    void given_thereAreEmployeesAndTypesAndLimitsSaved_when_iSaveTimeOffsWithValidData_then_noExceptionIsThrown() {
+    void validData() {
         var employees = ValidDataProvider.getEmployees().subList(0, 4);
         employeeRepository.saveAll(employees);
 
