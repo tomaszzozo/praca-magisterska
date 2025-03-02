@@ -13,20 +13,18 @@ import org.hibernate.validator.constraints.Range;
 @Setter
 @MappedSuperclass
 public class EmployeePostDto {
-    @Email(regexp = "^.+@([a-zA-Z0-9.])+[a-zA-Z0-9]+$")
+    @Email
     @NotBlank
     @NotNull
     private String email;
-    @NotBlank
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z '.,-ęółśążźćń]{3,}$")
+    @Pattern(regexp = "^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$")
     private String firstName;
-    @NotBlank
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z '.,-ęółśążźćń]{3,}$")
+    @Pattern(regexp = "^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$")
     private String lastName;
-    @NotBlank
-    @Pattern(regexp = "^\\d{7,20}$")
+    @NotNull
+    @Pattern(regexp = "^\\d{9}$")
     private String phoneNumber;
     @Range(min = 0, max = 3)
     private int accessLevel;

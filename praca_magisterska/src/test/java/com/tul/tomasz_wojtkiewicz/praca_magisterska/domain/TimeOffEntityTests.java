@@ -1,6 +1,6 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestEntities;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestObjects;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.EmployeeRepository;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffRepository;
@@ -38,11 +38,11 @@ class TimeOffEntityTests {
 
     @BeforeEach
     void beforeEach() {
-        testEmployee = DefaultTestEntities.getTestEmployee();
+        testEmployee = DefaultTestObjects.getEmployeeEntity();
         employeeRepository.save(testEmployee);
-        testType = DefaultTestEntities.getTestTimeOffType();
+        testType = DefaultTestObjects.getTimeOffTypeEntity();
         timeOffTypeRepository.save(testType);
-        testLimit = DefaultTestEntities.getTestTimeOffLimit(testType, testEmployee);
+        testLimit = DefaultTestObjects.getLimitEntity(testType, testEmployee);
         timeOffTypeLimitPerYearAndEmployeeRepository.save(testLimit);
     }
 
@@ -164,17 +164,17 @@ class TimeOffEntityTests {
         {
             var timeOff = createTestTimeOff();
             timeOff.setTimeOffYearlyLimit(null);
-            Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffRepository.save(timeOff));
+            Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         }
         {
             var timeOff = createTestTimeOff();
             timeOff.setTimeOffType(null);
-            Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffRepository.save(timeOff));
+            Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         }
         {
             var timeOff = createTestTimeOff();
             timeOff.setEmployee(null);
-            Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffRepository.save(timeOff));
+            Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         }
     }
 

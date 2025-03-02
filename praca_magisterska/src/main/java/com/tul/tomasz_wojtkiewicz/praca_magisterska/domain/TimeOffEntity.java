@@ -21,22 +21,25 @@ public class TimeOffEntity {
     @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+    @NotNull
     private LocalDate firstDay;
-    @Column(nullable = false)
+    @NotNull
     private LocalDate lastDayInclusive;
     @Min(0)
     private int hoursCount;
     @NotNull
     private String comment;
     @ManyToOne
-    @JoinColumn(name = "yearly_limit_id", nullable = false)
+    @NotNull
+    @JoinColumn(name = "yearly_limit_id")
     private TimeOffTypeLimitPerYearAndEmployeeEntity timeOffYearlyLimit;
     @ManyToOne
-    @JoinColumn(name = "type_id", nullable = false)
+    @NotNull
+    @JoinColumn(name = "type_id")
     private TimeOffTypeEntity timeOffType;
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @NotNull
+    @JoinColumn(name = "employee_id")
     private EmployeeEntity employee;
 
     @AssertFalse

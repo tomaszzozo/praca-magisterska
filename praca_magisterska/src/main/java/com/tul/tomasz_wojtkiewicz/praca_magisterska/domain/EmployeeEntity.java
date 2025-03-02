@@ -3,6 +3,7 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Setter
 @Getter
+@EqualsAndHashCode
 @Entity
 public class EmployeeEntity {
     @Id
@@ -19,24 +21,25 @@ public class EmployeeEntity {
     private long id;
     @Email
     @NotBlank
-    @Column(unique = true, nullable = false)
+    @NotNull
+    @Column(unique = true)
     private String email;
-    @NotBlank
     @Pattern(regexp = "^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$")
-    @Column(nullable = false)
+    @NotNull
     private String firstName;
-    @NotBlank
-    @Column(nullable = false)
+    @NotNull
     @Pattern(regexp = "^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$")
     private String lastName;
-    @NotBlank
     @Pattern(regexp = "^\\d{9}$")
-    @Column(unique = true, nullable = false, length = 9)
+    @NotNull
+    @Column(unique = true, length = 9)
     private String phoneNumber;
     @Range(min = 0, max = 3)
     private int accessLevel;
     @OneToMany(mappedBy = "employee")
+    @EqualsAndHashCode.Exclude
     private List<TimeOffTypeLimitPerYearAndEmployeeEntity> yearlyTimeOffLimits;
     @OneToMany(mappedBy = "employee")
+    @EqualsAndHashCode.Exclude
     private List<TimeOffEntity> timeOffs;
 }

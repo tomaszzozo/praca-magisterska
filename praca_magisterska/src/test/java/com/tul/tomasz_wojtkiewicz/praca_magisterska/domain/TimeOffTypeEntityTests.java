@@ -1,6 +1,6 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestEntities;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestObjects;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeRepository;
 import jakarta.validation.ValidationException;
@@ -25,7 +25,7 @@ class TimeOffTypeEntityTests {
 
     @Test
     void nameValidation() {
-        var type = DefaultTestEntities.getTestTimeOffType();
+        var type = DefaultTestObjects.getTimeOffTypeEntity();
         type.setName("");
         Assertions.assertThrows(ValidationException.class, () -> timeOffTypeRepository.save(type));
         type.setName(null);
@@ -36,19 +36,19 @@ class TimeOffTypeEntityTests {
 
     @Test
     void nameUniqueness() {
-        timeOffTypeRepository.save(DefaultTestEntities.getTestTimeOffType());
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffTypeRepository.save(DefaultTestEntities.getTestTimeOffType()));
+        timeOffTypeRepository.save(DefaultTestObjects.getTimeOffTypeEntity());
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffTypeRepository.save(DefaultTestObjects.getTimeOffTypeEntity()));
     }
 
     @Test
     void compensationPercentageValidation() {
         List.of(-Float.MAX_VALUE, -123456f, -Float.MIN_VALUE, 100.1f, 123f, 1234f, 12345f, 123456f, Float.MAX_VALUE).forEach(e -> {
-            var type = DefaultTestEntities.getTestTimeOffType();
+            var type = DefaultTestObjects.getTimeOffTypeEntity();
             type.setCompensationPercentage(e);
             Assertions.assertThrows(ValidationException.class, () -> timeOffTypeRepository.save(type));
         });
         List.of(0f, 2.23f, 25.86f ,50f, 75.75f, 100f).forEach(cp -> {
-            var type = DefaultTestEntities.getTestTimeOffType();
+            var type = DefaultTestObjects.getTimeOffTypeEntity();
             type.setCompensationPercentage(cp);
             Assertions.assertDoesNotThrow(() -> timeOffTypeRepository.save(type));
             timeOffTypeRepository.deleteAll();

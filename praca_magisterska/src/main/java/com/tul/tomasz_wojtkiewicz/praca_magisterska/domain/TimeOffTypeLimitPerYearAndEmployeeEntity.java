@@ -3,6 +3,7 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,10 +26,12 @@ public class TimeOffTypeLimitPerYearAndEmployeeEntity {
     @Range(min = 2020, max = 2100)
     private int leaveYear;
     @ManyToOne
-    @JoinColumn(name = "type_id", nullable = false)
+    @NotNull
+    @JoinColumn(name = "type_id")
     private TimeOffTypeEntity timeOffType;
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @NotNull
+    @JoinColumn(name = "employee_id")
     private EmployeeEntity employee;
     @OneToMany(mappedBy = "timeOffYearlyLimit")
     private List<TimeOffEntity> timeOffs;

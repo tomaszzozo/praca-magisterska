@@ -1,17 +1,17 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestEntities;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestObjects;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.EmployeeRepository;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeLimitPerYearAndEmployeeRepository;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeRepository;
+import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,13 +28,13 @@ class TimeOffTypeLimitPerYearAndEmployeeEntityTests {
 
     private EmployeeEntity testEmployee;
     private TimeOffTypeEntity testType;
-    private final Supplier<TimeOffTypeLimitPerYearAndEmployeeEntity> testLimit = () -> DefaultTestEntities.getTestTimeOffLimit(testType, testEmployee);
+    private final Supplier<TimeOffTypeLimitPerYearAndEmployeeEntity> testLimit = () -> DefaultTestObjects.getLimitEntity(testType, testEmployee);
 
     @BeforeEach
     void beforeEach() {
-        testEmployee = DefaultTestEntities.getTestEmployee();
+        testEmployee = DefaultTestObjects.getEmployeeEntity();
         employeeRepository.save(testEmployee);
-        testType = DefaultTestEntities.getTestTimeOffType();
+        testType = DefaultTestObjects.getTimeOffTypeEntity();
         timeOffTypeRepository.save(testType);
     }
 
@@ -89,12 +89,12 @@ class TimeOffTypeLimitPerYearAndEmployeeEntityTests {
         {
             var limit = testLimit.get();
             limit.setEmployee(null);
-            Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffTypeLimitPerYearAndEmployeeRepository.save(limit));
+            Assertions.assertThrows(ValidationException.class, () -> timeOffTypeLimitPerYearAndEmployeeRepository.save(limit));
         }
         {
             var limit = testLimit.get();
             limit.setTimeOffType(null);
-            Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffTypeLimitPerYearAndEmployeeRepository.save(limit));
+            Assertions.assertThrows(ValidationException.class, () -> timeOffTypeLimitPerYearAndEmployeeRepository.save(limit));
         }
     }
 

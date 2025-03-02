@@ -1,6 +1,6 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestEntities;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestObjects;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.EmployeeRepository;
 import jakarta.validation.ValidationException;
@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.util.List;
-
 @SpringBootTest
 class EmployeeEntityTests {
     @Autowired
@@ -26,41 +24,44 @@ class EmployeeEntityTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#provideInvalidEmails")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#emails")
     void emailValidation(String invalidEmail) {
-        var employee = DefaultTestEntities.getTestEmployee();
+        var employee = DefaultTestObjects.getEmployeeEntity();
         employee.setEmail(invalidEmail);
         Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#provideInvalidNames")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#names")
     void firstAndLastNameValidation(String invalidName) {
-        var employee1 = DefaultTestEntities.getTestEmployee();
+        var employee1 = DefaultTestObjects.getEmployeeEntity();
         employee1.setFirstName(invalidName);
         Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee1));
-        var employee2 = DefaultTestEntities.getTestEmployee();
+        var employee2 = DefaultTestObjects.getEmployeeEntity();
         employee2.setLastName(invalidName);
         Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee2));
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#provideInvalidPhoneNumbers")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#phoneNumbers")
     void phoneNumberValidation(String invalidPhoneNumber) {
-        var employee = DefaultTestEntities.getTestEmployee();
+        var employee = DefaultTestObjects.getEmployeeEntity();
         employee.setPhoneNumber(invalidPhoneNumber);
         Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
     }
 
+    @ParameterizedTest
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#accessLevels")
+    void accessLevelInvalid(int invalidAccessLevel) {
+        var employee = DefaultTestObjects.getEmployeeEntity();
+        employee.setAccessLevel(invalidAccessLevel);
+        Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
+    }
+
     @Test
-    void accessLevelValidation() {
-        List.of(Integer.MIN_VALUE, -1234567890, -123456789, -12345678, -1234567, -123456, -12345, -1234, -123, -12, -1, 4, 12, 123, 1234, 12345, 123456, 1234567, 12345678, 123456789, 1234567890, Integer.MAX_VALUE).forEach(i -> {
-            var employee = DefaultTestEntities.getTestEmployee();
-            employee.setAccessLevel(i);
-            Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
-        });
+    void accessLevelValid() {
         for (int lvl = 0; lvl <= 3; lvl++) {
-            var employee = DefaultTestEntities.getTestEmployee();
+            var employee = DefaultTestObjects.getEmployeeEntity();
             employee.setAccessLevel(lvl);
             Assertions.assertDoesNotThrow(() -> employeeRepository.save(employee));
             employeeRepository.deleteAll();
@@ -70,22 +71,22 @@ class EmployeeEntityTests {
     @Test
     void notNullFieldsValidation() {
         {
-            var employee = DefaultTestEntities.getTestEmployee();
+            var employee = DefaultTestObjects.getEmployeeEntity();
             employee.setEmail(null);
             Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
         }
         {
-            var employee = DefaultTestEntities.getTestEmployee();
+            var employee = DefaultTestObjects.getEmployeeEntity();
             employee.setFirstName(null);
             Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
         }
         {
-            var employee = DefaultTestEntities.getTestEmployee();
+            var employee = DefaultTestObjects.getEmployeeEntity();
             employee.setLastName(null);
             Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
         }
         {
-            var employee = DefaultTestEntities.getTestEmployee();
+            var employee = DefaultTestObjects.getEmployeeEntity();
             employee.setPhoneNumber(null);
             Assertions.assertThrows(ValidationException.class, () -> employeeRepository.save(employee));
         }
@@ -98,18 +99,18 @@ class EmployeeEntityTests {
 
     @Test
     void emailUniqueness() {
-        var defaultEmployee = DefaultTestEntities.getTestEmployee();
+        var defaultEmployee = DefaultTestObjects.getEmployeeEntity();
         employeeRepository.save(defaultEmployee);
-        var employee = DefaultTestEntities.getTestEmployee();
+        var employee = DefaultTestObjects.getEmployeeEntity();
         employee.setPhoneNumber(new StringBuilder(defaultEmployee.getPhoneNumber()).reverse().toString());
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.save(employee));
     }
 
     @Test
     void phoneNumberUniqueness() {
-        var defaultEmployee = DefaultTestEntities.getTestEmployee();
+        var defaultEmployee = DefaultTestObjects.getEmployeeEntity();
         employeeRepository.save(defaultEmployee);
-        var employee = DefaultTestEntities.getTestEmployee();
+        var employee = DefaultTestObjects.getEmployeeEntity();
         employee.setEmail(defaultEmployee.getEmail().replaceAll("@", "1@"));
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.save(employee));
     }

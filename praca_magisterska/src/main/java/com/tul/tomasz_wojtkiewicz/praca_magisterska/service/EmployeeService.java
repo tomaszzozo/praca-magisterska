@@ -31,26 +31,26 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void post(@Valid EmployeePostDto postDto) {
-        if (employeeRepository.existsByEmail(postDto.getEmail())) {
+    public void post(@Valid EmployeePostDto dto) {
+        if (employeeRepository.existsByEmail(dto.getEmail())) {
             throw new ApiException(HttpStatus.CONFLICT, "Email jest już zajęty");
-        } else if (employeeRepository.existsByPhoneNumber(postDto.getPhoneNumber())) {
+        } else if (employeeRepository.existsByPhoneNumber(dto.getPhoneNumber())) {
             throw new ApiException(HttpStatus.CONFLICT, "Numer telefonu jest już zajęty");
         }
         var result = new EmployeeEntity();
-        BeanUtils.copyProperties(postDto, result);
+        BeanUtils.copyProperties(dto, result);
         employeeRepository.save(result);
     }
 
     @Transactional
-    public void put(@Min(1) long id, @Valid EmployeePutDto putDto) {
+    public void put(@Min(1) long id, @Valid EmployeePutDto dto) {
         var original = getById(id);
-        if (!original.getEmail().equals(putDto.getEmail()) && employeeRepository.existsByEmail(putDto.getEmail())) {
+        if (!original.getEmail().equals(dto.getEmail()) && employeeRepository.existsByEmail(dto.getEmail())) {
             throw new ApiException(HttpStatus.CONFLICT, "Email jest już zajęty");
-        } else if (!original.getPhoneNumber().equals(putDto.getPhoneNumber()) && employeeRepository.existsByPhoneNumber(putDto.getPhoneNumber())) {
+        } else if (!original.getPhoneNumber().equals(dto.getPhoneNumber()) && employeeRepository.existsByPhoneNumber(dto.getPhoneNumber())) {
             throw new ApiException(HttpStatus.CONFLICT, "Numer telefonu jest już zajęty");
         }
-        BeanUtils.copyProperties(putDto, original);
+        BeanUtils.copyProperties(dto, original);
         employeeRepository.save(original);
     }
 }
