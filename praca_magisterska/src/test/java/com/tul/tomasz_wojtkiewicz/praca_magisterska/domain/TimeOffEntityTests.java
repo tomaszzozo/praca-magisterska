@@ -19,6 +19,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import static com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestObjects.NOW;
+
 @SpringBootTest
 class TimeOffEntityTests {
     @Autowired
@@ -33,8 +35,6 @@ class TimeOffEntityTests {
     private EmployeeEntity testEmployee;
     private TimeOffTypeEntity testType;
     private TimeOffTypeLimitPerYearAndEmployeeEntity testLimit;
-
-    private static final LocalDate NOW = LocalDate.now();
 
     @BeforeEach
     void beforeEach() {

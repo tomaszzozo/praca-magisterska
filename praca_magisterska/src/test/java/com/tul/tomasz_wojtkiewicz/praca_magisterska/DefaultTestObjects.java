@@ -1,15 +1,21 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeLimitPerYearAndEmployeeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post.EmployeePostDto;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.EmployeePutDto;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffTypePutDto;
 import lombok.experimental.UtilityClass;
 import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDate;
+
 @UtilityClass
 public class DefaultTestObjects {
+    public static final LocalDate NOW = LocalDate.now();
+
     public static EmployeeEntity getEmployeeEntity() {
         var result = new EmployeeEntity();
         result.setAccessLevel(0);
@@ -36,6 +42,18 @@ public class DefaultTestObjects {
         return result;
     }
 
+    public static TimeOffEntity getTimeOffEntity(TimeOffTypeLimitPerYearAndEmployeeEntity limit) {
+        var result = new TimeOffEntity();
+        result.setFirstDay(NOW);
+        result.setLastDayInclusive(NOW);
+        result.setHoursCount(8);
+        result.setEmployee(limit.getEmployee());
+        result.setComment("");
+        result.setTimeOffYearlyLimit(limit);
+        result.setTimeOffType(limit.getTimeOffType());
+        return result;
+    }
+
     public static EmployeePostDto getEmployeePostDto() {
         var dto = new EmployeePostDto();
         dto.setFirstName("Name");
@@ -49,6 +67,14 @@ public class DefaultTestObjects {
     public static EmployeePutDto getEmployeePutDto() {
         var dto = new EmployeePutDto();
         BeanUtils.copyProperties(getEmployeePostDto(), dto);
+        return dto;
+    }
+
+    public static TimeOffTypePutDto getTimeOffTypePutDto() {
+        var dto = new TimeOffTypePutDto();
+        dto.setId(0);
+        dto.setName("Time off type name");
+        dto.setCompensationPercentage(0.8f);
         return dto;
     }
 }

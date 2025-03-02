@@ -38,9 +38,18 @@ public class TimeOffTypeService {
         }
         timeOffTypeRepository.deleteAll(toDelete);
         dtos.forEach(dto -> {
-            var entity = dto.getId() == 0 ? new TimeOffTypeEntity() : getById(dto.getId());
-            if (!entity.getName().equals(dto.getName()) && timeOffTypeRepository.existsByName(dto.getName())) {
-                throw new ApiException(HttpStatus.CONFLICT, "Podana nazwa jest już zajęta");
+            TimeOffTypeEntity entity;
+            if (dto.getId() == 0) {
+                if (timeOffTypeRepository.existsByName(dto.getName())) {
+                    throw new ApiException(HttpStatus.CONFLICT, "Podana nazwa jest już zajęta");
+                }
+                entity = new TimeOffTypeEntity();
+
+            } else {
+                entity = getById(dto.getId());
+                if (!dto.getName().equals(entity.getName()) && timeOffTypeRepository.existsByName(dto.getName())) {
+                    throw new ApiException(HttpStatus.CONFLICT, "Podana nazwa jest już zajęta");
+                }
             }
             BeanUtils.copyProperties(dto, entity, "id");
             timeOffTypeRepository.save(entity);

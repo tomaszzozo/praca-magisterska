@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode
 public class TimeOffTypeEntity {
     @Id
     @Setter(AccessLevel.NONE)
@@ -24,7 +26,9 @@ public class TimeOffTypeEntity {
     private String name;
     private @Range(min = 0, max = 100) float compensationPercentage;
     @OneToMany(mappedBy = "timeOffType", cascade = CascadeType.REMOVE)
+    @EqualsAndHashCode.Exclude
     private List<TimeOffTypeLimitPerYearAndEmployeeEntity> yearlyLimits;
     @OneToMany(mappedBy = "timeOffType")
+    @EqualsAndHashCode.Exclude
     private List<TimeOffEntity> timeOffs;
 }

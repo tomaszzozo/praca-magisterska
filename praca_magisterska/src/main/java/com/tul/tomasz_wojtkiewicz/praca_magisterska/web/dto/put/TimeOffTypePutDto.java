@@ -15,6 +15,5 @@ public class TimeOffTypePutDto {
     @NotNull
     @NotBlank
     private String name;
-    @Range(min = 0, max = 100)
-    private double compensationPercentage;
+    private @Range(min = 0, max = 100) float compensationPercentage;
 }
