@@ -38,7 +38,7 @@ public class TimeOffTypeLimitPerYearAndEmployeeService {
         return timeOffTypeLimitPerYearAndEmployeeRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Limit urlopu o podanym id nie istnieje"));
     }
 
-    public TimeOffTypeLimitPerYearAndEmployeeEntity defaultFromYearAndEmployeeId(int year, long employeeId, TimeOffTypeEntity type) {
+    private TimeOffTypeLimitPerYearAndEmployeeEntity defaultFromYearAndEmployeeId(int year, long employeeId, TimeOffTypeEntity type) {
         var result = new TimeOffTypeLimitPerYearAndEmployeeEntity();
         result.setLeaveYear(year);
         result.setMaxHours(0);

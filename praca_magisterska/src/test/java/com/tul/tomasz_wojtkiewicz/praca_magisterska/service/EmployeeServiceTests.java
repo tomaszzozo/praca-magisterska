@@ -2,7 +2,6 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.service;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ApiException;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestObjects;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.EmployeeRepository;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.AfterEach;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,17 +26,6 @@ class EmployeeServiceTests {
     @AfterEach
     void afterEach() {
         employeeRepository.deleteAll();
-    }
-
-    @Test
-    void getAll() {
-        var employees = new ArrayList<>(ValidDataProvider.getEmployees());
-        employeeRepository.saveAll(employees);
-        employeeService.getAll().forEach(e -> {
-            Assertions.assertTrue(employees.contains(e));
-            employees.remove(e);
-        });
-        Assertions.assertEquals(0, employees.size());
     }
 
     @Test

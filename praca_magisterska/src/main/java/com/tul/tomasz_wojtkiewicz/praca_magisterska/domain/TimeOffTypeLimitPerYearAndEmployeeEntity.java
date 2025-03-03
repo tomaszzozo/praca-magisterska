@@ -5,6 +5,7 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(uniqueConstraints = {@UniqueConstraint(name = "UniqueYearAndTimeOffType", columnNames = {"leaveYear", "type_id", "employee_id"})})
+@EqualsAndHashCode
 public class TimeOffTypeLimitPerYearAndEmployeeEntity {
     @Id
     @Setter(AccessLevel.NONE)
@@ -34,6 +36,7 @@ public class TimeOffTypeLimitPerYearAndEmployeeEntity {
     @JoinColumn(name = "employee_id")
     private EmployeeEntity employee;
     @OneToMany(mappedBy = "timeOffYearlyLimit")
+    @EqualsAndHashCode.Exclude
     private List<TimeOffEntity> timeOffs;
 
     @AssertTrue

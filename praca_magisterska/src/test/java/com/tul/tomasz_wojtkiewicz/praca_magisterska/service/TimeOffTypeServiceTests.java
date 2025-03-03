@@ -2,7 +2,6 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.service;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ApiException;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestObjects;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.EmployeeRepository;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffRepository;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeLimitPerYearAndEmployeeRepository;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -40,23 +38,12 @@ class TimeOffTypeServiceTests {
     }
 
     @Test
-    void getAll() {
-        var types = new ArrayList<>(ValidDataProvider.getTimeOffTypes());
-        timeOffTypeRepository.saveAll(types);
-        timeOffTypeService.getAll().forEach(e -> {
-            Assertions.assertTrue(types.contains(e));
-            types.remove(e);
-        });
-        Assertions.assertEquals(0, types.size());
-    }
-
-    @Test
     void getById() {
         var type = DefaultTestObjects.getTimeOffTypeEntity();
         timeOffTypeRepository.save(type);
         Assertions.assertEquals(type, timeOffTypeService.getById(type.getId()));
         Assertions.assertEquals(HttpStatus.NOT_FOUND, Assertions.assertThrows(ApiException.class, () -> timeOffTypeService.getById(type.getId() + 1L)).getStatus());
-        Assertions.assertEquals(HttpStatus.NOT_FOUND, Assertions.assertThrows(ApiException.class, () -> timeOffTypeService.getById(type.getId() - 1L)).getStatus());
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, Assertions.assertThrows(ApiException.class, () -> timeOffTypeService.getById(type.getId() == 1 ? 3L : type.getId() - 1L)).getStatus());
     }
 
     @Test

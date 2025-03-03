@@ -19,8 +19,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import static com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestObjects.NOW;
-
 @SpringBootTest
 class TimeOffEntityTests {
     @Autowired
@@ -32,15 +30,13 @@ class TimeOffEntityTests {
     @Autowired
     private TimeOffTypeLimitPerYearAndEmployeeRepository timeOffTypeLimitPerYearAndEmployeeRepository;
 
-    private EmployeeEntity testEmployee;
-    private TimeOffTypeEntity testType;
     private TimeOffTypeLimitPerYearAndEmployeeEntity testLimit;
 
     @BeforeEach
     void beforeEach() {
-        testEmployee = DefaultTestObjects.getEmployeeEntity();
+        var testEmployee = DefaultTestObjects.getEmployeeEntity();
         employeeRepository.save(testEmployee);
-        testType = DefaultTestObjects.getTimeOffTypeEntity();
+        var testType = DefaultTestObjects.getTimeOffTypeEntity();
         timeOffTypeRepository.save(testType);
         testLimit = DefaultTestObjects.getLimitEntity(testType, testEmployee);
         timeOffTypeLimitPerYearAndEmployeeRepository.save(testLimit);
@@ -54,26 +50,14 @@ class TimeOffEntityTests {
         employeeRepository.deleteAll();
     }
 
-    private TimeOffEntity createTestTimeOff() {
-        var timeOff = new TimeOffEntity();
-        timeOff.setFirstDay(NOW);
-        timeOff.setLastDayInclusive(NOW.plusDays(1));
-        timeOff.setComment("");
-        timeOff.setHoursCount(16);
-        timeOff.setEmployee(testEmployee);
-        timeOff.setTimeOffYearlyLimit(testLimit);
-        timeOff.setTimeOffType(testType);
-        return timeOff;
-    }
-
     @Test
     void negativeHoursCountValidation() {
         List.of(Integer.MIN_VALUE, -1000, -1).forEach(h -> {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setHoursCount(h);
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         });
-        var timeOff = createTestTimeOff();
+        var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
         timeOff.setHoursCount(0);
         Assertions.assertDoesNotThrow(() -> timeOffRepository.save(timeOff));
     }
@@ -81,12 +65,12 @@ class TimeOffEntityTests {
     @Test
     void firstDayAfterLastDayValidation() {
         List.of(1, 5, 10, 30).forEach(d -> {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setLastDayInclusive(LocalDate.now());
             timeOff.setFirstDay(timeOff.getLastDayInclusive().plusDays(d));
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         });
-        var timeOff = createTestTimeOff();
+        var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
         timeOff.setFirstDay(LocalDate.now());
         timeOff.setLastDayInclusive(timeOff.getFirstDay());
         Assertions.assertDoesNotThrow(() -> timeOffRepository.save(timeOff));
@@ -95,22 +79,22 @@ class TimeOffEntityTests {
     @Test
     void firstAndLastDayYearRangeValidation() {
         List.of(LocalDate.MIN.getYear(), -123456789, -12345678, -1234567, -123456, -12345, -1234, -123, -1, 0, 1, 123, 1234, 2000, 2019, 2101, 2200, 12345, 123456, 1234567, 12345678, 123456789, LocalDate.MAX.getYear()).forEach(y -> {
-            var timeOff = createTestTimeOff();
-            var timeOff2 = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
+            var timeOff2 = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setFirstDay(LocalDate.of(y, 1, 1));
             timeOff2.setLastDayInclusive(LocalDate.of(y, 1, 1));
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         });
         {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setFirstDay(LocalDate.of(2020, 1, 1));
             timeOff.setLastDayInclusive(timeOff.getFirstDay());
             Assertions.assertDoesNotThrow(() -> timeOffRepository.save(timeOff));
             timeOffRepository.deleteAll();
         }
         {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setFirstDay(LocalDate.of(2100, 12, 31));
             timeOff.setLastDayInclusive(timeOff.getFirstDay());
             Assertions.assertDoesNotThrow(() -> timeOffRepository.save(timeOff));
@@ -122,13 +106,13 @@ class TimeOffEntityTests {
     @Test
     void firstAndLastDayMonthAndYearMatchValidation() {
         for (int i = 2; i <= 12; i++) {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setLastDayInclusive(LocalDate.of(2025, 1, 1));
             timeOff.setFirstDay(LocalDate.of(2025, i, 1));
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         }
         for (int i = 2021; i < 2100; i++) {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setFirstDay(LocalDate.of(2020, 1, 1));
             timeOff.setLastDayInclusive(LocalDate.of(i, 1, 1));
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
@@ -137,7 +121,7 @@ class TimeOffEntityTests {
 
     @Test
     void hoursCountNotMoreThanHoursInTimeOffPeriodValidation() {
-        var timeOff = createTestTimeOff();
+        var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
         timeOff.setHoursCount((int) timeOff.getFirstDay().until(timeOff.getLastDayInclusive().plusDays(1), ChronoUnit.DAYS) * 24 + 1);
         Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         timeOff.setHoursCount((int) timeOff.getFirstDay().until(timeOff.getLastDayInclusive().plusDays(1), ChronoUnit.DAYS) * 24);
@@ -147,32 +131,32 @@ class TimeOffEntityTests {
     @Test
     void notNullFieldsValidation() {
         {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setComment(null);
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         }
         {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setFirstDay(null);
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         }
         {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setLastDayInclusive(null);
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         }
         {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setTimeOffYearlyLimit(null);
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         }
         {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setTimeOffType(null);
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         }
         {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setEmployee(null);
             Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
         }
@@ -180,15 +164,15 @@ class TimeOffEntityTests {
 
     @Test
     void employeeFirstDayAndEmployeeLastDayUniqueness() {
-        timeOffRepository.save(createTestTimeOff());
+        timeOffRepository.save(DefaultTestObjects.getTimeOffEntity(testLimit));
         {
-            var timeOff = createTestTimeOff();
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
             timeOff.setLastDayInclusive(timeOff.getLastDayInclusive().plusDays(1));
             Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffRepository.save(timeOff));
         }
         {
-            var timeOff = createTestTimeOff();
-            timeOff.setFirstDay(timeOff.getFirstDay().plusDays(1));
+            var timeOff = DefaultTestObjects.getTimeOffEntity(testLimit);
+            timeOff.setFirstDay(timeOff.getFirstDay().minusDays(1));
             Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffRepository.save(timeOff));
         }
     }
