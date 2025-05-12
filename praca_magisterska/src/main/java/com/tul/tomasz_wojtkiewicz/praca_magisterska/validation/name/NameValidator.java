@@ -8,6 +8,6 @@ public class NameValidator implements
     @Override
     public boolean isValid(String field,
                            ConstraintValidatorContext cxt) {
-        return field == null || field.matches("^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$");
+        return field == null || field.matches("^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ](?!.*['., -]{2,})[a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$");
     }
 }

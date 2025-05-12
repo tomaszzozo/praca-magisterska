@@ -11,9 +11,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-class PhoneNumberAnnotationUnitTests {
+class PhoneNumberValidatorUnitTests {
     @Mock
     private ConstraintValidatorContext ctx;
+
     @Test
     void given_invalidPhoneNumber_when_isValidIsCalled_then_itReturnsFalse() {
         List.of("12345678", "1234567890", "123456f89", "123 45678", "").forEach(phoneNumber -> Assertions.assertFalse(new PhoneNumberValidator().isValid(phoneNumber, ctx), phoneNumber));
