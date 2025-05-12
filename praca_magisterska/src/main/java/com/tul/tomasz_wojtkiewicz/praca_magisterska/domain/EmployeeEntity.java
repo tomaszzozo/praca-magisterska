@@ -1,5 +1,7 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.validation.name.Name;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.validation.phone_numer.PhoneNumber;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
@@ -16,7 +18,6 @@ import java.util.List;
 @Entity
 public class EmployeeEntity {
     @Id
-    @Setter(AccessLevel.PRIVATE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Email
@@ -24,13 +25,13 @@ public class EmployeeEntity {
     @NotNull
     @Column(unique = true)
     private String email;
-    @Pattern(regexp = "^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$")
+    @Name
     @NotNull
     private String firstName;
     @NotNull
-    @Pattern(regexp = "^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$")
+    @Name
     private String lastName;
-    @Pattern(regexp = "^\\d{9}$")
+    @PhoneNumber
     @NotNull
     @Column(unique = true, length = 9)
     private String phoneNumber;

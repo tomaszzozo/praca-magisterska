@@ -1,5 +1,7 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post;
 
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.validation.name.Name;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.validation.phone_numer.PhoneNumber;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -18,13 +20,13 @@ public class EmployeePostDto {
     @NotNull
     private String email;
     @NotNull
-    @Pattern(regexp = "^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$")
+    @Name
     private String firstName;
     @NotNull
-    @Pattern(regexp = "^[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ][a-zA-Z '.,ęółśążźćńĘÓŁŚĄŻŹĆŃ-]+[a-zA-ZęółśążźćńĘÓŁŚĄŻŹĆŃ.]$")
+    @Name
     private String lastName;
     @NotNull
-    @Pattern(regexp = "^\\d{9}$")
+    @PhoneNumber
     private String phoneNumber;
     @Range(min = 0, max = 3)
     private int accessLevel;
