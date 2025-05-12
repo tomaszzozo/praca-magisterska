@@ -1,9 +1,11 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeLimitPerYearAndEmployeeEntity;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.TestEmployeeEntityBuilder;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_type.TestTimeOffTypeEntityBuilder;
 import lombok.experimental.UtilityClass;
 import org.junit.jupiter.params.provider.Arguments;
 
@@ -11,11 +13,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @UtilityClass
 public class ValidDataProvider {
-
     public static List<EmployeeEntity> getEmployees() {
         return Stream.of(
                 Arguments.of("Ruggiero","Stealy","rstealy0@plala.or.jp","712568069"),
@@ -67,31 +69,19 @@ public class ValidDataProvider {
                 Arguments.of("Audrie","Spedding","aspedding1a@amazon.co.uk","260369861"),
                 Arguments.of("Yasmin","Kingswell","ykingswell1b@alexa.com","203146008"),
                 Arguments.of("Alyce","Geekin","ageekin1c@i2i.jp","951254209"),
-                Arguments.of("Bellina","Candish","bcandish1d@dropbox.com","609772747")).map(a -> {
-            var employee = new EmployeeEntity();
-            employee.setFirstName((String) a.get()[0]);
-            employee.setLastName((String) a.get()[1]);
-            employee.setEmail((String) a.get()[2]);
-            employee.setPhoneNumber((String) a.get()[3]);
-            return employee;
-        }).toList();
+                Arguments.of("Bellina", "Candish", "bcandish1d@dropbox.com", "609772747")).map(a -> new TestEmployeeEntityBuilder().withFirstName((String) a.get()[0]).withLastName((String) a.get()[1]).withEmail((String) a.get()[2]).withPhoneNumber((String) a.get()[3]).withAccessLevel(((String) a.get()[0]).length() % 4).build()).toList();
     }
 
     public static List<TimeOffTypeEntity> getTimeOffTypes() {
-        return Map.of("Urlop wypoczynkowy", 1.0f, "Urlop na żądanie", 0.8f, "Urlop zdrowotny", 0.5f, "Urlop szkoleniowy", 0.7f, "Urlop rodzicielski", 1.0f, "Urlop okolicznościowy", 0.3f, "Urlop bezpłatny", 0.0f, "Urlop wychowawczy", 0.9f, "Urlop rehabilitacyjny", 0.6f, "Urlop studencki", 0.4f).entrySet().stream().map(e -> {
-            var timeOffType = new TimeOffTypeEntity();
-            timeOffType.setName(e.getKey());
-            timeOffType.setCompensationPercentage(e.getValue());
-            return timeOffType;
-        }).toList();
+        return Map.ofEntries(Map.entry("Urlop wypoczynkowy", 1.0f), Map.entry("Urlop na żądanie", 0.9f), Map.entry("Urlop zdrowotny", 0.8f), Map.entry("Urlop szkoleniowy", 0.7f), Map.entry("Urlop rodzicielski", 0.6f), Map.entry("Urlop okolicznościowy", 0.5f), Map.entry("Urlop bezpłatny", 0.4f), Map.entry("Urlop wychowawczy", 0.3f), Map.entry("Urlop rehabilitacyjny", 0.2f), Map.entry("Urlop studencki", 0.1f), Map.entry("Urlop bo tak", 0.0f)).entrySet().stream().map(e -> new TestTimeOffTypeEntityBuilder().withName(e.getKey()).withCompensationPercentage(e.getValue()).build()).toList();
     }
 
-    public static List<TimeOffTypeLimitPerYearAndEmployeeEntity> getTimeOffLimits(List<EmployeeEntity> employees, List<TimeOffTypeEntity> types) {
-        var result = new ArrayList<TimeOffTypeLimitPerYearAndEmployeeEntity>();
+    public static List<TimeOffLimitEntity> getTimeOffLimits(List<EmployeeEntity> employees, List<TimeOffTypeEntity> types) {
+        var result = new ArrayList<TimeOffLimitEntity>();
         for (var e : employees) {
             for (var t : types) {
-                for (int y = 2025; y < 2050; y += 3) {
-                    var timeOffLimit = new TimeOffTypeLimitPerYearAndEmployeeEntity();
+                for (var y : List.of(2020, 2025, 2030, 2100)) {
+                    var timeOffLimit = new TimeOffLimitEntity();
                     timeOffLimit.setLeaveYear(y);
                     timeOffLimit.setEmployee(e);
                     timeOffLimit.setTimeOffType(t);
@@ -103,7 +93,7 @@ public class ValidDataProvider {
         return result;
     }
 
-    public static List<TimeOffEntity> getTimeOffs(List<TimeOffTypeLimitPerYearAndEmployeeEntity> limits) {
+    public static List<TimeOffEntity> getTimeOffs(List<TimeOffLimitEntity> limits) {
         List<String> vacationComments = List.of(
                 "Urlop zaplanowany na lipiec, wyjazd nad morze.",
                 "Krótki urlop na regenerację sił.",
@@ -129,8 +119,9 @@ public class ValidDataProvider {
         int i = 0;
 
         var result = new ArrayList<TimeOffEntity>();
+        var types = limits.stream().map(TimeOffLimitEntity::getTimeOffType).collect(Collectors.toSet()).stream().toList();
         for (var l : limits) {
-            for (int m = 1; m <= 12; m += 2) {
+            for (int m = 1; m <= 12; m++) {
                 var timeOff = new TimeOffEntity();
                 timeOff.setTimeOffYearlyLimit(l);
                 timeOff.setEmployee(l.getEmployee());
@@ -138,8 +129,8 @@ public class ValidDataProvider {
                 timeOff.setComment(vacationComments.get(i));
                 if (++i == vacationComments.size()) i = 0;
                 timeOff.setHoursCount(i%2 == 0 ? 8 : 16);
-                timeOff.setFirstDay(LocalDate.of(l.getLeaveYear(), m, i+1));
-                timeOff.setLastDayInclusive(LocalDate.of(l.getLeaveYear(), m, i+3));
+                timeOff.setFirstDay(LocalDate.of(l.getLeaveYear(), m, types.indexOf(timeOff.getTimeOffType())+1));
+                timeOff.setLastDayInclusive(LocalDate.of(l.getLeaveYear(), m, types.indexOf(timeOff.getTimeOffType())+1));
                 result.add(timeOff);
             }
         }

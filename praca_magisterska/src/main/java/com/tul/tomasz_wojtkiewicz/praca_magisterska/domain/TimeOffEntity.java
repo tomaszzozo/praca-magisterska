@@ -25,14 +25,14 @@ public class TimeOffEntity {
     private LocalDate firstDay;
     @NotNull
     private LocalDate lastDayInclusive;
-    @Min(0)
+    @Min(1)
     private int hoursCount;
     @NotNull
     private String comment;
     @ManyToOne
     @NotNull
     @JoinColumn(name = "yearly_limit_id")
-    private TimeOffTypeLimitPerYearAndEmployeeEntity timeOffYearlyLimit;
+    private TimeOffLimitEntity timeOffYearlyLimit;
     @ManyToOne
     @NotNull
     @JoinColumn(name = "type_id")
@@ -53,7 +53,7 @@ public class TimeOffEntity {
     }
 
     @AssertTrue
-    public boolean isHoursCountLessThanDaysInTimeOff() {
+    public boolean isHoursCountLessThanHoursInTimeOff() {
         return hoursCount <= firstDay.until(lastDayInclusive.plusDays(1), ChronoUnit.DAYS)*24;
     }
 

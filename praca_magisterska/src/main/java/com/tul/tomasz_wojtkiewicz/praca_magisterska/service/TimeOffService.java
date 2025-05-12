@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +22,7 @@ import java.util.List;
 @Validated
 public class TimeOffService {
     private final TimeOffRepository timeOffRepository;
-    private final TimeOffTypeLimitPerYearAndEmployeeService timeOffTypeLimitPerYearAndEmployeeService;
+    private final TimeOffLimitService timeOffLimitService;
     private final TimeOffTypeService timeOffTypeService;
     private final EmployeeService employeeService;
 
@@ -38,7 +39,7 @@ public class TimeOffService {
             throw new ApiException(HttpStatus.CONFLICT, "Nowy urlop koliduje z istniejącym urlopem.");
         }
 
-        var yearlyLimit = timeOffTypeLimitPerYearAndEmployeeService.getById(dto.getYearlyLimitId());
+        var yearlyLimit = timeOffLimitService.getById(dto.getYearlyLimitId());
         var usedHours = otherTimeOffs.stream().filter(e -> e.getTimeOffType().getId() == dto.getTypeId()).mapToInt(TimeOffEntity::getHoursCount).sum();
         if (yearlyLimit.getMaxHours() < usedHours + dto.getHoursCount()) {
             int hoursOverLimit = usedHours + dto.getHoursCount() - yearlyLimit.getMaxHours();
@@ -51,13 +52,10 @@ public class TimeOffService {
         }
 
         var obj = new TimeOffEntity();
+        BeanUtils.copyProperties(dto, obj, "typeId", "employeeId", "yearlyLimitId");
         obj.setTimeOffType(timeOffTypeService.getById(dto.getTypeId()));
         obj.setEmployee(employeeService.getById(dto.getEmployeeId()));
         obj.setTimeOffYearlyLimit(yearlyLimit);
-        obj.setComment(dto.getComment());
-        obj.setHoursCount(dto.getHoursCount());
-        obj.setFirstDay(dto.getFirstDay());
-        obj.setLastDayInclusive(dto.getLastDayInclusive());
         timeOffRepository.save(obj);
     }
 
@@ -75,7 +73,7 @@ public class TimeOffService {
             throw new ApiException(HttpStatus.CONFLICT, "Nowy urlop koliduje z istniejącym urlopem.");
         }
 
-        var yearlyLimit = timeOffTypeLimitPerYearAndEmployeeService.getById(dto.getYearlyLimitId());
+        var yearlyLimit = timeOffLimitService.getById(dto.getYearlyLimitId());
         var usedHours = otherTimeOffs.stream().filter(e -> e.getTimeOffType().getId() == dto.getTypeId()).mapToInt(TimeOffEntity::getHoursCount).sum();
         if (yearlyLimit.getMaxHours() < usedHours + dto.getHoursCount()) {
             int hoursOverLimit = usedHours + dto.getHoursCount() - yearlyLimit.getMaxHours();
@@ -87,13 +85,10 @@ public class TimeOffService {
             throw new ApiException(HttpStatus.CONFLICT, "Nowy urlop przekorczy limit o %d godzin".formatted(hoursOverLimit));
         }
 
+        BeanUtils.copyProperties(dto, obj, "typeId", "employeeId", "yearlyLimitId");
         obj.setTimeOffType(timeOffTypeService.getById(dto.getTypeId()));
         obj.setEmployee(employeeService.getById(dto.getEmployeeId()));
         obj.setTimeOffYearlyLimit(yearlyLimit);
-        obj.setComment(dto.getComment());
-        obj.setHoursCount(dto.getHoursCount());
-        obj.setFirstDay(dto.getFirstDay());
-        obj.setLastDayInclusive(dto.getLastDayInclusive());
         timeOffRepository.save(obj);
     }
 

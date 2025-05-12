@@ -4,7 +4,7 @@ import com.tul.tomasz_wojtkiewicz.praca_magisterska.ApiException;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestObjects;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.EmployeeRepository;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffRepository;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeLimitPerYearAndEmployeeRepository;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffLimitRepository;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeRepository;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.AfterEach;
@@ -23,7 +23,7 @@ class TimeOffTypeServiceTests {
     @Autowired
     private TimeOffTypeService timeOffTypeService;
     @Autowired
-    private TimeOffTypeLimitPerYearAndEmployeeRepository limitRepository;
+    private TimeOffLimitRepository limitRepository;
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired

@@ -1,11 +1,10 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.repository;
 
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.DefaultTestObjects;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.ValidDataProvider;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.TestEmployeeEntityBuilder;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @DataJpaTest
@@ -22,20 +20,13 @@ class EmployeeRepositoryIntegrationTests {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    private EmployeeEntity testEmployee;
-
-    private static Stream<Arguments> nullSetters() {
+    private static Stream<Arguments> nullableEmployees() {
         return Stream.of(
-                Arguments.of("First name", (Consumer<EmployeeEntity>) (e -> e.setFirstName(null))),
-                Arguments.of("Last name", (Consumer<EmployeeEntity>) (e -> e.setLastName(null))),
-                Arguments.of("Email", (Consumer<EmployeeEntity>) (e -> e.setEmail(null))),
-                Arguments.of("Phone number", (Consumer<EmployeeEntity>) (e -> e.setPhoneNumber(null)))
+                Arguments.of("First name", new TestEmployeeEntityBuilder().withFirstName(null).build()),
+                Arguments.of("Last name", new TestEmployeeEntityBuilder().withLastName(null).build()),
+                Arguments.of("Email", new TestEmployeeEntityBuilder().withEmail(null).build()),
+                Arguments.of("Phone number", new TestEmployeeEntityBuilder().withPhoneNumber(null).build())
         );
-    }
-
-    @BeforeEach
-    void beforeEach() {
-        testEmployee = DefaultTestObjects.getEmployeeEntity();
     }
 
     @Test
@@ -44,67 +35,64 @@ class EmployeeRepositoryIntegrationTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#emails")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#emails")
     void invalidEmail(String invalidEmail) {
-        testEmployee.setEmail(invalidEmail);
+        var testEmployee = new TestEmployeeEntityBuilder().withEmail(invalidEmail).build();
         Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#names")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#names")
     void invalidFirstName(String invalidName) {
-        testEmployee.setFirstName(invalidName);
+        var testEmployee = new TestEmployeeEntityBuilder().withFirstName(invalidName).build();
         Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#names")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#names")
     void invalidLastName(String invalidName) {
-        testEmployee.setLastName(invalidName);
+        var testEmployee = new TestEmployeeEntityBuilder().withLastName(invalidName).build();
         Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#phoneNumbers")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#phoneNumbers")
     void invalidPhoneNumber(String invalidPhoneNumber) {
-        testEmployee.setPhoneNumber(invalidPhoneNumber);
+        var testEmployee = new TestEmployeeEntityBuilder().withPhoneNumber(invalidPhoneNumber).build();
         Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#accessLevels")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#accessLevels")
     void invalidAccessLevel(int invalidAccessLevel) {
-        testEmployee.setAccessLevel(invalidAccessLevel);
+        var testEmployee = new TestEmployeeEntityBuilder().withAccessLevel(invalidAccessLevel).build();
         Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
     }
 
     @ParameterizedTest
-    @MethodSource("nullSetters")
-    void nullFields(String ignoredFieldName, Consumer<EmployeeEntity> nullSetter) {
-        nullSetter.accept(testEmployee);
-        Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
+    @MethodSource("nullableEmployees")
+    void nullFields(String ignoredFieldName, EmployeeEntity nullableEmployee) {
+        Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(nullableEmployee));
     }
 
     @Test
     void emailNotUnique() {
-        employeeRepository.save(testEmployee);
-        testEmployee = DefaultTestObjects.getEmployeeEntity();
-        testEmployee.setPhoneNumber(new StringBuilder(testEmployee.getPhoneNumber()).reverse().toString());
+        employeeRepository.save(new TestEmployeeEntityBuilder().build());
+        var testEmployee = new TestEmployeeEntityBuilder().withPhoneNumber(new StringBuilder(TestEmployeeEntityBuilder.Defaults.phoneNumber).reverse().toString()).build();
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.save(testEmployee));
     }
 
     @Test
     void phoneNumberNotUnique() {
-        employeeRepository.save(testEmployee);
-        testEmployee = DefaultTestObjects.getEmployeeEntity();
-        testEmployee.setEmail(testEmployee.getEmail() + ".com");
+        employeeRepository.save(new TestEmployeeEntityBuilder().build());
+        var testEmployee = new TestEmployeeEntityBuilder().withEmail(TestEmployeeEntityBuilder.Defaults.email + ".com").build();
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.save(testEmployee));
     }
 
     @Test
     void emailAndPhoneNumberNotUnique() {
-        employeeRepository.save(testEmployee);
-        testEmployee = DefaultTestObjects.getEmployeeEntity();
+        employeeRepository.save(new TestEmployeeEntityBuilder().build());
+        var testEmployee = new TestEmployeeEntityBuilder().build();
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.save(testEmployee));
     }
 }

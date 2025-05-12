@@ -3,15 +3,17 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeLimitPerYearAndEmployeeEntity;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post.EmployeePostDto;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post.TimeOffPostDto;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.EmployeePutDto;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffTypeLimitPerYearAndEmployeePutDto;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffLimitPutDto;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffTypePutDto;
 import lombok.experimental.UtilityClass;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @UtilityClass
 public class DefaultTestObjects {
@@ -34,8 +36,8 @@ public class DefaultTestObjects {
         return result;
     }
 
-    public static TimeOffTypeLimitPerYearAndEmployeeEntity getLimitEntity(TimeOffTypeEntity type, EmployeeEntity employee) {
-        var result = new TimeOffTypeLimitPerYearAndEmployeeEntity();
+    public static TimeOffLimitEntity getLimitEntity(TimeOffTypeEntity type, EmployeeEntity employee) {
+        var result = new TimeOffLimitEntity();
         result.setLeaveYear(NOW.getYear());
         result.setMaxHours(160);
         result.setTimeOffType(type);
@@ -43,7 +45,7 @@ public class DefaultTestObjects {
         return result;
     }
 
-    public static TimeOffEntity getTimeOffEntity(TimeOffTypeLimitPerYearAndEmployeeEntity limit) {
+    public static TimeOffEntity getTimeOffEntity(TimeOffLimitEntity limit) {
         var result = new TimeOffEntity();
         result.setFirstDay(LocalDate.of(limit.getLeaveYear(), 6, 6));
         result.setLastDayInclusive(result.getFirstDay());
@@ -79,13 +81,27 @@ public class DefaultTestObjects {
         return dto;
     }
 
-    public static TimeOffTypeLimitPerYearAndEmployeePutDto getTimOffLimitPutDto(long typeId, long employeeId) {
-        var dto = new TimeOffTypeLimitPerYearAndEmployeePutDto();
+    public static TimeOffLimitPutDto getTimeOffLimitPutDto(long typeId, long employeeId) {
+        var dto = new TimeOffLimitPutDto();
         dto.setYear(NOW.getYear());
         dto.setMaxHours(200);
         dto.setId(0);
         dto.setTypeId(typeId);
         dto.setEmployeeId(employeeId);
+        return dto;
+    }
+
+    public static TimeOffPostDto getTimeOffPostDto(Long typeId, Long employeeId, Long limitId) {
+        var dto = new TimeOffPostDto();
+        dto.setComment("");
+        dto.setFirstDay(NOW);
+        dto.setLastDayInclusive(NOW);
+        dto.setHoursCount(8);
+        dto.setTypeId(1);
+        dto.setEmployeeId(1);
+        dto.setYearlyLimitId(Objects.requireNonNullElse(limitId, 1L));
+        dto.setEmployeeId(Objects.requireNonNullElse(employeeId, 1L));
+        dto.setTypeId(Objects.requireNonNullElse(typeId, 1L));
         return dto;
     }
 }

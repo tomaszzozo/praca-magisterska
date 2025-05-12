@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 public class EmployeeEntity {
     @Id
-    @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.PRIVATE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Email
@@ -38,7 +38,7 @@ public class EmployeeEntity {
     private int accessLevel;
     @OneToMany(mappedBy = "employee")
     @EqualsAndHashCode.Exclude
-    private List<TimeOffTypeLimitPerYearAndEmployeeEntity> yearlyTimeOffLimits;
+    private List<TimeOffLimitEntity> yearlyTimeOffLimits;
     @OneToMany(mappedBy = "employee")
     @EqualsAndHashCode.Exclude
     private List<TimeOffEntity> timeOffs;

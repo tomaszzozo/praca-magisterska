@@ -18,13 +18,13 @@ import java.util.List;
 @Setter
 @Table(uniqueConstraints = {@UniqueConstraint(name = "UniqueYearAndTimeOffType", columnNames = {"leaveYear", "type_id", "employee_id"})})
 @EqualsAndHashCode
-public class TimeOffTypeLimitPerYearAndEmployeeEntity {
+public class TimeOffLimitEntity {
     @Id
     @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Min(0)
-    private int maxHours;
+    private Integer maxHours;
     @Range(min = 2020, max = 2100)
     private int leaveYear;
     @ManyToOne
@@ -41,6 +41,6 @@ public class TimeOffTypeLimitPerYearAndEmployeeEntity {
 
     @AssertTrue
     public boolean isMaxHoursNotHigherThanHoursInYear() {
-        return maxHours <= LocalDate.of(leaveYear, 12, 31).getDayOfYear()*24;
+        return maxHours == null || maxHours <= LocalDate.of(leaveYear, 12, 31).getDayOfYear()*24;
     }
 }

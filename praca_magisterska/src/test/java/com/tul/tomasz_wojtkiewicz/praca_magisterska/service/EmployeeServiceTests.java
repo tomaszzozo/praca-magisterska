@@ -43,7 +43,7 @@ class EmployeeServiceTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#names")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#names")
     void postInvalidNames(String invalidName) {
         var dto = DefaultTestObjects.getEmployeePostDto();
         dto.setFirstName(invalidName);
@@ -54,7 +54,7 @@ class EmployeeServiceTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#emails")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#emails")
     void postInvalidEmail(String invalidEmail) {
         var dto = DefaultTestObjects.getEmployeePostDto();
         dto.setEmail(invalidEmail);
@@ -62,7 +62,7 @@ class EmployeeServiceTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#phoneNumbers")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#phoneNumbers")
     void postInvalidPhoneNumbers(String invalidPhoneNumber) {
         var dto = DefaultTestObjects.getEmployeePostDto();
         dto.setPhoneNumber(invalidPhoneNumber);
@@ -70,7 +70,7 @@ class EmployeeServiceTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#accessLevels")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#accessLevels")
     void postInvalidAccessLevel(int invalidAccessLevel) {
         var dto = DefaultTestObjects.getEmployeePostDto();
         dto.setAccessLevel(invalidAccessLevel);
@@ -135,7 +135,7 @@ class EmployeeServiceTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#names")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#names")
     void putInvalidNames(String invalidName) {
         var employee = DefaultTestObjects.getEmployeeEntity();
         employeeRepository.save(employee);
@@ -148,7 +148,7 @@ class EmployeeServiceTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#emails")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#emails")
     void putInvalidEmail(String invalidEmail) {
         var employee = DefaultTestObjects.getEmployeeEntity();
         employeeRepository.save(employee);
@@ -158,7 +158,7 @@ class EmployeeServiceTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#phoneNumbers")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#phoneNumbers")
     void putInvalidPhoneNumbers(String invalidPhoneNumber) {
         var employee = DefaultTestObjects.getEmployeeEntity();
         employeeRepository.save(employee);
@@ -168,7 +168,7 @@ class EmployeeServiceTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.InvalidDataProvider#accessLevels")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#accessLevels")
     void putInvalidAccessLevel(int invalidAccessLevel) {
         var employee = DefaultTestObjects.getEmployeeEntity();
         employeeRepository.save(employee);

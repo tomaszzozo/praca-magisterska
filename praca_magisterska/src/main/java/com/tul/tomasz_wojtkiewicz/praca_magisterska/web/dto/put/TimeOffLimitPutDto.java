@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class TimeOffTypeLimitPerYearAndEmployeePutDto {
+public class TimeOffLimitPutDto {
     @Min(0)
     private long id;
     @Min(0)

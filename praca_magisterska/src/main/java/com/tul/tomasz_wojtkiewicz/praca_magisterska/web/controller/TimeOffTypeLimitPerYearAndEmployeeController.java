@@ -1,8 +1,8 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.web.controller;
 
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.service.TimeOffTypeLimitPerYearAndEmployeeService;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.service.TimeOffLimitService;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.get.TimeOffTypeLimitPerYearAndEmployeeGetDto;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffTypeLimitPerYearAndEmployeePutDto;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffLimitPutDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -19,16 +19,16 @@ import java.util.List;
 @Validated
 @AllArgsConstructor
 public class TimeOffTypeLimitPerYearAndEmployeeController {
-    private final TimeOffTypeLimitPerYearAndEmployeeService timeOffTypeLimitPerYearAndEmployeeService;
+    private final TimeOffLimitService timeOffLimitService;
 
     @GetMapping(params = {"year", "employeeId"})
     public ResponseEntity<List<TimeOffTypeLimitPerYearAndEmployeeGetDto>> getAllByYearAndEmployee(@RequestParam @Range(min = 2020, max = 2100) int year, @RequestParam @Min(1) long employeeId) {
-        return ResponseEntity.ok(timeOffTypeLimitPerYearAndEmployeeService.getAllByYear(year, employeeId).stream().map(TimeOffTypeLimitPerYearAndEmployeeGetDto::fromEntity).toList());
+        return ResponseEntity.ok(timeOffLimitService.getAllByYearAndEmployeeId(year, employeeId).stream().map(TimeOffTypeLimitPerYearAndEmployeeGetDto::fromEntity).toList());
     }
 
     @PutMapping
-    public ResponseEntity<Void> putAll(@RequestBody @Valid List<TimeOffTypeLimitPerYearAndEmployeePutDto> body) {
-        timeOffTypeLimitPerYearAndEmployeeService.putAll(body);
+    public ResponseEntity<Void> putAll(@RequestBody @Valid List<TimeOffLimitPutDto> body) {
+        timeOffLimitService.putAll(body);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

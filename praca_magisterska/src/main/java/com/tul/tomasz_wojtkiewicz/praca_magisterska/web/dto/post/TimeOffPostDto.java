@@ -17,7 +17,7 @@ public class TimeOffPostDto {
     private LocalDate firstDay;
     @NotNull
     private LocalDate lastDayInclusive;
-    @Min(0)
+    @Min(1)
     private int hoursCount;
     @Min(1)
     private long typeId;

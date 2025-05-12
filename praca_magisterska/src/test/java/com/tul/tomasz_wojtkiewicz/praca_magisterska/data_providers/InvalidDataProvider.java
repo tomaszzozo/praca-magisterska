@@ -1,8 +1,10 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers;
 
 import lombok.experimental.UtilityClass;
 import org.junit.jupiter.params.provider.Arguments;
 
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.stream.Stream;
 
 @UtilityClass
@@ -70,5 +72,9 @@ public class InvalidDataProvider {
                 "123-456-789",
                 "123456-78"
         ).map(Arguments::of);
+    }
+
+    public static Stream<Arguments> years() {
+        return Stream.of(Year.MIN_VALUE, -1, 0, 1, 2019, 2201, Year.MAX_VALUE).map(Arguments::of);
     }
 }
