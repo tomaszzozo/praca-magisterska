@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PhoneNumber {
+    String message() default "{com.tul.tomasz_wojtkiewicz.praca_magisterska.validation.phone_number.PhoneNumber.message}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
