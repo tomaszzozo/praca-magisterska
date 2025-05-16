@@ -19,13 +19,13 @@ public class EmployeeTestEntityFactory {
     @Builder.Default
     private Integer accessLevel = 3;
 
+    public static EmployeeTestEntityFactory build() {
+        return builder().build();
+    }
+
     public EmployeeEntity asEntity() {
         var entity = new EmployeeEntity();
         BeanUtils.copyProperties(this, entity);
         return entity;
-    }
-
-    public static EmployeeTestEntityFactory build() {
-        return builder().build();
     }
 }

@@ -25,4 +25,8 @@ public interface InvalidDataProvider {
     static Stream<Arguments> years() {
         return Stream.of(Year.MIN_VALUE, -100, -1, 0, 1, 2019, 2201, Year.MAX_VALUE).map(Arguments::of);
     }
+
+    static Stream<Arguments> compensationPercentages() {
+        return Stream.of(-Float.MAX_VALUE, -100f, -Float.MIN_VALUE, 100.00001f, 500f, Float.MAX_VALUE).map(Arguments::of);
+    }
 }
