@@ -24,6 +24,10 @@ public interface ValidDataProvider {
         return Stream.of("123456789", "987654321", "000000000", "555555555", "123123123").map(Arguments::of);
     }
 
+    static Stream<Arguments> hoursInYearLessThanOrMax() {
+        return Stream.concat(Stream.of(2025, 2026, 2027, 2028).map(year -> Arguments.of(year, LocalDate.of(year, 12, 31).getDayOfYear() * 24)), Stream.of(Arguments.of(2029, 50)));
+    }
+
     static List<EmployeeEntity> getEmployees() {
         return Stream.of(
                 Arguments.of("Ruggiero","Stealy","rstealy0@plala.or.jp","712568069"),

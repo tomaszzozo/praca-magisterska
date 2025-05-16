@@ -2,6 +2,7 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers;
 
 import org.junit.jupiter.params.provider.Arguments;
 
+import java.time.LocalDate;
 import java.time.Year;
 import java.util.stream.Stream;
 
@@ -18,11 +19,23 @@ public interface InvalidDataProvider {
         return Stream.of("Al", "Jo", "A", "Jan123", "M@rek", "Kowalski_", "Anna-Maria!", "Łukasz#", "Zażółć@gęślą", "Иван", "张伟", "अर्जुन", "-Anna", ".Jan", "'Kowalski", "Anna-", "Kowalski'", "J@n K0w@lski", "M@r!a", "Zażółć@gęślą", "", " ").map(Arguments::of);
     }
 
+    static Stream<Arguments> hoursInYearMoreThanMax() {
+        return Stream.concat(Stream.of(2025, 2026, 2027, 2028).map(year -> Arguments.of(year, LocalDate.of(year, 12, 31).getDayOfYear() * 24 + 1)), Stream.of(Arguments.of(2025, Integer.MAX_VALUE/2), Arguments.of(2025, Integer.MAX_VALUE)));
+    }
+
+    static Stream<Arguments> hoursInYearNegative() {
+        return Stream.of(Integer.MIN_VALUE, -100, -1).map(Arguments::of);
+    }
+
     static Stream<Arguments> phoneNumbers() {
         return Stream.of("", " ", "1", "22", "333", "4444", "55555", "666666", "7777777", "88888888", "9999999999", "99999999999", "asd", "12345678i", "12g345678", "q12345678i", "123-456-789", "123456-78").map(Arguments::of);
     }
 
     static Stream<Arguments> years() {
+        return Stream.of(Year.MIN_VALUE, -100, -1, 0, 1, 2019, 2201, Year.MAX_VALUE).map(Arguments::of);
+    }
+
+    static Stream<Arguments> leaveYear() {
         return Stream.of(Year.MIN_VALUE, -100, -1, 0, 1, 2019, 2201, Year.MAX_VALUE).map(Arguments::of);
     }
 

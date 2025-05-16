@@ -6,7 +6,7 @@ import jakarta.validation.Validation;
 import java.util.Set;
 
 public interface ConstraintValidation {
-    static <T> Set<ConstraintViolation<T>> validate(T employee) {
-        return Validation.buildDefaultValidatorFactory().getValidator().validate(employee);
+    static <T> Set<ConstraintViolation<T>> validate(T entity) {
+        return Validation.buildDefaultValidatorFactory().getValidator().validate(entity);
     }
 }

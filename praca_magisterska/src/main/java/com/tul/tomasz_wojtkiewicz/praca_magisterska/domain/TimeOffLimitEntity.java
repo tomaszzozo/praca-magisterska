@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,27 +19,33 @@ import java.util.List;
 @EqualsAndHashCode
 public class TimeOffLimitEntity {
     @Id
-    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
     @Min(0)
-    private Integer maxHours;
+    @NotNull
+    private Integer maxHours = 0;
+
     @Range(min = 2020, max = 2100)
-    private int leaveYear;
+    @NotNull
+    private Integer leaveYear;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "type_id")
     private TimeOffTypeEntity timeOffType;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "employee_id")
     private EmployeeEntity employee;
+
     @OneToMany(mappedBy = "timeOffYearlyLimit")
     @EqualsAndHashCode.Exclude
     private List<TimeOffEntity> timeOffs;
 
     @AssertTrue
     public boolean isMaxHoursNotHigherThanHoursInYear() {
-        return maxHours == null || maxHours <= LocalDate.of(leaveYear, 12, 31).getDayOfYear()*24;
+        return maxHours == null || leaveYear == null || maxHours <= LocalDate.of(leaveYear, 12, 31).getDayOfYear()*24;
     }
 }
