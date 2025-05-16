@@ -20,6 +20,10 @@ public interface ValidDataProvider {
         return Stream.of("Jan", "Kowalski", "Nowak-Jackson", "Dąbrowski", "Zofia", "O'Connel", "von der Osten", "Wiśniewska", "Anna Maria", "jr.", "dr.", "Łucja", "Żółć").map(Arguments::of);
     }
 
+    static Stream<Arguments> phoneNumbers() {
+        return Stream.of("123456789", "987654321", "000000000", "555555555", "123123123").map(Arguments::of);
+    }
+
     static List<EmployeeEntity> getEmployees() {
         return Stream.of(
                 Arguments.of("Ruggiero","Stealy","rstealy0@plala.or.jp","712568069"),
