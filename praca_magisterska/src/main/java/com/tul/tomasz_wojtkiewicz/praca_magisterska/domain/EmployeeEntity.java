@@ -4,7 +4,6 @@ import com.tul.tomasz_wojtkiewicz.praca_magisterska.validation.name.Name;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.validation.phone_numer.PhoneNumber;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,7 @@ import java.util.List;
 public class EmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Email
     @NotBlank
     @NotNull
@@ -36,7 +35,8 @@ public class EmployeeEntity {
     @Column(unique = true, length = 9)
     private String phoneNumber;
     @Range(min = 0, max = 3)
-    private int accessLevel;
+    @NotNull
+    private Integer accessLevel;
     @OneToMany(mappedBy = "employee")
     @EqualsAndHashCode.Exclude
     private List<TimeOffLimitEntity> yearlyTimeOffLimits;

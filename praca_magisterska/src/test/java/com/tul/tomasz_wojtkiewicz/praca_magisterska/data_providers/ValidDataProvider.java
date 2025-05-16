@@ -2,11 +2,10 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.TestEmployeeEntityBuilder;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_type.TestTimeOffTypeEntityBuilder;
-import lombok.experimental.UtilityClass;
 import org.junit.jupiter.params.provider.Arguments;
 
 import java.time.LocalDate;
@@ -16,9 +15,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@UtilityClass
-public class ValidDataProvider {
-    public static List<EmployeeEntity> getEmployees() {
+public interface ValidDataProvider {
+    static Stream<Arguments> names() {
+        return Stream.of("Jan", "Kowalski", "Nowak-Jackson", "Dąbrowski", "Zofia", "O'Connel", "von der Osten", "Wiśniewska", "Anna Maria", "jr.", "dr.", "Łucja", "Żółć").map(Arguments::of);
+    }
+
+    static List<EmployeeEntity> getEmployees() {
         return Stream.of(
                 Arguments.of("Ruggiero","Stealy","rstealy0@plala.or.jp","712568069"),
                 Arguments.of("Jan","Żółcik","cbiggin1@tiny.cc","709347655"),
@@ -72,11 +74,11 @@ public class ValidDataProvider {
                 Arguments.of("Bellina", "Candish", "bcandish1d@dropbox.com", "609772747")).map(a -> new TestEmployeeEntityBuilder().withFirstName((String) a.get()[0]).withLastName((String) a.get()[1]).withEmail((String) a.get()[2]).withPhoneNumber((String) a.get()[3]).withAccessLevel(((String) a.get()[0]).length() % 4).build()).toList();
     }
 
-    public static List<TimeOffTypeEntity> getTimeOffTypes() {
+    static List<TimeOffTypeEntity> getTimeOffTypes() {
         return Map.ofEntries(Map.entry("Urlop wypoczynkowy", 1.0f), Map.entry("Urlop na żądanie", 0.9f), Map.entry("Urlop zdrowotny", 0.8f), Map.entry("Urlop szkoleniowy", 0.7f), Map.entry("Urlop rodzicielski", 0.6f), Map.entry("Urlop okolicznościowy", 0.5f), Map.entry("Urlop bezpłatny", 0.4f), Map.entry("Urlop wychowawczy", 0.3f), Map.entry("Urlop rehabilitacyjny", 0.2f), Map.entry("Urlop studencki", 0.1f), Map.entry("Urlop bo tak", 0.0f)).entrySet().stream().map(e -> new TestTimeOffTypeEntityBuilder().withName(e.getKey()).withCompensationPercentage(e.getValue()).build()).toList();
     }
 
-    public static List<TimeOffLimitEntity> getTimeOffLimits(List<EmployeeEntity> employees, List<TimeOffTypeEntity> types) {
+    static List<TimeOffLimitEntity> getTimeOffLimits(List<EmployeeEntity> employees, List<TimeOffTypeEntity> types) {
         var result = new ArrayList<TimeOffLimitEntity>();
         for (var e : employees) {
             for (var t : types) {
@@ -93,7 +95,7 @@ public class ValidDataProvider {
         return result;
     }
 
-    public static List<TimeOffEntity> getTimeOffs(List<TimeOffLimitEntity> limits) {
+    static List<TimeOffEntity> getTimeOffs(List<TimeOffLimitEntity> limits) {
         List<String> vacationComments = List.of(
                 "Urlop zaplanowany na lipiec, wyjazd nad morze.",
                 "Krótki urlop na regenerację sił.",

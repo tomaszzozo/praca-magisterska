@@ -1,15 +1,12 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers;
 
-import lombok.experimental.UtilityClass;
 import org.junit.jupiter.params.provider.Arguments;
 
-import java.time.LocalDate;
 import java.time.Year;
 import java.util.stream.Stream;
 
-@UtilityClass
-public class InvalidDataProvider {
-    public static Stream<Arguments> emails() {
+public interface InvalidDataProvider {
+     static Stream<Arguments> emails() {
         return Stream.of(
                 Arguments.of(""),
                 Arguments.of("invalid-email"),
@@ -20,38 +17,17 @@ public class InvalidDataProvider {
         );
     }
 
-    public static Stream<Arguments> accessLevels() {
-        return Stream.of(Integer.MIN_VALUE, -1234567890, -123456789, -12345678, -1234567, -123456, -12345, -1234, -123, -12, -1, 4, 12, 123, 1234, 12345, 123456, 1234567, 12345678, 123456789, 1234567890, Integer.MAX_VALUE).map(Arguments::of);
+     static Stream<Arguments> accessLevels() {
+        return Stream.of(Integer.MIN_VALUE, -100, -1, 4, 100, Integer.MAX_VALUE).map(Arguments::of);
     }
 
-    public static Stream<Arguments> names() {
+     static Stream<Arguments> names() {
         return Stream.of(
-                "Al",
-                "Jo",
-                "A",
-                "Jan123",
-                "M@rek",
-                "Kowalski_",
-                "Anna-Maria!",
-                "Łukasz#",
-                "Zażółć@gęślą",
-                "Иван",
-                "张伟",
-                "अर्जुन",
-                "-Anna",
-                ".Jan",
-                "'Kowalski",
-                "Anna-",
-                "Kowalski'",
-                "J@n K0w@lski",
-                "M@r!a",
-                "Zażółć@gęślą",
-                "",
-                " "
+                "Al", "Jo", "A", "Jan123", "M@rek", "Kowalski_", "Anna-Maria!", "Łukasz#", "Zażółć@gęślą", "Иван", "张伟", "अर्जुन", "-Anna", ".Jan", "'Kowalski", "Anna-", "Kowalski'", "J@n K0w@lski", "M@r!a", "Zażółć@gęślą", "", " "
         ).map(Arguments::of);
     }
 
-    public static Stream<Arguments> phoneNumbers() {
+     static Stream<Arguments> phoneNumbers() {
         return Stream.of(
                 "",
                 " ",
@@ -74,7 +50,7 @@ public class InvalidDataProvider {
         ).map(Arguments::of);
     }
 
-    public static Stream<Arguments> years() {
+     static Stream<Arguments> years() {
         return Stream.of(Year.MIN_VALUE, -1, 0, 1, 2019, 2201, Year.MAX_VALUE).map(Arguments::of);
     }
 }
