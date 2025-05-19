@@ -19,14 +19,14 @@ import java.time.temporal.ChronoUnit;
 public class TimeOffEntity {
     @Id
     @Setter(AccessLevel.NONE)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @NotNull
     private LocalDate firstDay;
     @NotNull
     private LocalDate lastDayInclusive;
     @Min(1)
-    private int hoursCount;
+    @NotNull
+    private Integer hoursCount;
     @NotNull
     private String comment;
     @ManyToOne
@@ -44,21 +44,24 @@ public class TimeOffEntity {
 
     @AssertFalse
     public boolean isFirstDayAfterLastDay() {
+        if (firstDay == null || lastDayInclusive == null) {
+            return false;
+        }
         return firstDay.isAfter(lastDayInclusive);
     }
 
     @AssertTrue
     public boolean isYearAndMonthEqual() {
-        return firstDay.withDayOfMonth(1).equals(lastDayInclusive.withDayOfMonth(1));
+        return firstDay == null || lastDayInclusive == null || firstDay.withDayOfMonth(1).equals(lastDayInclusive.withDayOfMonth(1));
     }
 
     @AssertTrue
     public boolean isHoursCountLessThanHoursInTimeOff() {
-        return hoursCount <= firstDay.until(lastDayInclusive.plusDays(1), ChronoUnit.DAYS)*24;
+        return hoursCount == null || firstDay == null || lastDayInclusive == null || hoursCount <= firstDay.until(lastDayInclusive.plusDays(1), ChronoUnit.DAYS)*24;
     }
 
     @AssertTrue
     public boolean isYearInAcceptableRange() {
-        return firstDay.getYear() >= 2020 && firstDay.getYear() <= 2100 && lastDayInclusive.getYear() >= 2020 && lastDayInclusive.getYear() <= 2100;
+        return firstDay == null || lastDayInclusive == null || firstDay.getYear() >= 2020 && firstDay.getYear() <= 2100 && lastDayInclusive.getYear() >= 2020 && lastDayInclusive.getYear() <= 2100;
     }
 }

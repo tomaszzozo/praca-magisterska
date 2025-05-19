@@ -39,7 +39,7 @@ class TimeOffLimitEntityIntegrationTests {
     }
 
     @Test
-    void maxHoursMoreThanHoursInYearTriggersCustomValidation() {
+    void maxHoursMoreThanHoursInYearTriggersCustomValidationAssertion() {
         var validation = ConstraintValidation.validate(TimeOffLimitTestEntityFactory.builder().leaveYear(2025).maxHours(LocalDate.of(2025, 12, 31).getDayOfYear()*24+1).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("maxHoursNotHigherThanHoursInYear", validation.iterator().next().getPropertyPath().toString());
@@ -53,7 +53,7 @@ class TimeOffLimitEntityIntegrationTests {
     }
 
     @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#leaveYear")
+    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
     void leaveYearMustBeInRange(int invalidLeaveYear) {
         var validation = ConstraintValidation.validate(TimeOffLimitTestEntityFactory.builder().leaveYear(invalidLeaveYear).build().asEntity());
         assertEquals(1, validation.size());

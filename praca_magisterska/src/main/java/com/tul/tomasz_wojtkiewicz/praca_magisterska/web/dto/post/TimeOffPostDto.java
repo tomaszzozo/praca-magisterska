@@ -43,4 +43,8 @@ public class TimeOffPostDto {
         return hoursCount <= firstDay.until(lastDayInclusive.plusDays(1), ChronoUnit.HOURS);
     }
 
+    @AssertTrue
+    public boolean isYearInAcceptableRange() {
+        return firstDay == null || lastDayInclusive == null || firstDay.getYear() >= 2020 && firstDay.getYear() <= 2100 && lastDayInclusive.getYear() >= 2020 && lastDayInclusive.getYear() <= 2100;
+    }
 }
