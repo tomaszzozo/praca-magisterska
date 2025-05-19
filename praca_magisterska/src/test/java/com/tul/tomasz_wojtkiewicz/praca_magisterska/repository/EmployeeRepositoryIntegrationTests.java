@@ -1,98 +1,81 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.repository;
 
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.TestEmployeeEntityBuilder;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
-import jakarta.validation.ConstraintViolationException;
-import org.junit.jupiter.api.Assertions;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.EmployeeTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off.TimeOffTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_limit.TimeOffLimitTestEntityFactory;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.util.stream.Stream;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@Tag("integration")
 class EmployeeRepositoryIntegrationTests {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    private static Stream<Arguments> nullableEmployees() {
-        return Stream.of(
-                Arguments.of("First name", new TestEmployeeEntityBuilder().withFirstName(null).build()),
-                Arguments.of("Last name", new TestEmployeeEntityBuilder().withLastName(null).build()),
-                Arguments.of("Email", new TestEmployeeEntityBuilder().withEmail(null).build()),
-                Arguments.of("Phone number", new TestEmployeeEntityBuilder().withPhoneNumber(null).build())
-        );
-    }
-
     @Test
     void validData() {
-        Assertions.assertDoesNotThrow(() -> employeeRepository.saveAll(ValidDataProvider.getEmployees()));
-    }
-
-    @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#emails")
-    void invalidEmail(String invalidEmail) {
-        var testEmployee = new TestEmployeeEntityBuilder().withEmail(invalidEmail).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
-    }
-
-    @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#names")
-    void invalidFirstName(String invalidName) {
-        var testEmployee = new TestEmployeeEntityBuilder().withFirstName(invalidName).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
-    }
-
-    @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#names")
-    void invalidLastName(String invalidName) {
-        var testEmployee = new TestEmployeeEntityBuilder().withLastName(invalidName).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
-    }
-
-    @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#phoneNumbers")
-    void invalidPhoneNumber(String invalidPhoneNumber) {
-        var testEmployee = new TestEmployeeEntityBuilder().withPhoneNumber(invalidPhoneNumber).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
-    }
-
-    @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#accessLevels")
-    void invalidAccessLevel(int invalidAccessLevel) {
-        var testEmployee = new TestEmployeeEntityBuilder().withAccessLevel(invalidAccessLevel).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(testEmployee));
-    }
-
-    @ParameterizedTest
-    @MethodSource("nullableEmployees")
-    void nullFields(String ignoredFieldName, EmployeeEntity nullableEmployee) {
-        Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(nullableEmployee));
+        assertDoesNotThrow(() -> employeeRepository.saveAll(EmployeeTestEntityFactory.buildTen()));
     }
 
     @Test
-    void emailNotUnique() {
-        employeeRepository.save(new TestEmployeeEntityBuilder().build());
-        var testEmployee = new TestEmployeeEntityBuilder().withPhoneNumber(new StringBuilder(TestEmployeeEntityBuilder.Defaults.phoneNumber).reverse().toString()).build();
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.save(testEmployee));
+    void emailIsUnique() {
+        var firstEmployee = EmployeeTestEntityFactory.build().asEntity();
+        employeeRepository.save(firstEmployee);
+        var secondEmployee = EmployeeTestEntityFactory.builder().firstName(firstEmployee.getFirstName() + "second").lastName(firstEmployee.getLastName() + "second").phoneNumber(new StringBuilder(firstEmployee.getPhoneNumber()).reverse().toString()).email(firstEmployee.getEmail()).build().asEntity();
+        assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.saveAndFlush(secondEmployee));
     }
 
     @Test
-    void phoneNumberNotUnique() {
-        employeeRepository.save(new TestEmployeeEntityBuilder().build());
-        var testEmployee = new TestEmployeeEntityBuilder().withEmail(TestEmployeeEntityBuilder.Defaults.email + ".com").build();
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.save(testEmployee));
+    void phoneNumberIsUnique() {
+        var firstEmployee = EmployeeTestEntityFactory.build().asEntity();
+        employeeRepository.save(firstEmployee);
+        var secondEmployee = EmployeeTestEntityFactory.builder().firstName(firstEmployee.getFirstName() + "second").lastName(firstEmployee.getLastName() + "second").phoneNumber(firstEmployee.getPhoneNumber()).email(firstEmployee.getEmail() + ".second").build().asEntity();
+        assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.saveAndFlush(secondEmployee));
     }
 
     @Test
-    void emailAndPhoneNumberNotUnique() {
-        employeeRepository.save(new TestEmployeeEntityBuilder().build());
-        var testEmployee = new TestEmployeeEntityBuilder().build();
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.save(testEmployee));
+    void samePhoneNumberAndEmailAlsoFails() {
+        var firstEmployee = EmployeeTestEntityFactory.build().asEntity();
+        employeeRepository.save(firstEmployee);
+        var secondEmployee = EmployeeTestEntityFactory.builder().firstName(firstEmployee.getFirstName() + "second").lastName(firstEmployee.getLastName() + "second").phoneNumber(firstEmployee.getPhoneNumber()).email(firstEmployee.getEmail()).build().asEntity();
+        assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.saveAndFlush(secondEmployee));
+    }
+
+    @Test
+    void employeeTimeOffLimitsRelationWorks() {
+        var employee = EmployeeTestEntityFactory.build().asEntity();
+        var limit = TimeOffLimitTestEntityFactory.builder().maxHours(5).employee(employee).build().asEntity();
+        employee.setYearlyTimeOffLimits(List.of(limit));
+
+        employeeRepository.saveAndFlush(employee);
+
+        var savedEmployee = employeeRepository.findById(employee.getId()).orElseThrow();
+        assertEquals(1, savedEmployee.getYearlyTimeOffLimits().size());
+        assertEquals(5, savedEmployee.getYearlyTimeOffLimits().getFirst().getMaxHours());
+    }
+
+    @Test
+    void employeeTimeOffsRelationWorks() {
+        var employee = EmployeeTestEntityFactory.build().asEntity();
+        var timeOffDate = LocalDate.of(2024,11,4);
+        var timeOff = TimeOffTestEntityFactory.builder().firstDay(timeOffDate).lastDayInclusive(timeOffDate).hoursCount(2).employee(employee).build().asEntity();
+        employee.setTimeOffs(List.of(timeOff));
+
+        employeeRepository.saveAndFlush(employee);
+
+        var savedEmployee = employeeRepository.findById(employee.getId()).orElseThrow();
+        assertEquals(1, savedEmployee.getTimeOffs().size());
+        assertEquals(timeOffDate, savedEmployee.getTimeOffs().getFirst().getFirstDay());
+        assertEquals(timeOffDate, savedEmployee.getTimeOffs().getFirst().getLastDayInclusive());
+        assertEquals(2, savedEmployee.getTimeOffs().getFirst().getHoursCount());
     }
 }

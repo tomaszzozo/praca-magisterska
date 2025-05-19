@@ -37,10 +37,6 @@ public interface ValidDataProvider {
         return Stream.of(Arguments.of(starter, starter), Arguments.of(starter, starter.plusDays(1)), Arguments.of(starter.minusDays(1), starter), Arguments.of(starter.minusDays(1), starter.plusDays(1)), Arguments.of(starter.minusMonths(1), starter.minusMonths(1)), Arguments.of(starter.minusYears(1), starter.minusYears(1)), Arguments.of(starter.minusYears(1).minusMonths(1), starter.minusYears(1).minusMonths(1)), Arguments.of(starter.minusYears(1).minusMonths(1).minusDays(1), starter.minusYears(1).minusMonths(1).plusDays(1)));
     }
 
-    private static Stream<Arguments> hoursCountLessOrEqualHoursInTimeOff() {
-        return Stream.of(Arguments.of(24, LocalDate.of(2025, 6, 10), LocalDate.of(2025, 6, 10)), Arguments.of(48, LocalDate.of(2025, 6, 10), LocalDate.of(2025, 6, 11)), Arguments.of(0, LocalDate.of(2025, 6, 10), LocalDate.of(2025, 6, 10)), Arguments.of(168, LocalDate.of(2025, 6, 1), LocalDate.of(2025, 6, 7)));
-    }
-
     static List<EmployeeEntity> getEmployees() {
         return Stream.of(
                 Arguments.of("Ruggiero","Stealy","rstealy0@plala.or.jp","712568069"),
