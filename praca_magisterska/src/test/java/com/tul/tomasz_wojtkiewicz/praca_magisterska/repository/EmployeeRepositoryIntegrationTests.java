@@ -5,13 +5,14 @@ import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_o
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_limit.TimeOffLimitTestEntityFactory;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,8 +23,8 @@ class EmployeeRepositoryIntegrationTests {
     private EmployeeRepository employeeRepository;
 
     @Test
-    void validData() {
-        assertDoesNotThrow(() -> employeeRepository.saveAll(EmployeeTestEntityFactory.buildTen()));
+    void fieldsOtherThanEmailAndPhoneNumberAreNotUnique() {
+        assertDoesNotThrow(() -> employeeRepository.saveAllAndFlush(Stream.of(Arguments.of("Ruggiero", "Stealy", "rstealy0@plala.or.jp", "712568069", 1), Arguments.of("Ruggiero", "Stealy", "cbiggin1@tiny.cc", "709347655", 1), Arguments.of("Ruggiero", "Maypother", "sbowlesworth2@de.vu", "452172090", 2), Arguments.of("Waneta", "Stealy", "wkarus3@reverbnation.com", "164781938", 2), Arguments.of("Roxine", "Maypother", "rmaypother4@paginegialle.it", "131396665", 3)).map(a -> EmployeeTestEntityFactory.builder().firstName((String) a.get()[0]).lastName((String) a.get()[1]).email((String) a.get()[2]).phoneNumber((String) a.get()[3]).accessLevel((Integer) a.get()[4]).build().asEntity()).toList()));
     }
 
     @Test
@@ -51,7 +52,7 @@ class EmployeeRepositoryIntegrationTests {
     }
 
     @Test
-    void employeeTimeOffLimitsRelationWorks() {
+    void timeOffLimitsRelationWorks() {
         var employee = EmployeeTestEntityFactory.build().asEntity();
         var limit = TimeOffLimitTestEntityFactory.builder().maxHours(5).employee(employee).build().asEntity();
         employee.setYearlyTimeOffLimits(List.of(limit));
@@ -64,9 +65,9 @@ class EmployeeRepositoryIntegrationTests {
     }
 
     @Test
-    void employeeTimeOffsRelationWorks() {
+    void timeOffsRelationWorks() {
         var employee = EmployeeTestEntityFactory.build().asEntity();
-        var timeOffDate = LocalDate.of(2024,11,4);
+        var timeOffDate = LocalDate.of(2024, 11, 4);
         var timeOff = TimeOffTestEntityFactory.builder().firstDay(timeOffDate).lastDayInclusive(timeOffDate).hoursCount(2).employee(employee).build().asEntity();
         employee.setTimeOffs(List.of(timeOff));
 
