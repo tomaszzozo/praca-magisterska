@@ -1,24 +1,21 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.repository;
 
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.TestEmployeeEntityBuilder;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_limit.TestTimeOffLimitEntityBuilder;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_type.TestTimeOffTypeEntityBuilder;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity;
-import jakarta.validation.ConstraintViolationException;
-import org.junit.jupiter.api.Assertions;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.EmployeeTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off.TimeOffTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_limit.TimeOffLimitTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_type.TimeOffTypeTestEntityFactory;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.LocalDate;
-import java.util.function.Function;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+@Tag("integration")
 @DataJpaTest
 class TimeOffLimitRepositoryIntegrationTests {
     @Autowired
@@ -28,89 +25,39 @@ class TimeOffLimitRepositoryIntegrationTests {
     @Autowired
     private TimeOffLimitRepository timeOffLimitRepository;
 
-    private static Stream<Arguments> years() {
-        return IntStream.range(2025, 2030).mapToObj(Arguments::of);
-    }
-
-    private static Stream<Arguments> nullableLimits() {
-        return Stream.of(Arguments.of("type", (Function<TimeOffLimitEntity, TimeOffLimitEntity>) (o -> {
-                    o.setTimeOffType(null);
-                    return o;
-                })), Arguments.of("employee", (Function<TimeOffLimitEntity, TimeOffLimitEntity>) (o -> {
-                    o.setEmployee(null);
-                    return o;
-                }))
-        );
-    }
-
-    private static Stream<Arguments> negativeMaxHours() {
-        return Stream.of(Integer.MIN_VALUE, -100, -1).map(Arguments::of);
-    }
-
-    private TestTimeOffLimitEntityBuilder testLimit() {
-        var employee = new TestEmployeeEntityBuilder().build();
-        var type = new TestTimeOffTypeEntityBuilder().build();
-        employeeRepository.save(employee);
-        timeOffTypeRepository.save(type);
-        return new TestTimeOffLimitEntityBuilder(employee, type);
+    @Test
+    void combinationOfLeaveYearTypeAndEmployeeIsUnique() {
+        var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
+        var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
+        var limit = timeOffLimitRepository.saveAndFlush(TimeOffLimitTestEntityFactory.builder().employee(employee).timeOffType(type).build().asEntity());
+        assertThrows(DataIntegrityViolationException.class, () -> timeOffLimitRepository.saveAndFlush(TimeOffLimitTestEntityFactory.builder().employee(employee).timeOffType(type).leaveYear(limit.getLeaveYear()).build().asEntity()));
     }
 
     @Test
-    void validData() {
-        var employees = ValidDataProvider.getEmployees().subList(0, 4);
-        var types = ValidDataProvider.getTimeOffTypes();
-        employeeRepository.saveAll(employees);
-        timeOffTypeRepository.saveAll(types);
-
-        Assertions.assertDoesNotThrow(() -> timeOffLimitRepository.saveAll(ValidDataProvider.getTimeOffLimits(employees, types)));
-    }
-
-    @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
-    void yearOutOfRange(int invalidYear) {
-        var limit = testLimit().withLeaveYear(invalidYear).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffLimitRepository.save(limit));
-    }
-
-    @ParameterizedTest
-    @MethodSource("negativeMaxHours")
-    void negativeMaxHours(int invalidMaxHours) {
-        var limit = testLimit().withMaxHours(invalidMaxHours).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffLimitRepository.save(limit));
+    void otherFieldsAndCombinationsAreNotUnique() {
+        var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
+        var employee2 = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.builder().email("a" + employee.getEmail()).phoneNumber(new StringBuilder(employee.getPhoneNumber()).reverse().toString()).build().asEntity());
+        var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
+        var type2 = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.builder().name(type.getName() + " second").build().asEntity());
+        var limit1 = TimeOffLimitTestEntityFactory.builder().employee(employee).timeOffType(type).build().asEntity();
+        var limit2 = TimeOffLimitTestEntityFactory.builder().maxHours(80).employee(employee).timeOffType(type).leaveYear(limit1.getLeaveYear() + 1).build().asEntity();
+        var limit3 = TimeOffLimitTestEntityFactory.builder().maxHours(LocalDate.of(limit1.getLeaveYear() + 1, 12, 31).getDayOfYear() * 24).employee(employee).timeOffType(type2).leaveYear(limit1.getLeaveYear() + 1).build().asEntity();
+        var limit4 = TimeOffLimitTestEntityFactory.builder().employee(employee2).timeOffType(type2).leaveYear(limit1.getLeaveYear() + 1).build().asEntity();
+        assertDoesNotThrow(() -> timeOffLimitRepository.saveAllAndFlush(List.of(limit1, limit2, limit3, limit4)));
     }
 
     @Test
-    void nullMaxHours() {
-        var limit = testLimit().withMaxHours(null).build();
-        Assertions.assertDoesNotThrow(() -> timeOffLimitRepository.save(limit));
-    }
+    void timeOffsRelationWorks() {
+        var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
+        var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
+        var limit = TimeOffLimitTestEntityFactory.builder().employee(employee).timeOffType(type).build().asEntity();
+        var timeOff = TimeOffTestEntityFactory.builder().hoursCount(10).employee(employee).timeOffType(type).timeOffYearlyLimit(limit).build().asEntity();
+        limit.setTimeOffs(List.of(timeOff));
 
-    @Test
-    void zeroMaxHours() {
-        var limit = testLimit().withMaxHours(0).build();
-        Assertions.assertDoesNotThrow(() -> timeOffLimitRepository.save(limit));
-    }
+        timeOffLimitRepository.saveAndFlush(limit);
 
-    @ParameterizedTest
-    @MethodSource("nullableLimits")
-    void notNullFieldsAsNull(String ignoredNullFieldName, Function<TimeOffLimitEntity, TimeOffLimitEntity> nullSetter) {
-        var limit = nullSetter.apply(testLimit().build());
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffLimitRepository.save(limit));
+        var savedLimit = timeOffLimitRepository.findById(limit.getId()).orElseThrow();
+        assertEquals(1, savedLimit.getTimeOffs().size());
+        assertEquals(10, savedLimit.getTimeOffs().getFirst().getHoursCount());
     }
-
-    @ParameterizedTest
-    @MethodSource("years")
-    void maxHoursMoreThanHoursInYear(int year) {
-        var limit = testLimit().withLeaveYear(year).withMaxHours(LocalDate.of(year, 12, 31).getDayOfYear() * 24 + 1).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffLimitRepository.save(limit));
-    }
-
-    @ParameterizedTest
-    @MethodSource("years")
-    void maxHoursEqualThanHoursInYear(int year) {
-        var limit = testLimit().withLeaveYear(year).withMaxHours(LocalDate.of(year, 12, 31).getDayOfYear() * 24).build();
-        Assertions.assertDoesNotThrow(() -> timeOffLimitRepository.save(limit));
-    }
-
-    // TODO test uniqueness
 }
