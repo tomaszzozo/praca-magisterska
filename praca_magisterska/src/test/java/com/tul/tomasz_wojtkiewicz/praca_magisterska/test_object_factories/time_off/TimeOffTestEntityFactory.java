@@ -1,10 +1,10 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_limit.TimeOffLimitTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_limit.TimeOffLimitTestEntityFactory;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.beans.BeanUtils;

@@ -1,7 +1,7 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ConstraintValidation;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.EmployeeTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee.EmployeeTestEntityFactory;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.validation.name.Name;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.validation.phone_numer.PhoneNumber;
 import org.junit.jupiter.api.Tag;

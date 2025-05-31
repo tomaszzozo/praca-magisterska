@@ -1,13 +1,9 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
 import lombok.Builder;
 import lombok.Getter;
-import org.junit.jupiter.params.provider.Arguments;
 import org.springframework.beans.BeanUtils;
-
-import java.util.List;
-import java.util.stream.Stream;
 
 @Builder
 @Getter

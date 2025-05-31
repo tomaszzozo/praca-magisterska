@@ -1,4 +1,4 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_limit;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_limit;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;

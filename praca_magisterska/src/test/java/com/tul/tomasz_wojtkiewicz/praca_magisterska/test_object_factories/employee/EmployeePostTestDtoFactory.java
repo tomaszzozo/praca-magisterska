@@ -1,4 +1,4 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post.EmployeePostDto;

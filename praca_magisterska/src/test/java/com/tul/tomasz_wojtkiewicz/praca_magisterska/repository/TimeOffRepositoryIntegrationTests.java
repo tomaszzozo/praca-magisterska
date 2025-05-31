@@ -2,10 +2,10 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.repository;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.TestEmployeeEntityBuilder;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off.TestTimeOffEntityBuilder;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_limit.TestTimeOffLimitEntityBuilder;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_type.TestTimeOffTypeEntityBuilder;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee.TestEmployeeEntityBuilder;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off.TestTimeOffEntityBuilder;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_limit.TestTimeOffLimitEntityBuilder;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_type.TestTimeOffTypeEntityBuilder;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Assertions;

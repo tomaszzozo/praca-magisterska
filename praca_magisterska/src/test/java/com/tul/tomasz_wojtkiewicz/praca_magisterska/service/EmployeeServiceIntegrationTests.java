@@ -2,9 +2,9 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.service;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ApiException;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.EmployeeRepository;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.EmployeePostTestDtoFactory;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.EmployeePutTestDtoFactory;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.employee.EmployeeTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee.EmployeePostTestDtoFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee.EmployeePutTestDtoFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee.EmployeeTestEntityFactory;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Tag;

@@ -1,4 +1,4 @@
-package com.tul.tomasz_wojtkiewicz.praca_magisterska.test_objects_builders.time_off_type;
+package com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_type;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
 import lombok.Builder;
