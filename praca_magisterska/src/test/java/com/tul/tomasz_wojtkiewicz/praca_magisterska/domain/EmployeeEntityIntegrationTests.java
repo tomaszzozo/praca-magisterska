@@ -13,43 +13,43 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("integration")
 @Tag("entity")
-class EmployeeEntityIntegrationTests {
+class EmployeeEntityIntegrationTests implements ConstraintValidation {
     @Test
     void basicValidEntityPassesValidation() {
-        assertEquals(0, ConstraintValidation.validate(EmployeeTestEntityFactory.build().asEntity()).size());
+        assertEquals(0, validateConstraints(EmployeeTestEntityFactory.build().asEntity()).size());
     }
 
     @Test
     void nameValidatorIsUsedInFirstNameValidation() {
-        var validation = ConstraintValidation.validate(EmployeeTestEntityFactory.builder().firstName("3").build().asEntity());
+        var validation = validateConstraints(EmployeeTestEntityFactory.builder().firstName("3").build().asEntity());
         assertEquals(1, validation.size());
         assertEquals(Name.class, validation.iterator().next().getConstraintDescriptor().getAnnotation().annotationType());
     }
 
     @Test
     void firstNameCanNotBeNull() {
-        var validation = ConstraintValidation.validate(EmployeeTestEntityFactory.builder().firstName(null).build().asEntity());
+        var validation = validateConstraints(EmployeeTestEntityFactory.builder().firstName(null).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("firstName", validation.iterator().next().getPropertyPath().toString());
     }
 
     @Test
     void nameValidatorIsUsedInLastNameValidation() {
-        var validation = ConstraintValidation.validate(EmployeeTestEntityFactory.builder().lastName("3").build().asEntity());
+        var validation = validateConstraints(EmployeeTestEntityFactory.builder().lastName("3").build().asEntity());
         assertEquals(1, validation.size());
         assertEquals(Name.class, validation.iterator().next().getConstraintDescriptor().getAnnotation().annotationType());
     }
 
     @Test
     void lastNameCanNotBeNull() {
-        var validation = ConstraintValidation.validate(EmployeeTestEntityFactory.builder().lastName(null).build().asEntity());
+        var validation = validateConstraints(EmployeeTestEntityFactory.builder().lastName(null).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("lastName", validation.iterator().next().getPropertyPath().toString());
     }
 
     @Test
     void phoneNumberValidatorIsUsedInPhoneNumberValidation() {
-        var validation = ConstraintValidation.validate(EmployeeTestEntityFactory.builder().phoneNumber("3").build().asEntity());
+        var validation = validateConstraints(EmployeeTestEntityFactory.builder().phoneNumber("3").build().asEntity());
         assertEquals(1, validation.size());
         assertEquals(PhoneNumber.class, validation.iterator().next().getConstraintDescriptor().getAnnotation().annotationType());
     }
@@ -57,7 +57,7 @@ class EmployeeEntityIntegrationTests {
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#emails")
     void entityWithInvalidEmailDoesNotPassTheValidation(String invalidEmail) {
-        var validation = ConstraintValidation.validate(EmployeeTestEntityFactory.builder().email(invalidEmail).build().asEntity());
+        var validation = validateConstraints(EmployeeTestEntityFactory.builder().email(invalidEmail).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("email", validation.iterator().next().getPropertyPath().toString());
     }
@@ -65,7 +65,7 @@ class EmployeeEntityIntegrationTests {
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#accessLevels")
     void entityWithInvalidAccessLevelsDoesNotPassTheValidation(Integer invalidAccessLevel) {
-        var validation = ConstraintValidation.validate(EmployeeTestEntityFactory.builder().accessLevel(invalidAccessLevel).build().asEntity());
+        var validation = validateConstraints(EmployeeTestEntityFactory.builder().accessLevel(invalidAccessLevel).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("accessLevel", validation.iterator().next().getPropertyPath().toString());
     }

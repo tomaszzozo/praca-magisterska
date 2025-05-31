@@ -11,29 +11,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("integration")
 @Tag("entity")
-class TimeOffTypeEntityIntegrationTests {
+class TimeOffTypeEntityIntegrationTests implements ConstraintValidation {
     @Test
     void basicValidEntityPassesValidation() {
-        assertEquals(0, ConstraintValidation.validate(TimeOffTypeTestEntityFactory.build().asEntity()).size());
+        assertEquals(0, validateConstraints(TimeOffTypeTestEntityFactory.build().asEntity()).size());
     }
 
     @Test
     void nameCanNotBeNull() {
-        var validation = ConstraintValidation.validate(TimeOffTypeTestEntityFactory.builder().name(null).build().asEntity());
+        var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().name(null).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("name", validation.iterator().next().getPropertyPath().toString());
     }
 
     @Test
     void nameCanNotBeBlank() {
-        var validation = ConstraintValidation.validate(TimeOffTypeTestEntityFactory.builder().name("").build().asEntity());
+        var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().name("").build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("name", validation.iterator().next().getPropertyPath().toString());
     }
 
     @Test
     void compensationPercentageCanNotBeNull() {
-        var validation = ConstraintValidation.validate(TimeOffTypeTestEntityFactory.builder().compensationPercentage(null).build().asEntity());
+        var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().compensationPercentage(null).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("compensationPercentage", validation.iterator().next().getPropertyPath().toString());
     }
@@ -41,7 +41,7 @@ class TimeOffTypeEntityIntegrationTests {
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#compensationPercentages")
     void entityWithInvalidCompensationPercentageDoesNotPassTheValidation(Float invalidCompensationPercentage) {
-        var validation = ConstraintValidation.validate(TimeOffTypeTestEntityFactory.builder().compensationPercentage(invalidCompensationPercentage).build().asEntity());
+        var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().compensationPercentage(invalidCompensationPercentage).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("compensationPercentage", validation.iterator().next().getPropertyPath().toString());
     }

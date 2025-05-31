@@ -13,23 +13,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("integration")
 @Tag("entity")
-class TimeOffLimitEntityIntegrationTests {
+class TimeOffLimitEntityIntegrationTests implements ConstraintValidation {
     @Test
     void basicValidEntityPassesValidation() {
-        assertEquals(0, ConstraintValidation.validate(TimeOffLimitTestEntityFactory.build().asEntity()).size());
+        assertEquals(0, validateConstraints(TimeOffLimitTestEntityFactory.build().asEntity()).size());
     }
 
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#hoursInYearNegative")
     void maxHoursCanNotBeNegative(int invalidMaxHours) {
-        var validation = ConstraintValidation.validate(TimeOffLimitTestEntityFactory.builder().maxHours(invalidMaxHours).build().asEntity());
+        var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().maxHours(invalidMaxHours).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("maxHours", validation.iterator().next().getPropertyPath().toString());
     }
 
     @Test
     void maxHoursCanNotBeNull() {
-        var validation = ConstraintValidation.validate(TimeOffLimitTestEntityFactory.builder().maxHours(null).build().asEntity());
+        var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().maxHours(null).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("maxHours", validation.iterator().next().getPropertyPath().toString());
     }
@@ -41,14 +41,14 @@ class TimeOffLimitEntityIntegrationTests {
 
     @Test
     void maxHoursMoreThanHoursInYearTriggersCustomValidationAssertion() {
-        var validation = ConstraintValidation.validate(TimeOffLimitTestEntityFactory.builder().leaveYear(2025).maxHours(LocalDate.of(2025, 12, 31).getDayOfYear()*24+1).build().asEntity());
+        var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().leaveYear(2025).maxHours(LocalDate.of(2025, 12, 31).getDayOfYear()*24+1).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("maxHoursNotHigherThanHoursInYear", validation.iterator().next().getPropertyPath().toString());
     }
 
     @Test
     void leaveYearCanNotBeNull() {
-        var validation = ConstraintValidation.validate(TimeOffLimitTestEntityFactory.builder().leaveYear(null).build().asEntity());
+        var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().leaveYear(null).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("leaveYear", validation.iterator().next().getPropertyPath().toString());
     }
@@ -56,21 +56,21 @@ class TimeOffLimitEntityIntegrationTests {
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
     void leaveYearMustBeInRange(int invalidLeaveYear) {
-        var validation = ConstraintValidation.validate(TimeOffLimitTestEntityFactory.builder().leaveYear(invalidLeaveYear).build().asEntity());
+        var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().leaveYear(invalidLeaveYear).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("leaveYear", validation.iterator().next().getPropertyPath().toString());
     }
 
     @Test
     void employeeMustNotBeNull() {
-        var validation = ConstraintValidation.validate(TimeOffLimitTestEntityFactory.builder().employee(null).build().asEntity());
+        var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().employee(null).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("employee", validation.iterator().next().getPropertyPath().toString());
     }
 
     @Test
     void timeOffTypeMustNotBeNull() {
-        var validation = ConstraintValidation.validate(TimeOffLimitTestEntityFactory.builder().timeOffType(null).build().asEntity());
+        var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().timeOffType(null).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("timeOffType", validation.iterator().next().getPropertyPath().toString());
     }
