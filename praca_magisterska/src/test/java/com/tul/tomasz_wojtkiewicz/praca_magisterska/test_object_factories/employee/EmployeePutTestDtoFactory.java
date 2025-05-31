@@ -20,7 +20,7 @@ public class EmployeePutTestDtoFactory {
 	@Builder.Default
 	private String phoneNumber = defaultReference.getPhoneNumber();
 	@Builder.Default
-	private int accessLevel = defaultReference.getAccessLevel();
+	private Integer accessLevel = defaultReference.getAccessLevel();
 
 	public static EmployeePutTestDtoFactory build() {
 		return builder().build();
