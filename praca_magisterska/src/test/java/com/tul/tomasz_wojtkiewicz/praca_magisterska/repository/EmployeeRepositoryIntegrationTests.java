@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Tag("integration")
+@Tag("repository")
 class EmployeeRepositoryIntegrationTests {
     @Autowired
     private EmployeeRepository employeeRepository;

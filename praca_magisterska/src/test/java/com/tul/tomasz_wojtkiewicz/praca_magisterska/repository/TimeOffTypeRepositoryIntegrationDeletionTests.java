@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Tag("integration")
+@Tag("repository")
 class TimeOffTypeRepositoryIntegrationDeletionTests {
     @Autowired
     private EmployeeRepository employeeRepository;

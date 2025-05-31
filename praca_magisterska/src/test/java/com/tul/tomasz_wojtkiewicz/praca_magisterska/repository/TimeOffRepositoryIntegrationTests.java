@@ -9,6 +9,7 @@ import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_o
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @DataJpaTest
+@Tag("repository")
+@Tag("integration")
 class TimeOffRepositoryIntegrationTests {
     @Autowired
     private TimeOffRepository timeOffRepository;

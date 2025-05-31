@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("integration")
+@Tag("entity")
 class TimeOffTypeEntityIntegrationTests {
     @Test
     void basicValidEntityPassesValidation() {

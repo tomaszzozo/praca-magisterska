@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("integration")
+@Tag("entity")
 class EmployeeEntityIntegrationTests {
     @Test
     void basicValidEntityPassesValidation() {

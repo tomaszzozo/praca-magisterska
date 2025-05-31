@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("integration")
+@Tag("entity")
 class TimeOffEntityIntegrationTests {
     @Test
     void basicValidEntityPassesValidation() {

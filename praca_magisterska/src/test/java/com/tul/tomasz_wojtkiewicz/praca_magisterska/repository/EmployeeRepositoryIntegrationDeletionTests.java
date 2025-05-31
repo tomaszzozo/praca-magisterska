@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Tag("integration")
+@Tag("repository")
 @SpringBootTest
 class EmployeeRepositoryIntegrationDeletionTests {
     @Autowired

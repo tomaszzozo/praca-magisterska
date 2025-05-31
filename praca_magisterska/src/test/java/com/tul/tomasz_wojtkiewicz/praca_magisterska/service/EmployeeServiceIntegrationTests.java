@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Tag("integration")
+@Tag("service")
 class EmployeeServiceIntegrationTests {
 	@Autowired
 	private EmployeeService employeeService;

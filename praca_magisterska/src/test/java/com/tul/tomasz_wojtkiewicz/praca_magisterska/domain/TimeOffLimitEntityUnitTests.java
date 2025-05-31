@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("unit")
+@Tag("entity")
 class TimeOffLimitEntityUnitTests {
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#hoursInYearMoreThanMax")

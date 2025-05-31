@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Tag("integration")
+@Tag("repository")
 class TimeOffTypeRepositoryIntegrationTests {
     @Autowired
     private TimeOffTypeRepository timeOffTypeRepository;
