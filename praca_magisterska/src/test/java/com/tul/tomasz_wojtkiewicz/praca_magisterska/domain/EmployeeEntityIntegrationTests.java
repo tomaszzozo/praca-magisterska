@@ -15,48 +15,55 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("entity")
 class EmployeeEntityIntegrationTests implements ConstraintValidation {
     @Test
-    void basicValidEntityPassesValidation() {
-        assertEquals(0, validateConstraints(EmployeeTestEntityFactory.build().asEntity()).size());
+    void given_validFields_when_constraintsValidation_then_noErrors() {
+        assertTrue(validateConstraints(EmployeeTestEntityFactory.build().asEntity()).isEmpty());
     }
 
     @Test
-    void nameValidatorIsUsedInFirstNameValidation() {
+    void given_invalidFirstName_when_constraintsValidation_then_oneError_and_constraintAnnotationIsName() {
         var validation = validateConstraints(EmployeeTestEntityFactory.builder().firstName("3").build().asEntity());
         assertEquals(1, validation.size());
         assertEquals(Name.class, validation.iterator().next().getConstraintDescriptor().getAnnotation().annotationType());
     }
 
     @Test
-    void firstNameCanNotBeNull() {
+    void given_nullFirstName_when_constraintsValidation_then_oneError_and_firstNameCausedError() {
         var validation = validateConstraints(EmployeeTestEntityFactory.builder().firstName(null).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("firstName", validation.iterator().next().getPropertyPath().toString());
     }
 
     @Test
-    void nameValidatorIsUsedInLastNameValidation() {
+    void given_invalidLastName_when_constraintsValidation_then_oneError_and_constraintAnnotationIsName() {
         var validation = validateConstraints(EmployeeTestEntityFactory.builder().lastName("3").build().asEntity());
         assertEquals(1, validation.size());
         assertEquals(Name.class, validation.iterator().next().getConstraintDescriptor().getAnnotation().annotationType());
     }
 
     @Test
-    void lastNameCanNotBeNull() {
+    void given_nullLastName_when_constraintsValidation_then_oneError_and_lastNameCausedError() {
         var validation = validateConstraints(EmployeeTestEntityFactory.builder().lastName(null).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("lastName", validation.iterator().next().getPropertyPath().toString());
     }
 
     @Test
-    void phoneNumberValidatorIsUsedInPhoneNumberValidation() {
+    void given_invalidPhoneNumber_when_constraintsValidation_then_oneError_and_constraintAnnotationIsPhoneNumber() {
         var validation = validateConstraints(EmployeeTestEntityFactory.builder().phoneNumber("3").build().asEntity());
         assertEquals(1, validation.size());
         assertEquals(PhoneNumber.class, validation.iterator().next().getConstraintDescriptor().getAnnotation().annotationType());
     }
 
+	@Test
+	void given_nullPhoneNumber_when_constraintsValidation_then_oneError_and_phoneNumberCausedError() {
+		var validation = validateConstraints(EmployeeTestEntityFactory.builder().phoneNumber(null).build().asEntity());
+		assertEquals(1, validation.size());
+		assertEquals("phoneNumber", validation.iterator().next().getPropertyPath().toString());
+	}
+
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#emails")
-    void entityWithInvalidEmailDoesNotPassTheValidation(String invalidEmail) {
+    void given_invalidEmail_when_constraintsValidation_then_oneError_and_emailCausedError(String invalidEmail) {
         var validation = validateConstraints(EmployeeTestEntityFactory.builder().email(invalidEmail).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("email", validation.iterator().next().getPropertyPath().toString());
@@ -64,9 +71,23 @@ class EmployeeEntityIntegrationTests implements ConstraintValidation {
 
     @ParameterizedTest
     @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#accessLevels")
-    void entityWithInvalidAccessLevelsDoesNotPassTheValidation(Integer invalidAccessLevel) {
+    void given_invalidAccessLevel_when_constraintsValidation_then_oneError_and_accessLevelCausedError(Integer invalidAccessLevel) {
         var validation = validateConstraints(EmployeeTestEntityFactory.builder().accessLevel(invalidAccessLevel).build().asEntity());
         assertEquals(1, validation.size());
         assertEquals("accessLevel", validation.iterator().next().getPropertyPath().toString());
     }
+
+	@Test
+	void given_nullEmail_when_constraintsValidation_then_oneError_and_emailCausedError() {
+		var validation = validateConstraints(EmployeeTestEntityFactory.builder().email(null).build().asEntity());
+		assertEquals(1, validation.size());
+		assertEquals("email", validation.iterator().next().getPropertyPath().toString());
+	}
+
+	@Test
+	void given_nullAccessLevel_when_constraintsValidation_then_oneError_and_accessLevelCausedError() {
+		var validation = validateConstraints(EmployeeTestEntityFactory.builder().accessLevel(null).build().asEntity());
+		assertEquals(1, validation.size());
+		assertEquals("accessLevel", validation.iterator().next().getPropertyPath().toString());
+	}
 }

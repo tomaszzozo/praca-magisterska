@@ -112,6 +112,10 @@ public interface ValidDataProvider {
         return result;
     }
 
+	static Stream<Arguments> hoursCountLessOrEqualHoursInTimeOff() {
+		return Stream.of(Arguments.of(24, LocalDate.of(2025, 6, 10), LocalDate.of(2025, 6, 10)), Arguments.of(48, LocalDate.of(2025, 6, 10), LocalDate.of(2025, 6, 11)), Arguments.of(0, LocalDate.of(2025, 6, 10), LocalDate.of(2025, 6, 10)), Arguments.of(168, LocalDate.of(2025, 6, 1), LocalDate.of(2025, 6, 7)));
+	}
+
     static List<TimeOffEntity> getTimeOffs(List<TimeOffLimitEntity> limits) {
         List<String> vacationComments = List.of(
                 "Urlop zaplanowany na lipiec, wyjazd nad morze.",

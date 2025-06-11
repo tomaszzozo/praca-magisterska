@@ -1,6 +1,7 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.service;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ApiException;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity;
@@ -26,13 +27,12 @@ public class TimeOffLimitService {
     private final TimeOffTypeService timeOffTypeService;
     private final EmployeeService employeeService;
 
-    public static final int DEFAULT_MAX_HOURS = 0;
-
     public List<TimeOffLimitEntity> getAllByYearAndEmployeeId(@Range(min = 2020, max = 2100) int year, @Min(1) long employeeId) {
-        var types = timeOffTypeService.getAll();
+        var employee = employeeService.getById(employeeId);
+		var types = timeOffTypeService.getAll();
         var existingLimits = timeOffLimitRepository.findAllByLeaveYearAndEmployeeId(year, employeeId);
         var existingLimitsTypes = existingLimits.stream().map(e -> e.getTimeOffType().getId()).toList();
-        var result = new ArrayList<>(types.stream().filter(t -> !existingLimitsTypes.contains(t.getId())).map(t -> defaultFromYearAndEmployeeId(year, employeeId, t)).toList());
+        var result = new ArrayList<>(types.stream().filter(t -> !existingLimitsTypes.contains(t.getId())).map(t -> defaultFromYearAndEmployeeId(year, employee, t)).toList());
         result.addAll(existingLimits);
         return result;
     }
@@ -41,11 +41,11 @@ public class TimeOffLimitService {
         return timeOffLimitRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Limit urlopu o podanym id nie istnieje"));
     }
 
-    private TimeOffLimitEntity defaultFromYearAndEmployeeId(int year, long employeeId, TimeOffTypeEntity type) {
+    private TimeOffLimitEntity defaultFromYearAndEmployeeId(int year, EmployeeEntity employee, TimeOffTypeEntity type) {
         var result = new TimeOffLimitEntity();
         result.setLeaveYear(year);
-        result.setMaxHours(DEFAULT_MAX_HOURS);
-        result.setEmployee(employeeService.getById(employeeId));
+        result.setMaxHours(TimeOffLimitEntity.DEFAULT_MAX_HOURS);
+        result.setEmployee(employee);
         result.setTimeOffType(type);
         return result;
     }
@@ -58,7 +58,7 @@ public class TimeOffLimitService {
                 if (timeOffLimitRepository.existsByLeaveYearAndEmployeeIdAndTimeOffTypeId(dto.getYear(), dto.getEmployeeId(), dto.getTypeId())) {
                     throw new ApiException(HttpStatus.CONFLICT, "Limit dla danego roku pracownika i typu urlopu już istnieje");
                 }
-                object = defaultFromYearAndEmployeeId(dto.getYear(), dto.getEmployeeId(), timeOffTypeService.getById(dto.getTypeId()));
+                object = defaultFromYearAndEmployeeId(dto.getYear(), employeeService.getById(dto.getEmployeeId()), timeOffTypeService.getById(dto.getTypeId()));
             } else {
                 object = timeOffLimitRepository.findById(dto.getId()).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Nie znaleziono limitu o podanym id."));
             }

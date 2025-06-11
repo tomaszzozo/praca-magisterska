@@ -57,30 +57,6 @@ public class DefaultTestObjects {
         return result;
     }
 
-    public static EmployeePostDto getEmployeePostDto() {
-        var dto = new EmployeePostDto();
-        dto.setFirstName("Name");
-        dto.setLastName("Name");
-        dto.setAccessLevel(0);
-        dto.setEmail("email@email.com");
-        dto.setPhoneNumber("123456789");
-        return dto;
-    }
-
-    public static EmployeePutDto getEmployeePutDto() {
-        var dto = new EmployeePutDto();
-        BeanUtils.copyProperties(getEmployeePostDto(), dto);
-        return dto;
-    }
-
-    public static TimeOffTypePutDto getTimeOffTypePutDto() {
-        var dto = new TimeOffTypePutDto();
-        dto.setId(0);
-        dto.setName("Time off type name");
-        dto.setCompensationPercentage(0.8f);
-        return dto;
-    }
-
     public static TimeOffLimitPutDto getTimeOffLimitPutDto(long typeId, long employeeId) {
         var dto = new TimeOffLimitPutDto();
         dto.setYear(NOW.getYear());

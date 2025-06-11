@@ -18,13 +18,15 @@ import java.util.List;
 @Table(uniqueConstraints = {@UniqueConstraint(name = "UniqueYearAndTimeOffType", columnNames = {"leaveYear", "type_id", "employee_id"})})
 @EqualsAndHashCode
 public class TimeOffLimitEntity {
+	public static final int DEFAULT_MAX_HOURS = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Min(0)
     @NotNull
-    private Integer maxHours = 0;
+    private Integer maxHours = DEFAULT_MAX_HOURS;
 
     @Range(min = 2020, max = 2100)
     @NotNull
