@@ -97,7 +97,7 @@ public class TimeOffService {
         timeOffRepository.delete(findOrElseThrow(id));
     }
 
-    public TimeOffEntity findOrElseThrow(@Min(1) long id) {
+    private TimeOffEntity findOrElseThrow(@Min(1) long id) {
         return timeOffRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Nie znaleziono urlopu"));
     }
 }

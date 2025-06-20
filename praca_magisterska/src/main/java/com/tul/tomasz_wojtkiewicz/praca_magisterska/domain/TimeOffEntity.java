@@ -5,6 +5,7 @@ import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ import java.time.temporal.ChronoUnit;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode
 @Table(uniqueConstraints = {@UniqueConstraint(name = "UniqueFirstDayAndEmployee", columnNames = {"firstDay", "employee_id"}), @UniqueConstraint(name = "UniqueLastDayAndEmployee", columnNames = {"lastDayInclusive", "employee_id"})})
 public class TimeOffEntity {
     @Id
@@ -31,14 +33,17 @@ public class TimeOffEntity {
     @ManyToOne
     @NotNull
     @JoinColumn(name = "yearly_limit_id")
+	@EqualsAndHashCode.Exclude
     private TimeOffLimitEntity timeOffYearlyLimit;
     @ManyToOne
     @NotNull
     @JoinColumn(name = "type_id")
+	@EqualsAndHashCode.Exclude
     private TimeOffTypeEntity timeOffType;
     @ManyToOne
     @NotNull
     @JoinColumn(name = "employee_id")
+	@EqualsAndHashCode.Exclude
     private EmployeeEntity employee;
 
     @AssertFalse
