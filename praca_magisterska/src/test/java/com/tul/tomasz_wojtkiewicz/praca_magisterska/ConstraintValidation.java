@@ -8,7 +8,8 @@ import java.util.Set;
 
 public interface ConstraintValidation {
 	Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-    default <T> Set<ConstraintViolation<T>> validateConstraints(T entity) {
-        return validator.validate(entity);
-    }
+
+	default <T> Set<ConstraintViolation<T>> validateConstraints(T entity) {
+		return validator.validate(entity);
+	}
 }

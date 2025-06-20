@@ -282,7 +282,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().hoursCount(1).timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).build().asEntity());
 		var timeOff2 = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().hoursCount(1).timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).firstDay(timeOff.getLastDayInclusive().plusDays(1)).lastDayInclusive(timeOff.getLastDayInclusive().plusDays(1)).build().asEntity());
-		var dto = TimeOffTestDtoFactory.builder().employeeId(defaults.employee.getId()).typeId(defaults.type.getId()).yearlyLimitId(defaults.limit.getId()).hoursCount(timeOff2.getHoursCount()+1).firstDay(timeOff2.getFirstDay()).lastDayInclusive(timeOff2.getLastDayInclusive()).build().asPutDto();
+		var dto = TimeOffTestDtoFactory.builder().employeeId(defaults.employee.getId()).typeId(defaults.type.getId()).yearlyLimitId(defaults.limit.getId()).hoursCount(timeOff2.getHoursCount() + 1).firstDay(timeOff2.getFirstDay()).lastDayInclusive(timeOff2.getLastDayInclusive()).build().asPutDto();
 
 		timeOffService.put(timeOff2.getId(), dto);
 
@@ -462,7 +462,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).build().asEntity());
 		var db = getDbTableDump(TimeOffEntity.class);
 
-		var exception = assertThrows(ApiException.class, () -> timeOffService.delete(timeOff.getId()+1));
+		var exception = assertThrows(ApiException.class, () -> timeOffService.delete(timeOff.getId() + 1));
 		assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
 		assertEquals(db, getDbTableDump(TimeOffEntity.class));
 	}

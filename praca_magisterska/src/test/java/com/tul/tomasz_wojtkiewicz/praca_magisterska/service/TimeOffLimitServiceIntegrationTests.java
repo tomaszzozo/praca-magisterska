@@ -292,8 +292,8 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
 		var limit = timeOffLimitRepository.saveAndFlush(TimeOffLimitTestEntityFactory.builder().timeOffType(type).employee(employee).build().asEntity());
-		var dto1 = TimeOffLimitPutTestDtoFactory.builder().id(limit.getId()).employeeId(employee.getId()).typeId(type.getId()).maxHours(limit.getMaxHours()+1).build().asDto();
-		var dto2 = TimeOffLimitPutTestDtoFactory.builder().id(limit.getId()).employeeId(employee.getId()).typeId(type.getId()).maxHours(limit.getMaxHours()+2).build().asDto();
+		var dto1 = TimeOffLimitPutTestDtoFactory.builder().id(limit.getId()).employeeId(employee.getId()).typeId(type.getId()).maxHours(limit.getMaxHours() + 1).build().asDto();
+		var dto2 = TimeOffLimitPutTestDtoFactory.builder().id(limit.getId()).employeeId(employee.getId()).typeId(type.getId()).maxHours(limit.getMaxHours() + 2).build().asDto();
 
 		assertDoesNotThrow(() -> timeOffLimitService.putAll(List.of(dto1, dto2)));
 		assertEquals(1, timeOffLimitRepository.count());
@@ -305,7 +305,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	void given_dtoWithNotExistingEmployeeId_when_putAll_then_throwsApiException_and_statusCodeIsNotFound() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
-		var dto = TimeOffLimitPutTestDtoFactory.builder().id(0L).employeeId(employee.getId()+1).typeId(type.getId()).build().asDto();
+		var dto = TimeOffLimitPutTestDtoFactory.builder().id(0L).employeeId(employee.getId() + 1).typeId(type.getId()).build().asDto();
 
 		var exception = assertThrows(ApiException.class, () -> timeOffLimitService.putAll(List.of(dto)));
 		assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
@@ -315,7 +315,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	void given_dtoWithNotExistingTypeId_when_putAll_then_throwsApiException_and_statusCodeIsNotFound() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
-		var dto = TimeOffLimitPutTestDtoFactory.builder().id(0L).employeeId(employee.getId()).typeId(type.getId()+1).build().asDto();
+		var dto = TimeOffLimitPutTestDtoFactory.builder().id(0L).employeeId(employee.getId()).typeId(type.getId() + 1).build().asDto();
 
 		var exception = assertThrows(ApiException.class, () -> timeOffLimitService.putAll(List.of(dto)));
 		assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
@@ -326,7 +326,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
 		var limit = timeOffLimitRepository.saveAndFlush(TimeOffLimitTestEntityFactory.builder().timeOffType(type).employee(employee).build().asEntity());
-		var dto = TimeOffLimitPutTestDtoFactory.builder().id(limit.getId()).employeeId(employee.getId()+1).typeId(type.getId()+1).maxHours(limit.getMaxHours()+1).build().asDto();
+		var dto = TimeOffLimitPutTestDtoFactory.builder().id(limit.getId()).employeeId(employee.getId() + 1).typeId(type.getId() + 1).maxHours(limit.getMaxHours() + 1).build().asDto();
 
 		assertDoesNotThrow(() -> timeOffLimitService.putAll(List.of(dto)));
 		assertEquals(1, timeOffLimitRepository.count());

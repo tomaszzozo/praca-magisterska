@@ -18,43 +18,43 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Tag("repository")
 @SpringBootTest
 class EmployeeRepositoryIntegrationDeletionTests {
-    @Autowired
-    private EmployeeRepository employeeRepository;
-    @Autowired
-    private TimeOffLimitRepository timeOffLimitRepository;
-    @Autowired
-    private TimeOffTypeRepository timeOffTypeRepository;
-    @Autowired
-    private TimeOffRepository timeOffRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	@Autowired
+	private TimeOffLimitRepository timeOffLimitRepository;
+	@Autowired
+	private TimeOffTypeRepository timeOffTypeRepository;
+	@Autowired
+	private TimeOffRepository timeOffRepository;
 
-    @AfterEach
-    void afterEach() {
-        timeOffRepository.deleteAll();
-        timeOffLimitRepository.deleteAll();
-        timeOffTypeRepository.deleteAll();
-        employeeRepository.deleteAll();
-    }
+	@AfterEach
+	void afterEach() {
+		timeOffRepository.deleteAll();
+		timeOffLimitRepository.deleteAll();
+		timeOffTypeRepository.deleteAll();
+		employeeRepository.deleteAll();
+	}
 
-    @Test
-    void canNotDeleteIfDependentTimeOffLimitExists() {
-        var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
-        var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
-        timeOffLimitRepository.saveAndFlush(TimeOffLimitTestEntityFactory.builder().timeOffType(type).employee(employee).build().asEntity());
-        assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.deleteById(employee.getId()));
-    }
+	@Test
+	void canNotDeleteIfDependentTimeOffLimitExists() {
+		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
+		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
+		timeOffLimitRepository.saveAndFlush(TimeOffLimitTestEntityFactory.builder().timeOffType(type).employee(employee).build().asEntity());
+		assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.deleteById(employee.getId()));
+	}
 
-    @Test
-    void canNotDeleteIfDependentTimeOffExists() {
-        var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
-        var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
-        var limit = timeOffLimitRepository.saveAndFlush(TimeOffLimitTestEntityFactory.builder().timeOffType(type).employee(employee).build().asEntity());
-        timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(type).timeOffYearlyLimit(limit).employee(employee).build().asEntity());
-        assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.deleteById(employee.getId()));
-    }
+	@Test
+	void canNotDeleteIfDependentTimeOffExists() {
+		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
+		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
+		var limit = timeOffLimitRepository.saveAndFlush(TimeOffLimitTestEntityFactory.builder().timeOffType(type).employee(employee).build().asEntity());
+		timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(type).timeOffYearlyLimit(limit).employee(employee).build().asEntity());
+		assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.deleteById(employee.getId()));
+	}
 
-    @Test
-    void canDeleteEntityIfNoDependentEntitiesExist() {
-        var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
-        assertDoesNotThrow(() -> employeeRepository.deleteById(employee.getId()));
-    }
+	@Test
+	void canDeleteEntityIfNoDependentEntitiesExist() {
+		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
+		assertDoesNotThrow(() -> employeeRepository.deleteById(employee.getId()));
+	}
 }

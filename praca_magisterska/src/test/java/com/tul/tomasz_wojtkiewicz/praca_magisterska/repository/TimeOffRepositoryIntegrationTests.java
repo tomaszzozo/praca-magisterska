@@ -1,183 +1,109 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.repository;
 
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee.TestEmployeeEntityBuilder;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off.TestTimeOffEntityBuilder;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_limit.TestTimeOffLimitEntityBuilder;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_type.TestTimeOffTypeEntityBuilder;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.ValidationException;
-import org.junit.jupiter.api.Assertions;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee.EmployeeTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off.TimeOffTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_limit.TimeOffLimitTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_type.TimeOffTypeTestEntityFactory;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.LocalDate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Tag("repository")
 @Tag("integration")
 class TimeOffRepositoryIntegrationTests {
-    @Autowired
-    private TimeOffRepository timeOffRepository;
-    @Autowired
-    private EmployeeRepository employeeRepository;
-    @Autowired
-    private TimeOffTypeRepository timeOffTypeRepository;
-    @Autowired
-    private TimeOffLimitRepository timeOffLimitRepository;
+	@Autowired
+	private TimeOffRepository timeOffRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	@Autowired
+	private TimeOffTypeRepository timeOffTypeRepository;
+	@Autowired
+	private TimeOffLimitRepository timeOffLimitRepository;
 
-    private static Stream<Arguments> invalidHours() {
-        return Stream.of(Integer.MIN_VALUE, -1000, -1, 0).map(Arguments::of);
-    }
+	@Test
+	void given_twoTimeOffsWithMatchingFirstDayAndEmployee_when_saveAll_then_throwsDataIntegrityViolationException() {
+		var employee = employeeRepository.save(EmployeeTestEntityFactory.build().asEntity());
+		var type = timeOffTypeRepository.save(TimeOffTypeTestEntityFactory.build().asEntity());
+		var limit = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().employee(employee).timeOffType(type).maxHours(100).build().asEntity());
+		var timeOff1 = TimeOffTestEntityFactory.builder().employee(employee).timeOffType(type).timeOffYearlyLimit(limit).build().asEntity();
+		var timeOff2 = TimeOffTestEntityFactory.builder().employee(employee).timeOffType(type).timeOffYearlyLimit(limit).lastDayInclusive(timeOff1.getLastDayInclusive().plusDays(1)).build().asEntity();
+		assertThrows(DataIntegrityViolationException.class, () -> timeOffRepository.saveAll(List.of(timeOff1, timeOff2)));
+	}
 
-    private TestTimeOffEntityBuilder testTimeOff() {
-        var employee = new TestEmployeeEntityBuilder().build();
-        employeeRepository.save(employee);
-        var type = new TestTimeOffTypeEntityBuilder().build();
-        timeOffTypeRepository.save(type);
-        var limit = new TestTimeOffLimitEntityBuilder(employee, type).build();
-        timeOffLimitRepository.save(limit);
-        return new TestTimeOffEntityBuilder().withEmployee(employee).withType(type).withLimit(limit);
-    }
+	@Test
+	void given_twoTimeOffsWithMatchingLastDayAndEmployee_when_saveAll_then_throwsDataIntegrityViolationException() {
+		var employee = employeeRepository.save(EmployeeTestEntityFactory.build().asEntity());
+		var type = timeOffTypeRepository.save(TimeOffTypeTestEntityFactory.build().asEntity());
+		var limit = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().employee(employee).timeOffType(type).maxHours(100).build().asEntity());
+		var timeOff1 = TimeOffTestEntityFactory.builder().employee(employee).timeOffType(type).timeOffYearlyLimit(limit).build().asEntity();
+		var timeOff2 = TimeOffTestEntityFactory.builder().employee(employee).timeOffType(type).timeOffYearlyLimit(limit).firstDay(timeOff1.getFirstDay().minusDays(1)).build().asEntity();
+		assertThrows(DataIntegrityViolationException.class, () -> timeOffRepository.saveAll(List.of(timeOff1, timeOff2)));
+	}
 
-    @Test
-    void validData() {
-        var employees = ValidDataProvider.getEmployees().subList(0, 4);
-        employeeRepository.saveAll(employees);
-        var types = ValidDataProvider.getTimeOffTypes();
-        timeOffTypeRepository.saveAll(types);
-        var limits = ValidDataProvider.getTimeOffLimits(employees, types);
-        timeOffLimitRepository.saveAll(limits);
-        var timeOffs = ValidDataProvider.getTimeOffs(limits);
-        Assertions.assertDoesNotThrow(() -> timeOffRepository.saveAll(timeOffs));
-    }
+	@Test
+	void given_twoTimeOffsWithMatchingNonUniqueFields_and_differentUniqueFields_when_saveAll_then_timeOffsSaved() {
+		var employee = employeeRepository.save(EmployeeTestEntityFactory.build().asEntity());
+		var type = timeOffTypeRepository.save(TimeOffTypeTestEntityFactory.build().asEntity());
+		var limit = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().employee(employee).timeOffType(type).maxHours(100).build().asEntity());
+		var timeOff1 = TimeOffTestEntityFactory.builder().employee(employee).timeOffType(type).timeOffYearlyLimit(limit).build().asEntity();
+		var timeOff2 = TimeOffTestEntityFactory.builder().employee(employee).timeOffType(type).timeOffYearlyLimit(limit).firstDay(timeOff1.getLastDayInclusive().plusDays(1)).lastDayInclusive(timeOff1.getLastDayInclusive().plusDays(1)).build().asEntity();
 
-    @Test
-    void findAllByYearAndEmployeeIdQuery() {
-        var employees = ValidDataProvider.getEmployees().subList(0, 4);
-        employeeRepository.saveAll(employees);
-        var types = ValidDataProvider.getTimeOffTypes();
-        timeOffTypeRepository.saveAll(types);
-        var limits = ValidDataProvider.getTimeOffLimits(employees, types);
-        timeOffLimitRepository.saveAll(limits);
-        var timeOffs = ValidDataProvider.getTimeOffs(limits);
-        timeOffRepository.saveAll(timeOffs);
+		assertDoesNotThrow(() -> timeOffRepository.saveAll(List.of(timeOff1, timeOff2)));
+	}
 
-        var years = timeOffs.stream().map(t -> t.getFirstDay().getYear()).collect(Collectors.toSet());
-        for (var e : employees) {
-            for (var y : years) {
-                var result = timeOffRepository.findAllByYearAndEmployeeId(e.getId(), y).stream().map(TimeOffEntity::getId).collect(Collectors.toSet());
-                var expected = timeOffs.stream().filter(t -> t.getEmployee().getId() == e.getId() && t.getFirstDay().getYear() == y).map(TimeOffEntity::getId).collect(Collectors.toSet());
-                Assertions.assertEquals(expected, result);
-            }
-        }
-    }
+	@Test
+	void given_someTimeOffs_when_findAllByYearAndEmployeeId_then_returnsExpectedEntities() {
+		var employee1 = employeeRepository.save(EmployeeTestEntityFactory.builder().email("employee1@test.com").phoneNumber("111111112").build().asEntity());
+		var employee2 = employeeRepository.save(EmployeeTestEntityFactory.builder().email("employee2@test.com").phoneNumber("111111113").build().asEntity());
 
-    @ParameterizedTest
-    @MethodSource("invalidHours")
-    void negativeOrZeroHours(int invalidHoursCount) {
-        var timeOff = testTimeOff().withHoursCount(invalidHoursCount).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffRepository.save(timeOff));
-    }
+		var type1 = timeOffTypeRepository.save(TimeOffTypeTestEntityFactory.builder().name("type 1").build().asEntity());
+		var type2 = timeOffTypeRepository.save(TimeOffTypeTestEntityFactory.builder().name("type 2").build().asEntity());
 
-    @Test
-    void oneHour() {
-        var timeOff = testTimeOff().withHoursCount(1).build();
-        Assertions.assertDoesNotThrow(() -> timeOffRepository.save(timeOff));
-    }
+		var limitE1T12025 = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().timeOffType(type1).employee(employee1).leaveYear(2025).maxHours(100).build().asEntity());
+		var limitE1T12026 = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().timeOffType(type1).employee(employee1).leaveYear(2026).maxHours(100).build().asEntity());
+		var limitE1T22025 = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().timeOffType(type2).employee(employee1).leaveYear(2025).maxHours(100).build().asEntity());
+		var limitE1T22026 = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().timeOffType(type2).employee(employee1).leaveYear(2026).maxHours(100).build().asEntity());
+		var limitE2T12025 = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().timeOffType(type1).employee(employee2).leaveYear(2025).maxHours(100).build().asEntity());
+		var limitE2T12026 = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().timeOffType(type1).employee(employee2).leaveYear(2026).maxHours(100).build().asEntity());
+		var limitE2T22025 = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().timeOffType(type2).employee(employee2).leaveYear(2025).maxHours(100).build().asEntity());
+		var limitE2T22026 = timeOffLimitRepository.save(TimeOffLimitTestEntityFactory.builder().timeOffType(type2).employee(employee2).leaveYear(2026).maxHours(100).build().asEntity());
 
-    @Test
-    void fistDayAfterLastDay() {
-        var timeOff = testTimeOff().withFirstDay(TestTimeOffEntityBuilder.Defaults.lastDayInclusive.plusDays(1)).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffRepository.save(timeOff));
-    }
+		var timeOffE1T12025 = timeOffRepository.save(TimeOffTestEntityFactory.builder().timeOffType(type1).employee(employee1).timeOffYearlyLimit(limitE1T12025).hoursCount(1).firstDay(LocalDate.of(2025, 6, 10)).lastDayInclusive(LocalDate.of(2025, 6, 10)).build().asEntity());
+		var timeOffE1T12026 = timeOffRepository.save(TimeOffTestEntityFactory.builder().timeOffType(type1).employee(employee1).timeOffYearlyLimit(limitE1T12026).hoursCount(1).firstDay(LocalDate.of(2026, 6, 10)).lastDayInclusive(LocalDate.of(2026, 6, 10)).build().asEntity());
+		var timeOffE1T22025 = timeOffRepository.save(TimeOffTestEntityFactory.builder().timeOffType(type2).employee(employee1).timeOffYearlyLimit(limitE1T22025).hoursCount(1).firstDay(LocalDate.of(2025, 6, 12)).lastDayInclusive(LocalDate.of(2025, 6, 12)).build().asEntity());
+		var timeOffE1T22026 = timeOffRepository.save(TimeOffTestEntityFactory.builder().timeOffType(type2).employee(employee1).timeOffYearlyLimit(limitE1T22026).hoursCount(1).firstDay(LocalDate.of(2026, 6, 12)).lastDayInclusive(LocalDate.of(2026, 6, 12)).build().asEntity());
+		var timeOffE2T12025 = timeOffRepository.save(TimeOffTestEntityFactory.builder().timeOffType(type1).employee(employee2).timeOffYearlyLimit(limitE2T12025).hoursCount(1).firstDay(LocalDate.of(2025, 6, 10)).lastDayInclusive(LocalDate.of(2025, 6, 10)).build().asEntity());
+		var timeOffE2T12026 = timeOffRepository.save(TimeOffTestEntityFactory.builder().timeOffType(type1).employee(employee2).timeOffYearlyLimit(limitE2T12026).hoursCount(1).firstDay(LocalDate.of(2026, 6, 10)).lastDayInclusive(LocalDate.of(2026, 6, 10)).build().asEntity());
+		var timeOffE2T22025 = timeOffRepository.save(TimeOffTestEntityFactory.builder().timeOffType(type2).employee(employee2).timeOffYearlyLimit(limitE2T22025).hoursCount(1).firstDay(LocalDate.of(2025, 6, 12)).lastDayInclusive(LocalDate.of(2025, 6, 12)).build().asEntity());
+		var timeOffE2T22026 = timeOffRepository.save(TimeOffTestEntityFactory.builder().timeOffType(type2).employee(employee2).timeOffYearlyLimit(limitE2T22026).hoursCount(1).firstDay(LocalDate.of(2026, 6, 12)).lastDayInclusive(LocalDate.of(2026, 6, 12)).build().asEntity());
 
-    @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
-    void firstDayYearOutOfRange(int invalidYear) {
-        var timeOff = testTimeOff().withFirstDay(TestTimeOffEntityBuilder.Defaults.firstDay.withYear(invalidYear)).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffRepository.save(timeOff));
-    }
-
-    @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
-    void lastDayYearOutOfRange(int invalidYear) {
-        var timeOff = testTimeOff().withLastDay(TestTimeOffEntityBuilder.Defaults.lastDayInclusive.withYear(invalidYear)).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffRepository.save(timeOff));
-    }
-
-    @Test
-    void firstAndLastDayMonthDoesNotMatch() {
-        var timeOff = testTimeOff().withFirstDay(LocalDate.of(2025, 10, 10)).withLastDay(LocalDate.of(2025, 11, 10)).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffRepository.save(timeOff));
-    }
-
-    @Test
-    void firstAndLastDayYearDoesNotMatch() {
-        var timeOff = testTimeOff().withFirstDay(LocalDate.of(2025, 10, 10)).withLastDay(LocalDate.of(2026, 10, 10)).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffRepository.save(timeOff));
-    }
-
-    @Test
-    void nullLimit() {
-        var timeOff = testTimeOff().withLimit(null).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffRepository.save(timeOff));
-    }
-
-    @Test
-    void nullLastDay() {
-        var timeOff = testTimeOff().withLastDay(null).build();
-        Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
-    }
-
-    @Test
-    void nullFirstDay() {
-        var timeOff = testTimeOff().withFirstDay(null).build();
-        Assertions.assertThrows(ValidationException.class, () -> timeOffRepository.save(timeOff));
-    }
-
-    @Test
-    void nullEmployee() {
-        var timeOff = testTimeOff().withEmployee(null).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffRepository.save(timeOff));
-    }
-
-    @Test
-    void nullType() {
-        var timeOff = testTimeOff().withType(null).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffRepository.save(timeOff));
-    }
-
-    @Test
-    void nullComment() {
-        var timeOff = testTimeOff().withComment(null).build();
-        Assertions.assertThrows(ConstraintViolationException.class, () -> timeOffRepository.save(timeOff));
-    }
-
-    @Test
-    void firstDayAndEmployeeNotUnique() {
-        var day = LocalDate.of(2025, 10, 10);
-        var timeOff = testTimeOff().withFirstDay(day).withLastDay(day).build();
-        timeOffRepository.save(timeOff);
-        var timeOff2 = new TestTimeOffEntityBuilder().withLimit(timeOff.getTimeOffYearlyLimit()).withEmployee(timeOff.getEmployee()).withType(timeOff.getTimeOffType()).withFirstDay(timeOff.getFirstDay()).withLastDay(timeOff.getLastDayInclusive().plusDays(1)).build();
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffRepository.save(timeOff2));
-    }
-
-    @Test
-    void lastDayAndEmployeeNotUnique() {
-        var day = LocalDate.of(2025, 10, 10);
-        var timeOff = testTimeOff().withFirstDay(day).withLastDay(day).build();
-        timeOffRepository.save(timeOff);
-        var timeOff2 = new TestTimeOffEntityBuilder().withLimit(timeOff.getTimeOffYearlyLimit()).withEmployee(timeOff.getEmployee()).withType(timeOff.getTimeOffType()).withFirstDay(timeOff.getFirstDay().minusDays(1)).withLastDay(timeOff.getLastDayInclusive()).build();
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> timeOffRepository.save(timeOff2));
-    }
+		{
+			var result = timeOffRepository.findAllByYearAndEmployeeId(employee1.getId(), 2025);
+			assertEquals(2, result.size());
+			assertTrue(result.containsAll(List.of(timeOffE1T12025, timeOffE1T22025)));
+		}
+		{
+			var result = timeOffRepository.findAllByYearAndEmployeeId(employee1.getId(), 2026);
+			assertEquals(2, result.size());
+			assertTrue(result.containsAll(List.of(timeOffE1T12026, timeOffE1T22026)));
+		}
+		{
+			var result = timeOffRepository.findAllByYearAndEmployeeId(employee2.getId(), 2025);
+			assertEquals(2, result.size());
+			assertTrue(result.containsAll(List.of(timeOffE2T12025, timeOffE2T22025)));
+		}
+		{
+			var result = timeOffRepository.findAllByYearAndEmployeeId(employee2.getId(), 2026);
+			assertEquals(2, result.size());
+			assertTrue(result.containsAll(List.of(timeOffE2T12026, timeOffE2T22026)));
+		}
+	}
 }

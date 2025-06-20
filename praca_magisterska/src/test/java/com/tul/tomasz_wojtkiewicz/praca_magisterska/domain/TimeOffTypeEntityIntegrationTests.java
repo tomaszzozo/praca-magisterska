@@ -12,37 +12,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Tag("integration")
 @Tag("entity")
 class TimeOffTypeEntityIntegrationTests implements ConstraintValidation {
-    @Test
-    void basicValidEntityPassesValidation() {
-        assertEquals(0, validateConstraints(TimeOffTypeTestEntityFactory.build().asEntity()).size());
-    }
+	@Test
+	void basicValidEntityPassesValidation() {
+		assertEquals(0, validateConstraints(TimeOffTypeTestEntityFactory.build().asEntity()).size());
+	}
 
-    @Test
-    void nameCanNotBeNull() {
-        var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().name(null).build().asEntity());
-        assertEquals(1, validation.size());
-        assertEquals("name", validation.iterator().next().getPropertyPath().toString());
-    }
+	@Test
+	void nameCanNotBeNull() {
+		var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().name(null).build().asEntity());
+		assertEquals(1, validation.size());
+		assertEquals("name", validation.iterator().next().getPropertyPath().toString());
+	}
 
-    @Test
-    void nameCanNotBeBlank() {
-        var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().name("").build().asEntity());
-        assertEquals(1, validation.size());
-        assertEquals("name", validation.iterator().next().getPropertyPath().toString());
-    }
+	@Test
+	void nameCanNotBeBlank() {
+		var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().name("").build().asEntity());
+		assertEquals(1, validation.size());
+		assertEquals("name", validation.iterator().next().getPropertyPath().toString());
+	}
 
-    @Test
-    void compensationPercentageCanNotBeNull() {
-        var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().compensationPercentage(null).build().asEntity());
-        assertEquals(1, validation.size());
-        assertEquals("compensationPercentage", validation.iterator().next().getPropertyPath().toString());
-    }
+	@Test
+	void compensationPercentageCanNotBeNull() {
+		var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().compensationPercentage(null).build().asEntity());
+		assertEquals(1, validation.size());
+		assertEquals("compensationPercentage", validation.iterator().next().getPropertyPath().toString());
+	}
 
-    @ParameterizedTest
-    @MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#compensationPercentages")
-    void entityWithInvalidCompensationPercentageDoesNotPassTheValidation(Float invalidCompensationPercentage) {
-        var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().compensationPercentage(invalidCompensationPercentage).build().asEntity());
-        assertEquals(1, validation.size());
-        assertEquals("compensationPercentage", validation.iterator().next().getPropertyPath().toString());
-    }
+	@ParameterizedTest
+	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#compensationPercentages")
+	void entityWithInvalidCompensationPercentageDoesNotPassTheValidation(Float invalidCompensationPercentage) {
+		var validation = validateConstraints(TimeOffTypeTestEntityFactory.builder().compensationPercentage(invalidCompensationPercentage).build().asEntity());
+		assertEquals(1, validation.size());
+		assertEquals("compensationPercentage", validation.iterator().next().getPropertyPath().toString());
+	}
 }

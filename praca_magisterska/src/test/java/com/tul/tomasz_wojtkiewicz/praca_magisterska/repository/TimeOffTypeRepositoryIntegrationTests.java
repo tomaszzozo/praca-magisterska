@@ -17,32 +17,32 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("integration")
 @Tag("repository")
 class TimeOffTypeRepositoryIntegrationTests {
-    @Autowired
-    private TimeOffTypeRepository timeOffTypeRepository;
+	@Autowired
+	private TimeOffTypeRepository timeOffTypeRepository;
 
-    @Test
-    void fieldsOtherThanNameAreNotUnique() {
-        assertDoesNotThrow(() -> timeOffTypeRepository.saveAllAndFlush(Map.ofEntries(Map.entry("Urlop wypoczynkowy", 1.0f), Map.entry("Urlop na żądanie", 1.0f), Map.entry("Urlop zdrowotny", 0.8f), Map.entry("Urlop szkoleniowy", 0.8f), Map.entry("Urlop rodzicielski", 0.6f), Map.entry("Urlop bo tak", 0.0f)).entrySet().stream().map(e -> TimeOffTypeTestEntityFactory.builder().name(e.getKey()).compensationPercentage(e.getValue()).build().asEntity()).toList()));
-    }
+	@Test
+	void fieldsOtherThanNameAreNotUnique() {
+		assertDoesNotThrow(() -> timeOffTypeRepository.saveAllAndFlush(Map.ofEntries(Map.entry("Urlop wypoczynkowy", 1.0f), Map.entry("Urlop na żądanie", 1.0f), Map.entry("Urlop zdrowotny", 0.8f), Map.entry("Urlop szkoleniowy", 0.8f), Map.entry("Urlop rodzicielski", 0.6f), Map.entry("Urlop bo tak", 0.0f)).entrySet().stream().map(e -> TimeOffTypeTestEntityFactory.builder().name(e.getKey()).compensationPercentage(e.getValue()).build().asEntity()).toList()));
+	}
 
-    @Test
-    void nameIsUnique() {
-        var firstType = TimeOffTypeTestEntityFactory.build().asEntity();
-        timeOffTypeRepository.saveAndFlush(firstType);
-        var secondType = TimeOffTypeTestEntityFactory.builder().name(firstType.getName()).compensationPercentage(firstType.getCompensationPercentage() / 2f).build().asEntity();
-        assertThrows(DataIntegrityViolationException.class, () -> timeOffTypeRepository.saveAndFlush(secondType));
-    }
+	@Test
+	void nameIsUnique() {
+		var firstType = TimeOffTypeTestEntityFactory.build().asEntity();
+		timeOffTypeRepository.saveAndFlush(firstType);
+		var secondType = TimeOffTypeTestEntityFactory.builder().name(firstType.getName()).compensationPercentage(firstType.getCompensationPercentage() / 2f).build().asEntity();
+		assertThrows(DataIntegrityViolationException.class, () -> timeOffTypeRepository.saveAndFlush(secondType));
+	}
 
-    @Test
-    void timeOffLimitsRelationWorks() {
-        var timeOffType = TimeOffTypeTestEntityFactory.build().asEntity();
-        var limit = TimeOffLimitTestEntityFactory.builder().maxHours(89).build().asEntity();
-        timeOffType.setYearlyLimits(List.of(limit));
+	@Test
+	void timeOffLimitsRelationWorks() {
+		var timeOffType = TimeOffTypeTestEntityFactory.build().asEntity();
+		var limit = TimeOffLimitTestEntityFactory.builder().maxHours(89).build().asEntity();
+		timeOffType.setYearlyLimits(List.of(limit));
 
-        timeOffTypeRepository.saveAndFlush(timeOffType);
+		timeOffTypeRepository.saveAndFlush(timeOffType);
 
-        var savedTimeOffType = timeOffTypeRepository.findById(timeOffType.getId()).orElseThrow();
-        assertEquals(1, savedTimeOffType.getYearlyLimits().size());
-        assertEquals(89, savedTimeOffType.getYearlyLimits().getFirst().getMaxHours());
-    }
+		var savedTimeOffType = timeOffTypeRepository.findById(timeOffType.getId()).orElseThrow();
+		assertEquals(1, savedTimeOffType.getYearlyLimits().size());
+		assertEquals(89, savedTimeOffType.getYearlyLimits().getFirst().getMaxHours());
+	}
 }

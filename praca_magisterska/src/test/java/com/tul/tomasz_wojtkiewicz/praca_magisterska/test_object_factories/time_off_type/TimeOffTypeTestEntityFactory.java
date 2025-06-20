@@ -8,18 +8,18 @@ import org.springframework.beans.BeanUtils;
 @Builder
 @Getter
 public class TimeOffTypeTestEntityFactory {
-    @Builder.Default
-    private String name = "Sick leave";
-    @Builder.Default
-    private Float compensationPercentage = 80.5f;
+	@Builder.Default
+	private String name = "Sick leave";
+	@Builder.Default
+	private Float compensationPercentage = 80.5f;
 
-    public static TimeOffTypeTestEntityFactory build() {
-        return builder().build();
-    }
+	public static TimeOffTypeTestEntityFactory build() {
+		return builder().build();
+	}
 
-    public TimeOffTypeEntity asEntity() {
-        var entity = new TimeOffTypeEntity();
-        BeanUtils.copyProperties(this, entity);
-        return entity;
-    }
+	public TimeOffTypeEntity asEntity() {
+		var entity = new TimeOffTypeEntity();
+		BeanUtils.copyProperties(this, entity);
+		return entity;
+	}
 }
