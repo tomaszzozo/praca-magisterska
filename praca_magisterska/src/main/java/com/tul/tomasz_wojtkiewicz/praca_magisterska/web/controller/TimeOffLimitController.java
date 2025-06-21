@@ -1,7 +1,7 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.web.controller;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.service.TimeOffLimitService;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.get.TimeOffTypeLimitPerYearAndEmployeeGetDto;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.get.TimeOffLimitGetDto;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffLimitPutDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -22,8 +22,8 @@ public class TimeOffLimitController {
     private final TimeOffLimitService timeOffLimitService;
 
     @GetMapping
-    public ResponseEntity<List<TimeOffTypeLimitPerYearAndEmployeeGetDto>> getAllByYearAndEmployee(@RequestParam @Range(min = 2020, max = 2100) int year, @RequestParam @Min(1) long employeeId) {
-        return ResponseEntity.ok(timeOffLimitService.getAllByYearAndEmployeeId(year, employeeId).stream().map(TimeOffTypeLimitPerYearAndEmployeeGetDto::fromEntity).toList());
+    public ResponseEntity<List<TimeOffLimitGetDto>> getAllByYearAndEmployee(@RequestParam @Range(min = 2020, max = 2100) int year, @RequestParam @Min(1) long employeeId) {
+        return ResponseEntity.ok(timeOffLimitService.getAllByYearAndEmployeeId(year, employeeId).stream().map(TimeOffLimitGetDto::fromEntity).toList());
     }
 
     @PutMapping

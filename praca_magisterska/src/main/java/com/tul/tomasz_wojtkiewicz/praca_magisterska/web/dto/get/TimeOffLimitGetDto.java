@@ -7,15 +7,15 @@ import org.springframework.beans.BeanUtils;
 
 @Getter
 @Setter
-public class TimeOffTypeLimitPerYearAndEmployeeGetDto {
+public class TimeOffLimitGetDto {
     private long id;
     private int maxHours;
     private int leaveYear;
     private long typeId;
     private long employeeId;
 
-    public static TimeOffTypeLimitPerYearAndEmployeeGetDto fromEntity(TimeOffLimitEntity entity) {
-        var result = new TimeOffTypeLimitPerYearAndEmployeeGetDto();
+    public static TimeOffLimitGetDto fromEntity(TimeOffLimitEntity entity) {
+        var result = new TimeOffLimitGetDto();
         BeanUtils.copyProperties(entity, result, "timeOffType", "employee", "timeOffs");
         result.setTypeId(entity.getTimeOffType().getId());
         result.setEmployeeId(entity.getEmployee().getId());

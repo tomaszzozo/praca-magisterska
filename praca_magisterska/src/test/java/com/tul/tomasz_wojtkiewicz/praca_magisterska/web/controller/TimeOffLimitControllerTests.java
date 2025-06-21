@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ApiException;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.service.TimeOffLimitService;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee.EmployeeTestEntityFactory;
-import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_limit.TimeOffLimitPutTestDtoFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_limit.TimeOffLimitTestDtoFactory;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_limit.TimeOffLimitTestEntityFactory;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_type.TimeOffTypeTestEntityFactory;
 import org.junit.jupiter.api.Tag;
@@ -89,7 +89,7 @@ class TimeOffLimitControllerTests {
 
 	@Test
 	void given_invalidDto_when_putAll_then_statusBadRequest() throws Exception {
-		var dto = TimeOffLimitPutTestDtoFactory.builder().typeId(-1L).employeeId(1L).build().asDto();
+		var dto = TimeOffLimitTestDtoFactory.builder().typeId(-1L).employeeId(1L).build().asPutDto();
 		mockMvc.perform(
 			put("/time-offs/types/limits")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -99,7 +99,7 @@ class TimeOffLimitControllerTests {
 
 	@Test
 	void given_validDto_and_serviceThrowsApiExceptionNotFound_when_putAll_then_statusNotFound() throws Exception {
-		var dto = TimeOffLimitPutTestDtoFactory.builder().typeId(1L).employeeId(1L).build().asDto();
+		var dto = TimeOffLimitTestDtoFactory.builder().typeId(1L).employeeId(1L).build().asPutDto();
 		doThrow(new ApiException(HttpStatus.NOT_FOUND, "")).when(timeOffLimitService).putAll(List.of(dto));
 		mockMvc.perform(
 			put("/time-offs/types/limits")
@@ -110,7 +110,7 @@ class TimeOffLimitControllerTests {
 
 	@Test
 	void given_validDto_and_serviceThrowsApiExceptionConflict_when_putAll_then_statusNotFound() throws Exception {
-		var dto = TimeOffLimitPutTestDtoFactory.builder().typeId(1L).employeeId(1L).build().asDto();
+		var dto = TimeOffLimitTestDtoFactory.builder().typeId(1L).employeeId(1L).build().asPutDto();
 		doThrow(new ApiException(HttpStatus.CONFLICT, "")).when(timeOffLimitService).putAll(List.of(dto));
 		mockMvc.perform(
 			put("/time-offs/types/limits")
@@ -121,7 +121,7 @@ class TimeOffLimitControllerTests {
 
 	@Test
 	void given_validDto_and_serviceDoesNotThrow_when_putAll_then_statusCreated() throws Exception {
-		var dto = TimeOffLimitPutTestDtoFactory.builder().typeId(1L).employeeId(1L).build().asDto();
+		var dto = TimeOffLimitTestDtoFactory.builder().typeId(1L).employeeId(1L).build().asPutDto();
 		mockMvc.perform(
 			put("/time-offs/types/limits")
 				.contentType(MediaType.APPLICATION_JSON)

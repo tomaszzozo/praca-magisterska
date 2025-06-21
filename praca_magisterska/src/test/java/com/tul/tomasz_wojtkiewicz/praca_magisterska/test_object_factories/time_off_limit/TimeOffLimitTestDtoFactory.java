@@ -8,7 +8,7 @@ import org.springframework.beans.BeanUtils;
 
 @Getter
 @Builder
-public class TimeOffLimitPutTestDtoFactory {
+public class TimeOffLimitTestDtoFactory {
 	private static final TimeOffLimitEntity defaultReference = TimeOffLimitTestEntityFactory.build().asEntity();
 
 	@Builder.Default
@@ -22,11 +22,11 @@ public class TimeOffLimitPutTestDtoFactory {
 	@Builder.Default
 	private Long employeeId = null;
 
-	public static TimeOffLimitPutTestDtoFactory build() {
+	public static TimeOffLimitTestDtoFactory build() {
 		return builder().build();
 	}
 
-	public TimeOffLimitPutDto asDto() {
+	public TimeOffLimitPutDto asPutDto() {
 		var entity = new TimeOffLimitPutDto();
 		BeanUtils.copyProperties(this, entity);
 		return entity;
