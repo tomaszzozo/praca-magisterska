@@ -13,6 +13,8 @@ import static org.mockito.Mockito.mock;
 @Getter
 public class TimeOffLimitTestEntityFactory {
 	@Builder.Default
+	private Long id = 0L;
+	@Builder.Default
 	private Integer leaveYear = 2025;
 	@Builder.Default
 	private Integer maxHours = new TimeOffLimitEntity().getMaxHours();

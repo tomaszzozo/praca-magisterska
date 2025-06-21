@@ -18,10 +18,10 @@ import java.util.List;
 @RequestMapping("/time-offs/types/limits")
 @Validated
 @AllArgsConstructor
-public class TimeOffTypeLimitController {
+public class TimeOffLimitController {
     private final TimeOffLimitService timeOffLimitService;
 
-    @GetMapping(params = {"year", "employeeId"})
+    @GetMapping
     public ResponseEntity<List<TimeOffTypeLimitPerYearAndEmployeeGetDto>> getAllByYearAndEmployee(@RequestParam @Range(min = 2020, max = 2100) int year, @RequestParam @Min(1) long employeeId) {
         return ResponseEntity.ok(timeOffLimitService.getAllByYearAndEmployeeId(year, employeeId).stream().map(TimeOffTypeLimitPerYearAndEmployeeGetDto::fromEntity).toList());
     }

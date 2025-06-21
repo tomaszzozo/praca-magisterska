@@ -2,6 +2,7 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put;
 
 import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.Min;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class TimeOffLimitPutDto {
     @Min(0)
     private long id;

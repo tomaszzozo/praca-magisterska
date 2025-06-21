@@ -10,7 +10,7 @@ import org.springframework.beans.BeanUtils;
 public class TimeOffTypeLimitPerYearAndEmployeeGetDto {
     private long id;
     private int maxHours;
-    private int year;
+    private int leaveYear;
     private long typeId;
     private long employeeId;
 
