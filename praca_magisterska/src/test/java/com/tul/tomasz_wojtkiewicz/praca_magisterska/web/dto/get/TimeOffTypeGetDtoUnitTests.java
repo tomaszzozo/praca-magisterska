@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("dto")
-class EmployeeGetDtoTests {
+@Tag("unit")
+class TimeOffTypeGetDtoUnitTests {
 	@Test
 	void given_entity_when_fromEntity_then_returnsDtoWithMatchingFields() {
 		var entity = EmployeeTestEntityFactory.builder().email("test@email.com").phoneNumber("123456789").firstName("Bruce").lastName("Wayne").accessLevel(3).id(7L).build().asEntity();

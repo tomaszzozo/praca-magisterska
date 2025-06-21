@@ -29,5 +29,6 @@ public class EmployeePostDto {
     @PhoneNumber
     private String phoneNumber;
     @Range(min = 0, max = 3)
-    private int accessLevel;
+	@NotNull
+    private Integer accessLevel;
 }

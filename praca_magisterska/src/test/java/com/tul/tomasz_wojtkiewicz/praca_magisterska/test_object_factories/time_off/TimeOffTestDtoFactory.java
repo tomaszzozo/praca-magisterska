@@ -23,11 +23,11 @@ public class TimeOffTestDtoFactory {
 	@Builder.Default
 	private String comment = defaultReference.getComment();
 	@Builder.Default
-	private long typeId = 0;
+	private Long typeId = 1L;
 	@Builder.Default
-	private long yearlyLimitId = 0;
+	private Long yearlyLimitId = 1L;
 	@Builder.Default
-	private long employeeId = 0;
+	private Long employeeId = 1L;
 
 	public static TimeOffTestDtoFactory build() {
 		return builder().build();

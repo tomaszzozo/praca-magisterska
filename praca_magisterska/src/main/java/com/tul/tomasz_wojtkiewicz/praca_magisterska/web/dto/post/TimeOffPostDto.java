@@ -20,33 +20,40 @@ public class TimeOffPostDto {
     @NotNull
     private LocalDate lastDayInclusive;
     @Min(1)
-    private int hoursCount;
+	@NotNull
+    private Integer hoursCount;
     @Min(1)
-    private long typeId;
+	@NotNull
+    private Long typeId;
     @Min(1)
-    private long yearlyLimitId;
+	@NotNull
+    private Long yearlyLimitId;
     @Min(1)
-    private long employeeId;
+	@NotNull
+    private Long employeeId;
     @NotNull
     private String comment;
 
-    @AssertFalse
-    public boolean firstDayNotAfterLastDay() {
-        return firstDay.isAfter(lastDayInclusive);
-    }
+	@AssertFalse
+	public boolean isFirstDayAfterLastDay() {
+		if (firstDay == null || lastDayInclusive == null) {
+			return false;
+		}
+		return firstDay.isAfter(lastDayInclusive);
+	}
 
-    @AssertTrue
-    public boolean datesHaveSameYearAndMonth() {
-        return firstDay.withDayOfMonth(1).equals(lastDayInclusive.withDayOfMonth(1));
-    }
+	@AssertTrue
+	public boolean isYearAndMonthEqual() {
+		return firstDay == null || lastDayInclusive == null || firstDay.withDayOfMonth(1).equals(lastDayInclusive.withDayOfMonth(1));
+	}
 
-    @AssertTrue
-    public boolean hoursCountLessThanDaysInTimeOff() {
-        return hoursCount <= firstDay.until(lastDayInclusive.plusDays(1), ChronoUnit.HOURS);
-    }
+	@AssertTrue
+	public boolean isHoursCountLessThanHoursInTimeOff() {
+		return hoursCount == null || firstDay == null || lastDayInclusive == null || hoursCount <= firstDay.until(lastDayInclusive.plusDays(1), ChronoUnit.DAYS)*24;
+	}
 
-    @AssertTrue
-    public boolean isYearInAcceptableRange() {
-        return firstDay == null || lastDayInclusive == null || firstDay.getYear() >= 2020 && firstDay.getYear() <= 2100 && lastDayInclusive.getYear() >= 2020 && lastDayInclusive.getYear() <= 2100;
-    }
+	@AssertTrue
+	public boolean isYearInAcceptableRange() {
+		return firstDay == null || lastDayInclusive == null || firstDay.getYear() >= 2020 && firstDay.getYear() <= 2100 && lastDayInclusive.getYear() >= 2020 && lastDayInclusive.getYear() <= 2100;
+	}
 }

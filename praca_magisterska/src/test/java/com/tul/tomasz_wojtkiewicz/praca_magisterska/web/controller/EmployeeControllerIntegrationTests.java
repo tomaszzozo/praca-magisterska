@@ -30,7 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(EmployeeController.class)
 @Tag("controller")
-class EmployeeControllerTests {
+@Tag("integration")
+class EmployeeControllerIntegrationTests {
 	@Autowired
 	private MockMvc mockMvc;
 	@MockitoBean

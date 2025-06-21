@@ -32,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(TimeOffController.class)
 @Tag("controller")
-class TimeOffControllerTests {
+@Tag("integration")
+class TimeOffControllerIntegrationTests {
 	@Autowired
 	private MockMvc mockMvc;
 	@MockitoBean
