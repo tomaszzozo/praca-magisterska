@@ -19,10 +19,6 @@ public interface InvalidDataProvider {
 		return Stream.of(Integer.MIN_VALUE, -100, -1, 4, 100, Integer.MAX_VALUE).map(Arguments::of);
 	}
 
-	static Stream<Arguments> names() {
-		return Stream.of("Al", "Jo", "A", "Jan123", "M@rek", "Kowalski_", "Anna-Maria!", "Łukasz#", "Zażółć@gęślą", "Иван", "张伟", "अर्जुन", "-Anna", ".Jan", "'Kowalski", "Anna-", "Kowalski'", "J@n K0w@lski", "M@r!a", "Zażółć@gęślą", "", " ").map(Arguments::of);
-	}
-
 	static Stream<Arguments> hoursInYearMoreThanMax() {
 		return Stream.concat(Stream.of(2025, 2026, 2027, 2028).map(year -> Arguments.of(year, LocalDate.of(year, 12, 31).getDayOfYear() * 24 + 1)), Stream.of(Arguments.of(2025, Integer.MAX_VALUE / 2), Arguments.of(2025, Integer.MAX_VALUE)));
 	}
@@ -42,11 +38,6 @@ public interface InvalidDataProvider {
 	static Stream<Arguments> differentDates() {
 		var starter = LocalDate.of(2025, 6, 10);
 		return Stream.of(Arguments.of(starter, starter.plusMonths(1)), Arguments.of(starter.minusMonths(1), starter), Arguments.of(starter.minusMonths(1), starter.plusMonths(1)), Arguments.of(starter.minusYears(1).minusMonths(1), starter.minusYears(1)), Arguments.of(starter.minusYears(1), starter.minusYears(1).minusMonths(1)), Arguments.of(starter.minusYears(1).minusDays(1), starter.plusYears(1).minusMonths(1).plusDays(1)));
-	}
-
-
-	static Stream<Arguments> phoneNumbers() {
-		return Stream.of("", " ", "1", "22", "333", "4444", "55555", "666666", "7777777", "88888888", "9999999999", "99999999999", "asd", "12345678i", "12g345678", "q12345678i", "123-456-789", "123456-78").map(Arguments::of);
 	}
 
 	static Stream<Arguments> years() {

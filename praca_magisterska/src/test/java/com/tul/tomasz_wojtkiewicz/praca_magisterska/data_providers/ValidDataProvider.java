@@ -6,14 +6,6 @@ import java.time.LocalDate;
 import java.util.stream.Stream;
 
 public interface ValidDataProvider {
-	static Stream<Arguments> names() {
-		return Stream.of("Jan", "Kowalski", "Nowak-Jackson", "Dąbrowski", "Zofia", "O'Connel", "von der Osten", "Wiśniewska", "Anna Maria", "jr.", "dr.", "Łucja", "Żółć").map(Arguments::of);
-	}
-
-	static Stream<Arguments> phoneNumbers() {
-		return Stream.of("123456789", "987654321", "000000000", "555555555", "123123123").map(Arguments::of);
-	}
-
 	static Stream<Arguments> hoursInYearLessThanOrMax() {
 		return Stream.concat(Stream.of(2025, 2026, 2027, 2028).map(year -> Arguments.of(year, LocalDate.of(year, 12, 31).getDayOfYear() * 24)), Stream.of(Arguments.of(2029, 50)));
 	}
