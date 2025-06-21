@@ -9,7 +9,7 @@ import org.springframework.beans.BeanUtils;
 @Getter
 public class TimeOffTypeTestEntityFactory {
 	@Builder.Default
-	private Long id = 0L;
+	private Long id = null;
 	@Builder.Default
 	private String name = "Sick leave";
 	@Builder.Default

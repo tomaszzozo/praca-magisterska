@@ -24,7 +24,8 @@ import java.util.List;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -65,9 +66,9 @@ class TimeOffLimitControllerTests {
 
 	@Test
 	void given_validInput_and_serviceReturnsListOfLimits_when_getAllByYearAndEmployee_then_statusOk_and_returnsListOfLimits() throws Exception {
-		var employee = EmployeeTestEntityFactory.build().asEntity();
-		var type = TimeOffTypeTestEntityFactory.build().asEntity();
-		var limit = TimeOffLimitTestEntityFactory.builder().employee(employee).timeOffType(type).build().asEntity();
+		var employee = EmployeeTestEntityFactory.builder().id(1L).build().asEntity();
+		var type = TimeOffTypeTestEntityFactory.builder().id(2L).build().asEntity();
+		var limit = TimeOffLimitTestEntityFactory.builder().id(3L).employee(employee).timeOffType(type).build().asEntity();
 		when(timeOffLimitService.getAllByYearAndEmployeeId(2025, 1)).thenReturn(List.of(limit));
 		mockMvc.perform(get("/time-offs/types/limits?employeeId=1&year=2025"))
 			.andExpect(status().isOk())

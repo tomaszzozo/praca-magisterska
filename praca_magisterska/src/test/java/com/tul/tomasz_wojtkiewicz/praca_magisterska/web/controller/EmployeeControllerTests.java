@@ -40,7 +40,7 @@ class EmployeeControllerTests {
 
 	@Test
 	void given_serviceReturnsListWithEmployee_when_getAll_then_returnsListWithEmployee_and_statusOk() throws Exception {
-		var entity = EmployeeTestEntityFactory.build().asEntity();
+		var entity = EmployeeTestEntityFactory.builder().id(1L).build().asEntity();
 		when(employeeService.getAll()).thenReturn(List.of(entity));
 		mockMvc.perform(get("/employees"))
 			.andExpect(status().isOk())
@@ -75,7 +75,7 @@ class EmployeeControllerTests {
 
 	@Test
 	void given_serviceDoesNotThrow_when_getById_then_statusOk_and_returnsEmployee() throws Exception {
-		var entity = EmployeeTestEntityFactory.build().asEntity();
+		var entity = EmployeeTestEntityFactory.builder().id(1L).build().asEntity();
 		when(employeeService.getById(1)).thenReturn(entity);
 		mockMvc.perform(get("/employees/1"))
 			.andExpect(status().isOk())

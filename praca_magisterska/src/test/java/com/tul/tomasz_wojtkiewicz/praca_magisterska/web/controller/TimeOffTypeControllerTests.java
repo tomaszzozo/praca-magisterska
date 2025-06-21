@@ -19,7 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -38,12 +39,12 @@ class TimeOffTypeControllerTests {
 
 	@Test
 	void given_serviceReturnsListWithTimeOffType_when_getAll_then_statusOk_and_returnsListWithTimeOffType() throws Exception {
-		var entity = TimeOffTypeTestEntityFactory.build().asEntity();
+		var entity = TimeOffTypeTestEntityFactory.builder().id(1L).build().asEntity();
 		when(timeOffTypeService.getAll()).thenReturn(List.of(entity));
 		mockMvc.perform(get("/time-offs/types"))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.size()").value(1))
-			.andExpect(jsonPath("$[0].id").value(0))
+			.andExpect(jsonPath("$[0].id").value(entity.getId()))
 			.andExpect(jsonPath("$[0].name").value(entity.getName()))
 			.andExpect(jsonPath("$[0].compensationPercentage").value(entity.getCompensationPercentage()));
 	}
@@ -63,7 +64,7 @@ class TimeOffTypeControllerTests {
 			put("/time-offs/types")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(List.of(dto))
-			)
+				)
 		).andExpect(status().isBadRequest());
 	}
 

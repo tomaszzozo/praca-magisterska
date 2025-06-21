@@ -13,7 +13,7 @@ import static org.mockito.Mockito.mock;
 @Getter
 public class TimeOffLimitTestEntityFactory {
 	@Builder.Default
-	private Long id = 0L;
+	private Long id = null;
 	@Builder.Default
 	private Integer leaveYear = 2025;
 	@Builder.Default

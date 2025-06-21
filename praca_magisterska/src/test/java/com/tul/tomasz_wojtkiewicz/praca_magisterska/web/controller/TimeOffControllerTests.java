@@ -62,10 +62,10 @@ class TimeOffControllerTests {
 
 	@Test
 	void given_validInput_and_serviceReturnsListOfTimeOffs_when_getAllByYearAndEmployee_then_statusOk_and_returnsListOfTimeOffs() throws Exception {
-		var employee = EmployeeTestEntityFactory.build().asEntity();
-		var type = TimeOffTypeTestEntityFactory.build().asEntity();
-		var limit = TimeOffLimitTestEntityFactory.builder().employee(employee).timeOffType(type).build().asEntity();
-		var timeOff = TimeOffTestEntityFactory.builder().employee(employee).timeOffType(type).timeOffYearlyLimit(limit).build().asEntity();
+		var employee = EmployeeTestEntityFactory.builder().id(1L).build().asEntity();
+		var type = TimeOffTypeTestEntityFactory.builder().id(2L).build().asEntity();
+		var limit = TimeOffLimitTestEntityFactory.builder().id(3L).employee(employee).timeOffType(type).build().asEntity();
+		var timeOff = TimeOffTestEntityFactory.builder().id(4L).employee(employee).timeOffType(type).timeOffYearlyLimit(limit).build().asEntity();
 		when(timeOffService.getAllByYearAndEmployeeId(2025, 1)).thenReturn(List.of(timeOff));
 		mockMvc.perform(get("/time-offs?employeeId=1&year=2025"))
 			.andExpect(status().isOk())
@@ -178,7 +178,7 @@ class TimeOffControllerTests {
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
 	void given_invalidId_when_delete_then_statusBadRequest(int id) throws Exception {
-		mockMvc.perform(delete("/time-offs/"+id)).andExpect(status().isBadRequest());
+		mockMvc.perform(delete("/time-offs/" + id)).andExpect(status().isBadRequest());
 	}
 
 	@Test
