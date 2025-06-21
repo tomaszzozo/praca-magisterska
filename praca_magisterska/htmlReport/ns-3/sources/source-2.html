@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TimeOffLimitService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tul.tomasz_wojtkiewicz.praca_magisterska.service</a>
+</div>
+
+<h1>Coverage Summary for Class: TimeOffLimitService (com.tul.tomasz_wojtkiewicz.praca_magisterska.service)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TimeOffLimitService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (24/24)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TimeOffLimitService$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (24/24)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tul.tomasz_wojtkiewicz.praca_magisterska.service;
+&nbsp;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.ApiException;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffLimitRepository;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffLimitPutDto;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import jakarta.validation.constraints.Min;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.hibernate.validator.constraints.Range;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.validation.annotation.Validated;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+&nbsp;@AllArgsConstructor
+&nbsp;@Validated
+&nbsp;public class TimeOffLimitService {
+&nbsp;    private final TimeOffLimitRepository timeOffLimitRepository;
+&nbsp;    private final TimeOffTypeService timeOffTypeService;
+&nbsp;    private final EmployeeService employeeService;
+&nbsp;
+&nbsp;    public List&lt;TimeOffLimitEntity&gt; getAllByYearAndEmployeeId(@Range(min = 2020, max = 2100) int year, @Min(1) long employeeId) {
+<b class="fc">&nbsp;        var employee = employeeService.getById(employeeId);</b>
+<b class="fc">&nbsp;		var types = timeOffTypeService.getAll();</b>
+<b class="fc">&nbsp;        var existingLimits = timeOffLimitRepository.findAllByLeaveYearAndEmployeeId(year, employeeId);</b>
+<b class="fc">&nbsp;        var existingLimitsTypes = existingLimits.stream().map(e -&gt; e.getTimeOffType().getId()).toList();</b>
+<b class="fc">&nbsp;        var result = new ArrayList&lt;&gt;(types.stream().filter(t -&gt; !existingLimitsTypes.contains(t.getId())).map(t -&gt; defaultFromYearAndEmployeeId(year, employee, t)).toList());</b>
+<b class="fc">&nbsp;        result.addAll(existingLimits);</b>
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public TimeOffLimitEntity getById(@Min(1) long id) {
+<b class="fc">&nbsp;        return timeOffLimitRepository.findById(id).orElseThrow(() -&gt; new ApiException(HttpStatus.NOT_FOUND, &quot;Limit urlopu o podanym id nie istnieje&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private TimeOffLimitEntity defaultFromYearAndEmployeeId(int year, EmployeeEntity employee, TimeOffTypeEntity type) {
+<b class="fc">&nbsp;        var result = new TimeOffLimitEntity();</b>
+<b class="fc">&nbsp;        result.setLeaveYear(year);</b>
+<b class="fc">&nbsp;        result.setMaxHours(TimeOffLimitEntity.DEFAULT_MAX_HOURS);</b>
+<b class="fc">&nbsp;        result.setEmployee(employee);</b>
+<b class="fc">&nbsp;        result.setTimeOffType(type);</b>
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void putAll(@Valid List&lt;TimeOffLimitPutDto&gt; dtos) {
+<b class="fc">&nbsp;        dtos.forEach(dto -&gt; {</b>
+&nbsp;            TimeOffLimitEntity object;
+<b class="fc">&nbsp;            if (dto.getId() == 0) {</b>
+<b class="fc">&nbsp;                if (timeOffLimitRepository.existsByLeaveYearAndEmployeeIdAndTimeOffTypeId(dto.getYear(), dto.getEmployeeId(), dto.getTypeId())) {</b>
+<b class="fc">&nbsp;                    throw new ApiException(HttpStatus.CONFLICT, &quot;Limit dla danego roku pracownika i typu urlopu już istnieje&quot;);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                object = defaultFromYearAndEmployeeId(dto.getYear(), employeeService.getById(dto.getEmployeeId()), timeOffTypeService.getById(dto.getTypeId()));</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                object = timeOffLimitRepository.findById(dto.getId()).orElseThrow(() -&gt; new ApiException(HttpStatus.NOT_FOUND, &quot;Nie znaleziono limitu o podanym id.&quot;));</b>
+&nbsp;            }
+<b class="fc">&nbsp;            object.setMaxHours(dto.getMaxHours());</b>
+<b class="fc">&nbsp;            if (object.getTimeOffs() != null &amp;&amp; object.getTimeOffs().stream().mapToInt(TimeOffEntity::getHoursCount).sum() &gt; object.getMaxHours()) {</b>
+<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowa liczba godzin limitu nie wystarczy na zapisane urlopy&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            timeOffLimitRepository.save(object);</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-21 17:23</div>
+</div>
+</body>
+</html>

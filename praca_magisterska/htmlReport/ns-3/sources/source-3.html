@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TimeOffService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tul.tomasz_wojtkiewicz.praca_magisterska.service</a>
+</div>
+
+<h1>Coverage Summary for Class: TimeOffService (com.tul.tomasz_wojtkiewicz.praca_magisterska.service)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TimeOffService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (46/46)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TimeOffService$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (46/46)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tul.tomasz_wojtkiewicz.praca_magisterska.service;
+&nbsp;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.ApiException;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffRepository;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post.TimeOffPostDto;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffPutDto;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import jakarta.validation.constraints.Min;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.hibernate.validator.constraints.Range;
+&nbsp;import org.springframework.beans.BeanUtils;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.validation.annotation.Validated;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+&nbsp;@AllArgsConstructor
+&nbsp;@Validated
+&nbsp;public class TimeOffService {
+&nbsp;    private final TimeOffRepository timeOffRepository;
+&nbsp;    private final TimeOffLimitService timeOffLimitService;
+&nbsp;    private final TimeOffTypeService timeOffTypeService;
+&nbsp;    private final EmployeeService employeeService;
+&nbsp;
+&nbsp;    public List&lt;TimeOffEntity&gt; getAllByYearAndEmployeeId(@Range(min = 2020, max = 2100) int year, @Min(1) long employeeId) {
+<b class="fc">&nbsp;        return timeOffRepository.findAllByYearAndEmployeeId(employeeId, year);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void post(@Valid TimeOffPostDto dto) {
+<b class="fc">&nbsp;        var otherTimeOffs = timeOffRepository.findAllByYearAndEmployeeId(dto.getEmployeeId(), dto.getFirstDay().getYear());</b>
+<b class="fc">&nbsp;        if (otherTimeOffs.stream().anyMatch(e -&gt;</b>
+<b class="fc">&nbsp;                !e.getLastDayInclusive().isBefore(dto.getFirstDay()) &amp;&amp;</b>
+<b class="fc">&nbsp;                        !e.getFirstDay().isAfter(dto.getLastDayInclusive()))) {</b>
+<b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop koliduje z istniejącym urlopem.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        var yearlyLimit = timeOffLimitService.getById(dto.getYearlyLimitId());</b>
+<b class="fc">&nbsp;        var usedHours = otherTimeOffs.stream().filter(e -&gt; e.getTimeOffType().getId() == dto.getTypeId()).mapToInt(TimeOffEntity::getHoursCount).sum();</b>
+<b class="fc">&nbsp;        if (yearlyLimit.getMaxHours() &lt; usedHours + dto.getHoursCount()) {</b>
+<b class="fc">&nbsp;            int hoursOverLimit = usedHours + dto.getHoursCount() - yearlyLimit.getMaxHours();</b>
+<b class="fc">&nbsp;            if (hoursOverLimit == 1) {</b>
+<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o 1 godzinę&quot;);</b>
+<b class="fc">&nbsp;            } else if (Integer.toString(hoursOverLimit).matches(&quot;[234]$&quot;)) {</b>
+<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godziny&quot;.formatted(hoursOverLimit));</b>
+&nbsp;            }
+<b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godzin&quot;.formatted(hoursOverLimit));</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        var obj = new TimeOffEntity();</b>
+<b class="fc">&nbsp;        BeanUtils.copyProperties(dto, obj, &quot;typeId&quot;, &quot;employeeId&quot;, &quot;yearlyLimitId&quot;);</b>
+<b class="fc">&nbsp;        obj.setTimeOffType(timeOffTypeService.getById(dto.getTypeId()));</b>
+<b class="fc">&nbsp;        obj.setEmployee(employeeService.getById(dto.getEmployeeId()));</b>
+<b class="fc">&nbsp;        obj.setTimeOffYearlyLimit(yearlyLimit);</b>
+<b class="fc">&nbsp;        timeOffRepository.save(obj);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void put(@Min(1) long id, @Valid TimeOffPutDto dto) {
+<b class="fc">&nbsp;        var obj = findOrElseThrow(id);</b>
+<b class="fc">&nbsp;        if (dto.getFirstDay().getYear() != obj.getFirstDay().getYear()) {</b>
+<b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nie można modyfikować roku urlopu.&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        var otherTimeOffs = timeOffRepository.findAllByYearAndEmployeeId(dto.getEmployeeId(), dto.getFirstDay().getYear());</b>
+<b class="fc">&nbsp;        otherTimeOffs = otherTimeOffs.stream().filter(e -&gt; e.getId() != id).toList();</b>
+<b class="fc">&nbsp;        if (otherTimeOffs.stream().anyMatch(e -&gt;</b>
+<b class="fc">&nbsp;                !e.getLastDayInclusive().isBefore(dto.getFirstDay()) &amp;&amp;</b>
+<b class="fc">&nbsp;                        !e.getFirstDay().isAfter(dto.getLastDayInclusive()))) {</b>
+<b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop koliduje z istniejącym urlopem.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        var yearlyLimit = timeOffLimitService.getById(dto.getYearlyLimitId());</b>
+<b class="fc">&nbsp;        var usedHours = otherTimeOffs.stream().filter(e -&gt; e.getTimeOffType().getId() == dto.getTypeId()).mapToInt(TimeOffEntity::getHoursCount).sum();</b>
+<b class="fc">&nbsp;        if (yearlyLimit.getMaxHours() &lt; usedHours + dto.getHoursCount()) {</b>
+<b class="fc">&nbsp;            int hoursOverLimit = usedHours + dto.getHoursCount() - yearlyLimit.getMaxHours();</b>
+<b class="fc">&nbsp;            if (hoursOverLimit == 1) {</b>
+<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o 1 godzinę&quot;);</b>
+<b class="fc">&nbsp;            } else if (Integer.toString(hoursOverLimit).matches(&quot;[234]$&quot;)) {</b>
+<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godziny&quot;.formatted(hoursOverLimit));</b>
+&nbsp;            }
+<b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godzin&quot;.formatted(hoursOverLimit));</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        BeanUtils.copyProperties(dto, obj, &quot;typeId&quot;, &quot;employeeId&quot;, &quot;yearlyLimitId&quot;);</b>
+<b class="fc">&nbsp;        obj.setTimeOffType(timeOffTypeService.getById(dto.getTypeId()));</b>
+<b class="fc">&nbsp;        obj.setEmployee(employeeService.getById(dto.getEmployeeId()));</b>
+<b class="fc">&nbsp;        obj.setTimeOffYearlyLimit(yearlyLimit);</b>
+<b class="fc">&nbsp;        timeOffRepository.save(obj);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void delete(@Min(1) long id) {
+<b class="fc">&nbsp;        timeOffRepository.delete(findOrElseThrow(id));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private TimeOffEntity findOrElseThrow(@Min(1) long id) {
+<b class="fc">&nbsp;        return timeOffRepository.findById(id).orElseThrow(() -&gt; new ApiException(HttpStatus.NOT_FOUND, &quot;Nie znaleziono urlopu&quot;));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-21 17:23</div>
+</div>
+</body>
+</html>

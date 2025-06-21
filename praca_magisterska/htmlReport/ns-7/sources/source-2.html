@@ -1,0 +1,134 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TimeOffGetDto</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.get</a>
+</div>
+
+<h1>Coverage Summary for Class: TimeOffGetDto (com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.get)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TimeOffGetDto</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.get;
+&nbsp;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity;
+&nbsp;import lombok.Getter;
+&nbsp;import lombok.Setter;
+&nbsp;import org.springframework.beans.BeanUtils;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;
+&nbsp;@Getter
+&nbsp;@Setter
+<b class="fc">&nbsp;public class TimeOffGetDto {</b>
+&nbsp;    private long id;
+&nbsp;    private LocalDate firstDay;
+&nbsp;    private LocalDate lastDayInclusive;
+&nbsp;    private int hoursCount;
+&nbsp;    private long typeId;
+&nbsp;    private long yearlyLimitId;
+&nbsp;    private long employeeId;
+&nbsp;    private String comment;
+&nbsp;
+&nbsp;    public static TimeOffGetDto fromEntity(TimeOffEntity entity) {
+<b class="fc">&nbsp;        var result = new TimeOffGetDto();</b>
+<b class="fc">&nbsp;        BeanUtils.copyProperties(entity, result, &quot;timeOffYearlyLimit&quot;, &quot;timeOffType&quot;, &quot;employee&quot;);</b>
+<b class="fc">&nbsp;        result.setTypeId(entity.getTimeOffType().getId());</b>
+<b class="fc">&nbsp;        result.setYearlyLimitId(entity.getTimeOffYearlyLimit().getId());</b>
+<b class="fc">&nbsp;        result.setEmployeeId(entity.getEmployee().getId());</b>
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-21 17:23</div>
+</div>
+</body>
+</html>

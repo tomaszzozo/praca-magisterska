@@ -1,0 +1,176 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TimeOffLimitEntity</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tul.tomasz_wojtkiewicz.praca_magisterska.domain</a>
+</div>
+
+<h1>Coverage Summary for Class: TimeOffLimitEntity (com.tul.tomasz_wojtkiewicz.praca_magisterska.domain)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TimeOffLimitEntity</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TimeOffLimitEntity$HibernateInstantiator$5abwWnwC</td>
+  </tr>
+  <tr>
+    <td class="name">TimeOffLimitEntity$HibernateInstantiator$H2QolfKf</td>
+  </tr>
+  <tr>
+    <td class="name">TimeOffLimitEntity$HibernateProxy$Qd9LY88V</td>
+  </tr>
+  <tr>
+    <td class="name">TimeOffLimitEntity$HibernateProxy$rx2gQUhE</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
+&nbsp;
+&nbsp;import jakarta.persistence.*;
+&nbsp;import jakarta.validation.constraints.AssertTrue;
+&nbsp;import jakarta.validation.constraints.Min;
+&nbsp;import jakarta.validation.constraints.NotNull;
+&nbsp;import lombok.EqualsAndHashCode;
+&nbsp;import lombok.Getter;
+&nbsp;import lombok.Setter;
+&nbsp;import org.hibernate.validator.constraints.Range;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Entity
+&nbsp;@Getter
+&nbsp;@Setter
+&nbsp;@Table(uniqueConstraints = {@UniqueConstraint(name = &quot;UniqueYearAndTimeOffType&quot;, columnNames = {&quot;leaveYear&quot;, &quot;type_id&quot;, &quot;employee_id&quot;})})
+&nbsp;@EqualsAndHashCode
+<b class="fc">&nbsp;public class TimeOffLimitEntity {</b>
+&nbsp;	public static final int DEFAULT_MAX_HOURS = 0;
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    private Long id;
+&nbsp;
+<b class="fc">&nbsp;    @Min(0)</b>
+&nbsp;    @NotNull
+&nbsp;    private Integer maxHours = DEFAULT_MAX_HOURS;
+&nbsp;
+&nbsp;    @Range(min = 2020, max = 2100)
+&nbsp;    @NotNull
+&nbsp;    private Integer leaveYear;
+&nbsp;
+&nbsp;    @ManyToOne
+&nbsp;    @NotNull
+&nbsp;    @JoinColumn(name = &quot;type_id&quot;)
+&nbsp;    private TimeOffTypeEntity timeOffType;
+&nbsp;
+&nbsp;    @ManyToOne
+&nbsp;    @NotNull
+&nbsp;    @JoinColumn(name = &quot;employee_id&quot;)
+&nbsp;    private EmployeeEntity employee;
+&nbsp;
+&nbsp;    @OneToMany(mappedBy = &quot;timeOffYearlyLimit&quot;)
+&nbsp;    @EqualsAndHashCode.Exclude
+&nbsp;    private List&lt;TimeOffEntity&gt; timeOffs;
+&nbsp;
+&nbsp;    @AssertTrue
+&nbsp;    public boolean isMaxHoursNotHigherThanHoursInYear() {
+<b class="fc">&nbsp;        return maxHours == null || leaveYear == null || maxHours &lt;= LocalDate.of(leaveYear, 12, 31).getDayOfYear()*24;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-21 17:23</div>
+</div>
+</body>
+</html>

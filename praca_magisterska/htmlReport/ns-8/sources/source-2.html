@@ -1,0 +1,163 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TimeOffPostDto</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post</a>
+</div>
+
+<h1>Coverage Summary for Class: TimeOffPostDto (com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TimeOffPostDto</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.post;
+&nbsp;
+&nbsp;import jakarta.validation.constraints.AssertFalse;
+&nbsp;import jakarta.validation.constraints.AssertTrue;
+&nbsp;import jakarta.validation.constraints.Min;
+&nbsp;import jakarta.validation.constraints.NotNull;
+&nbsp;import lombok.EqualsAndHashCode;
+&nbsp;import lombok.Getter;
+&nbsp;import lombok.Setter;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.temporal.ChronoUnit;
+&nbsp;
+&nbsp;@Getter
+&nbsp;@Setter
+&nbsp;@EqualsAndHashCode
+<b class="fc">&nbsp;public class TimeOffPostDto {</b>
+&nbsp;    @NotNull
+&nbsp;    private LocalDate firstDay;
+&nbsp;    @NotNull
+&nbsp;    private LocalDate lastDayInclusive;
+&nbsp;    @Min(1)
+&nbsp;	@NotNull
+&nbsp;    private Integer hoursCount;
+&nbsp;    @Min(1)
+&nbsp;	@NotNull
+&nbsp;    private Long typeId;
+&nbsp;    @Min(1)
+&nbsp;	@NotNull
+&nbsp;    private Long yearlyLimitId;
+&nbsp;    @Min(1)
+&nbsp;	@NotNull
+&nbsp;    private Long employeeId;
+&nbsp;    @NotNull
+&nbsp;    private String comment;
+&nbsp;
+&nbsp;	@AssertFalse
+&nbsp;	public boolean isFirstDayAfterLastDay() {
+<b class="fc">&nbsp;		if (firstDay == null || lastDayInclusive == null) {</b>
+<b class="fc">&nbsp;			return false;</b>
+&nbsp;		}
+<b class="fc">&nbsp;		return firstDay.isAfter(lastDayInclusive);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@AssertTrue
+&nbsp;	public boolean isYearAndMonthEqual() {
+<b class="fc">&nbsp;		return firstDay == null || lastDayInclusive == null || firstDay.withDayOfMonth(1).equals(lastDayInclusive.withDayOfMonth(1));</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@AssertTrue
+&nbsp;	public boolean isHoursCountLessThanHoursInTimeOff() {
+<b class="fc">&nbsp;		return hoursCount == null || firstDay == null || lastDayInclusive == null || hoursCount &lt;= firstDay.until(lastDayInclusive.plusDays(1), ChronoUnit.DAYS)*24;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@AssertTrue
+&nbsp;	public boolean isYearInAcceptableRange() {
+<b class="fc">&nbsp;		return firstDay == null || lastDayInclusive == null || firstDay.getYear() &gt;= 2020 &amp;&amp; firstDay.getYear() &lt;= 2100 &amp;&amp; lastDayInclusive.getYear() &gt;= 2020 &amp;&amp; lastDayInclusive.getYear() &lt;= 2100;</b>
+&nbsp;	}
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-21 17:23</div>
+</div>
+</body>
+</html>

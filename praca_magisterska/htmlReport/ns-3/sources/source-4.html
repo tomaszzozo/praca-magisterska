@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TimeOffTypeService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tul.tomasz_wojtkiewicz.praca_magisterska.service</a>
+</div>
+
+<h1>Coverage Summary for Class: TimeOffTypeService (com.tul.tomasz_wojtkiewicz.praca_magisterska.service)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TimeOffTypeService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/17)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TimeOffTypeService$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/17)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tul.tomasz_wojtkiewicz.praca_magisterska.service;
+&nbsp;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.ApiException;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.repository.TimeOffTypeRepository;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put.TimeOffTypePutDto;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import jakarta.validation.constraints.Min;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.beans.BeanUtils;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.validation.annotation.Validated;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+&nbsp;@AllArgsConstructor
+&nbsp;@Validated
+&nbsp;public class TimeOffTypeService {
+&nbsp;    private final TimeOffTypeRepository timeOffTypeRepository;
+&nbsp;
+&nbsp;    public List&lt;TimeOffTypeEntity&gt; getAll() {
+<b class="fc">&nbsp;        return timeOffTypeRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public TimeOffTypeEntity getById(@Min(1) long id) {
+<b class="fc">&nbsp;        return timeOffTypeRepository.findById(id).orElseThrow(() -&gt; new ApiException(HttpStatus.NOT_FOUND, &quot;Typ urlopu z podanym id nie istnieje.&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Transactional
+&nbsp;    public void putAll(@Valid List&lt;TimeOffTypePutDto&gt; dtos) {
+<b class="fc">&nbsp;        var ids = dtos.stream().map(TimeOffTypePutDto::getId).toList();</b>
+<b class="fc">&nbsp;        var toDelete = timeOffTypeRepository.findAll().stream().filter(e -&gt; !ids.contains(e.getId())).toList();</b>
+<b class="fc">&nbsp;        if (toDelete.stream().anyMatch(e -&gt; !e.getTimeOffs().isEmpty())) {</b>
+<b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Typ urlopu jest używany - nie można usunąć&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        timeOffTypeRepository.deleteAll(toDelete);</b>
+<b class="fc">&nbsp;        dtos.forEach(dto -&gt; {</b>
+&nbsp;            TimeOffTypeEntity entity;
+<b class="fc">&nbsp;            if (dto.getId() == 0) {</b>
+<b class="fc">&nbsp;                if (timeOffTypeRepository.existsByName(dto.getName())) {</b>
+<b class="fc">&nbsp;                    throw new ApiException(HttpStatus.CONFLICT, &quot;Podana nazwa jest już zajęta&quot;);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                entity = new TimeOffTypeEntity();</b>
+&nbsp;
+&nbsp;            } else {
+<b class="fc">&nbsp;                entity = getById(dto.getId());</b>
+<b class="fc">&nbsp;                if (!dto.getName().equals(entity.getName()) &amp;&amp; timeOffTypeRepository.existsByName(dto.getName())) {</b>
+<b class="fc">&nbsp;                    throw new ApiException(HttpStatus.CONFLICT, &quot;Podana nazwa jest już zajęta&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            BeanUtils.copyProperties(dto, entity, &quot;id&quot;);</b>
+<b class="fc">&nbsp;            timeOffTypeRepository.save(entity);</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-21 17:23</div>
+</div>
+</body>
+</html>

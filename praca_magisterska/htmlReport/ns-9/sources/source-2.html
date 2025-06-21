@@ -1,0 +1,141 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TimeOffLimitPutDto</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put</a>
+</div>
+
+<h1>Coverage Summary for Class: TimeOffLimitPutDto (com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TimeOffLimitPutDto</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put;
+&nbsp;
+&nbsp;import jakarta.validation.constraints.AssertTrue;
+&nbsp;import jakarta.validation.constraints.Min;
+&nbsp;import jakarta.validation.constraints.NotNull;
+&nbsp;import lombok.EqualsAndHashCode;
+&nbsp;import lombok.Getter;
+&nbsp;import lombok.Setter;
+&nbsp;import org.hibernate.validator.constraints.Range;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;
+&nbsp;@Getter
+&nbsp;@Setter
+&nbsp;@EqualsAndHashCode
+<b class="fc">&nbsp;public class TimeOffLimitPutDto {</b>
+&nbsp;    @Min(0)
+&nbsp;	@NotNull
+&nbsp;    private Long id;
+&nbsp;    @Min(0)
+&nbsp;	@NotNull
+&nbsp;    private Integer maxHours;
+&nbsp;    @Range(min = 2020, max = 2100)
+&nbsp;	@NotNull
+&nbsp;    private Integer year;
+&nbsp;    @Min(1)
+&nbsp;	@NotNull
+&nbsp;    private Long typeId;
+&nbsp;    @Min(1)
+&nbsp;	@NotNull
+&nbsp;    private Long employeeId;
+&nbsp;
+&nbsp;	@AssertTrue
+&nbsp;	public boolean isMaxHoursNotHigherThanHoursInYear() {
+<b class="fc">&nbsp;		return maxHours == null || year == null || maxHours &lt;= LocalDate.of(year, 12, 31).getDayOfYear()*24;</b>
+&nbsp;	}
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-21 17:23</div>
+</div>
+</body>
+</html>
