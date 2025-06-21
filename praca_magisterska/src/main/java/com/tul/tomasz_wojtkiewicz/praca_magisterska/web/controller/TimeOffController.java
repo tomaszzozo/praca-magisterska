@@ -22,7 +22,7 @@ import java.util.List;
 public class TimeOffController {
     private final TimeOffService timeOffService;
 
-    @GetMapping(params = {"year", "employeeId"})
+    @GetMapping
     public ResponseEntity<List<TimeOffGetDto>> getAllByYearAndEmployeeId(@RequestParam @Range(min = 2020, max = 2100) int year, @RequestParam @Min(1) long employeeId) {
         return ResponseEntity.ok(timeOffService.getAllByYearAndEmployeeId(year, employeeId).stream().map(TimeOffGetDto::fromEntity).toList());
     }
@@ -34,7 +34,7 @@ public class TimeOffController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> post(@PathVariable @Min(1) long id, @Valid @RequestBody TimeOffPutDto body) {
+    public ResponseEntity<Void> put(@PathVariable @Min(1) long id, @Valid @RequestBody TimeOffPutDto body) {
         timeOffService.put(id, body);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -17,6 +17,8 @@ import static org.mockito.Mockito.mock;
 @Getter
 public class TimeOffTestEntityFactory {
 	@Builder.Default
+	private Long id = 0L;
+	@Builder.Default
 	private LocalDate firstDay = LocalDate.of(TimeOffLimitTestEntityFactory.build().getLeaveYear(), 3, 10);
 	@Builder.Default
 	private LocalDate lastDayInclusive = LocalDate.of(TimeOffLimitTestEntityFactory.build().getLeaveYear(), 3, 10);

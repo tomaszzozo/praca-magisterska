@@ -4,6 +4,7 @@ import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.time.temporal.ChronoUnit;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class TimeOffPostDto {
     @NotNull
     private LocalDate firstDay;

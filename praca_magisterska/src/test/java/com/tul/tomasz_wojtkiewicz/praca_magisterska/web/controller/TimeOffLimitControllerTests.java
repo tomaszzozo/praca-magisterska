@@ -24,8 +24,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,6 +77,14 @@ class TimeOffLimitControllerTests {
 			.andExpect(jsonPath("$[0].leaveYear").value(limit.getLeaveYear()))
 			.andExpect(jsonPath("$[0].typeId").value(type.getId()))
 			.andExpect(jsonPath("$[0].employeeId").value(employee.getId()));
+	}
+
+	@Test
+	void given_validInput_and_serviceReturnsEmptyList_when_getAllByYearAndEmployee_then_statusOk_and_returnsEmptyList() throws Exception {
+		when(timeOffLimitService.getAllByYearAndEmployeeId(2025, 1)).thenReturn(List.of());
+		mockMvc.perform(get("/time-offs/types/limits?employeeId=1&year=2025"))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.size()").value(0));
 	}
 
 	@Test
