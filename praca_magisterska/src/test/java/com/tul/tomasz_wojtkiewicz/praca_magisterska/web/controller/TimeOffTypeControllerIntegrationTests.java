@@ -92,4 +92,15 @@ class TimeOffTypeControllerIntegrationTests {
 				)
 		).andExpect(status().isNotFound());
 	}
+
+	@Test
+	void given_validDto_and_serviceDoesNotThrow_when_putAll_then_statusCreated() throws Exception {
+		var dto = TimeOffTypePutTestDtoFactory.build().asDto();
+		mockMvc.perform(
+			put("/time-offs/types")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(List.of(dto))
+				)
+		).andExpect(status().isCreated());
+	}
 }
