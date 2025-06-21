@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/time-offs/types/limits")
 @Validated
 @AllArgsConstructor
-public class TimeOffTypeLimitPerYearAndEmployeeController {
+public class TimeOffTypeLimitController {
     private final TimeOffLimitService timeOffLimitService;
 
     @GetMapping(params = {"year", "employeeId"})

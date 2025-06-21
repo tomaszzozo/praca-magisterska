@@ -10,7 +10,7 @@ import org.springframework.beans.BeanUtils;
 public class TimeOffTypeGetDto {
     private long id;
     private String name;
-    private double compensationPercentage;
+    private float compensationPercentage;
 
     public static TimeOffTypeGetDto fromEntity(TimeOffTypeEntity entity) {
         var result = new TimeOffTypeGetDto();

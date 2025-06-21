@@ -9,6 +9,8 @@ import org.springframework.beans.BeanUtils;
 @Getter
 public class TimeOffTypeTestEntityFactory {
 	@Builder.Default
+	private Long id = 0L;
+	@Builder.Default
 	private String name = "Sick leave";
 	@Builder.Default
 	private Float compensationPercentage = 80.5f;
