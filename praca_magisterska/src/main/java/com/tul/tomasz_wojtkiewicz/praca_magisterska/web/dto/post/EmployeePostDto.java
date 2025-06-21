@@ -6,6 +6,7 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -13,6 +14,7 @@ import org.hibernate.validator.constraints.Range;
 @Getter
 @Setter
 @MappedSuperclass
+@EqualsAndHashCode
 public class EmployeePostDto {
     @Email
     @NotBlank

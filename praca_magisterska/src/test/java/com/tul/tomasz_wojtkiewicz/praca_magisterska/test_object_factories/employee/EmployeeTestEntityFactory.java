@@ -9,6 +9,8 @@ import org.springframework.beans.BeanUtils;
 @Getter
 public class EmployeeTestEntityFactory {
 	@Builder.Default
+	private Long id = 0L;
+	@Builder.Default
 	private String email = "bruceWayne@gmail.com";
 	@Builder.Default
 	private String firstName = "Bruce";
