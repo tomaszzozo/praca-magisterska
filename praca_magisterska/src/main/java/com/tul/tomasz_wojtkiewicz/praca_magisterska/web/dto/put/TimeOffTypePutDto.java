@@ -2,6 +2,7 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,5 +16,5 @@ public class TimeOffTypePutDto {
     private long id;
     @NotBlank
     private String name;
-    private @Range(min = 0, max = 100) float compensationPercentage;
+    private @Range(min = 0, max = 100) @NotNull Float compensationPercentage;
 }

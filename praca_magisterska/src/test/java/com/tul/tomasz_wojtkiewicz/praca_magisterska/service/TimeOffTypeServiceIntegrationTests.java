@@ -168,8 +168,8 @@ class TimeOffTypeServiceIntegrationTests {
 		timeOffTypeService.putAll(List.of(dto1, dto2));
 
 		assertEquals(2, timeOffTypeRepository.count());
-		assertTrue(timeOffTypeRepository.findAll().stream().anyMatch(t -> t.getName().equals(dto1.getName()) && t.getCompensationPercentage() == dto1.getCompensationPercentage()));
-		assertTrue(timeOffTypeRepository.findAll().stream().anyMatch(t -> t.getName().equals(dto2.getName()) && t.getCompensationPercentage() == dto2.getCompensationPercentage()));
+		assertTrue(timeOffTypeRepository.findAll().stream().anyMatch(t -> t.getName().equals(dto1.getName()) && Objects.equals(t.getCompensationPercentage(), dto1.getCompensationPercentage())));
+		assertTrue(timeOffTypeRepository.findAll().stream().anyMatch(t -> t.getName().equals(dto2.getName()) && Objects.equals(t.getCompensationPercentage(), dto2.getCompensationPercentage())));
 		assertTrue(timeOffRepository.findAll().stream().noneMatch(t -> Objects.equals(t.getId(), type.getId())));
 	}
 
@@ -198,8 +198,8 @@ class TimeOffTypeServiceIntegrationTests {
 
 		timeOffTypeService.putAll(List.of(dto1, dto2));
 		assertEquals(2, timeOffTypeRepository.count());
-		assertTrue(timeOffTypeRepository.findAll().stream().anyMatch(t -> t.getId() == dto1.getId() && t.getName().equals(dto1.getName()) && t.getCompensationPercentage() == dto1.getCompensationPercentage()));
-		assertTrue(timeOffTypeRepository.findAll().stream().anyMatch(t -> t.getName().equals(dto2.getName()) && t.getCompensationPercentage() == dto2.getCompensationPercentage()));
+		assertTrue(timeOffTypeRepository.findAll().stream().anyMatch(t -> t.getId() == dto1.getId() && t.getName().equals(dto1.getName()) && Objects.equals(t.getCompensationPercentage(), dto1.getCompensationPercentage())));
+		assertTrue(timeOffTypeRepository.findAll().stream().anyMatch(t -> t.getName().equals(dto2.getName()) && Objects.equals(t.getCompensationPercentage(), dto2.getCompensationPercentage())));
 	}
 
 	@Test

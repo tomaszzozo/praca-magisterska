@@ -18,9 +18,9 @@ public class TimeOffLimitTestDtoFactory {
 	@Builder.Default
 	private Integer year = defaultReference.getLeaveYear();
 	@Builder.Default
-	private Long typeId = null;
+	private Long typeId = 1L;
 	@Builder.Default
-	private Long employeeId = null;
+	private Long employeeId = 1L;
 
 	public static TimeOffLimitTestDtoFactory build() {
 		return builder().build();

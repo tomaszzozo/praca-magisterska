@@ -1,7 +1,8 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.put;
 
-import jakarta.validation.constraints.AssertFalse;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,18 +15,23 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 public class TimeOffLimitPutDto {
     @Min(0)
-    private long id;
+	@NotNull
+    private Long id;
     @Min(0)
-    private int maxHours;
+	@NotNull
+    private Integer maxHours;
     @Range(min = 2020, max = 2100)
-    private int year;
+	@NotNull
+    private Integer year;
     @Min(1)
-    private long typeId;
+	@NotNull
+    private Long typeId;
     @Min(1)
-    private long employeeId;
+	@NotNull
+    private Long employeeId;
 
-    @AssertFalse
-    public boolean isMaxHoursHigherThanHoursInYear() {
-        return maxHours > LocalDate.of(year, 12, 31).getDayOfYear()*24;
-    }
+	@AssertTrue
+	public boolean isMaxHoursNotHigherThanHoursInYear() {
+		return maxHours == null || year == null || maxHours <= LocalDate.of(year, 12, 31).getDayOfYear()*24;
+	}
 }
