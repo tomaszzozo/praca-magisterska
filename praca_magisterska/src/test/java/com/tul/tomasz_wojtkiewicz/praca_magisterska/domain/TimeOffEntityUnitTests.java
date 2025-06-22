@@ -2,13 +2,13 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off.TimeOffTestEntityFactory;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("unit")
 @Tag("entity")
@@ -67,5 +67,49 @@ class TimeOffEntityUnitTests {
 	void isYearInAcceptableRangeShouldReturnTrue(LocalDate firstDay, LocalDate lastDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).build().asEntity();
 		assertTrue(entity.isYearInAcceptableRange());
+	}
+
+	@Test
+	void equalsShouldCompareFieldsOtherThanEmployeeAndLimitAndType() {
+		var type = new TimeOffTypeEntity();
+		var employee = new EmployeeEntity();
+		var limit = new TimeOffLimitEntity();
+		var entity1 = TimeOffTestEntityFactory.builder().timeOffYearlyLimit(limit).employee(employee).timeOffType(type).build().asEntity();
+		var entity2 = TimeOffTestEntityFactory.builder().timeOffYearlyLimit(limit).employee(employee).timeOffType(type).build().asEntity();
+		assertEquals(entity1, entity2);
+
+		entity1.setEmployee(null);
+		assertNotEquals(entity1, entity2);
+		entity2.setEmployee(null);
+		assertEquals(entity1, entity2);
+
+		entity1.setTimeOffType(null);
+		assertNotEquals(entity1, entity2);
+		entity2.setTimeOffType(null);
+		assertEquals(entity1, entity2);
+
+		entity1.setTimeOffYearlyLimit(null);
+		assertNotEquals(entity1, entity2);
+		entity2.setTimeOffYearlyLimit(null);
+		assertEquals(entity1, entity2);
+
+		entity1.setId(1L);
+		assertNotEquals(entity1, entity2);
+
+		entity1.setId(entity2.getId());
+		entity1.setHoursCount(entity2.getHoursCount()+1);
+		assertNotEquals(entity1, entity2);
+
+		entity1.setHoursCount(entity2.getHoursCount());
+		entity1.setComment(entity2.getComment()+"a");
+		assertNotEquals(entity1, entity2);
+
+		entity1.setComment(entity2.getComment());
+		entity1.setFirstDay(entity2.getFirstDay().plusDays(1));
+		assertNotEquals(entity1, entity2);
+
+		entity1.setFirstDay(entity2.getFirstDay());
+		entity1.setLastDayInclusive(entity2.getLastDayInclusive().plusDays(1));
+		assertNotEquals(entity1, entity2);
 	}
 }

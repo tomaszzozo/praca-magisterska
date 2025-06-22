@@ -1,7 +1,10 @@
 package com.tul.tomasz_wojtkiewicz.praca_magisterska.domain;
 
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.ConstraintValidation;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.employee.EmployeeTestEntityFactory;
 import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off.TimeOffTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_limit.TimeOffLimitTestEntityFactory;
+import com.tul.tomasz_wojtkiewicz.praca_magisterska.test_object_factories.time_off_type.TimeOffTypeTestEntityFactory;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -105,5 +108,32 @@ class TimeOffEntityIntegrationTests implements ConstraintValidation {
 		var validation = validateConstraints(entity);
 		assertEquals(1, validation.size());
 		assertEquals("yearInAcceptableRange", validation.iterator().next().getPropertyPath().toString());
+	}
+
+	@Test
+	void equalsReturnsTrueIfBothObjectsHaveDifferentLimitOrEmployeeOrTypeObjectsWithSameValues() {
+		var employee1 = EmployeeTestEntityFactory.build().asEntity();
+		var employee2 = EmployeeTestEntityFactory.build().asEntity();
+		var type1 = TimeOffTypeTestEntityFactory.build().asEntity();
+		var type2 = TimeOffTypeTestEntityFactory.build().asEntity();
+		var limit1 = TimeOffLimitTestEntityFactory.builder().employee(employee1).timeOffType(type1).build().asEntity();
+		var limit2 = TimeOffLimitTestEntityFactory.builder().employee(employee2).timeOffType(type2).build().asEntity();
+		var entity1 = TimeOffTestEntityFactory.builder().employee(employee1).timeOffType(type1).timeOffYearlyLimit(limit1).build().asEntity();
+		var entity2 = TimeOffTestEntityFactory.builder().employee(employee2).timeOffType(type2).timeOffYearlyLimit(limit2).build().asEntity();
+		assertEquals(entity1, entity2);
+
+		employee1.setEmail(employee2.getEmail()+"a");
+		assertNotEquals(entity1, entity2);
+
+		employee1.setEmail(employee2.getEmail());
+		type1.setName(type2.getName()+"a");
+		assertNotEquals(entity1, entity2);
+
+		type1.setName(type2.getName());
+		limit1.setMaxHours(limit2.getMaxHours()+1);
+		assertNotEquals(entity1, entity2);
+
+		limit1.setMaxHours(limit2.getMaxHours());
+		assertEquals(entity1, entity2);
 	}
 }

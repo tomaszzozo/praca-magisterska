@@ -33,17 +33,14 @@ public class TimeOffEntity {
     @ManyToOne
     @NotNull
     @JoinColumn(name = "yearly_limit_id")
-	@EqualsAndHashCode.Exclude
     private TimeOffLimitEntity timeOffYearlyLimit;
     @ManyToOne
     @NotNull
     @JoinColumn(name = "type_id")
-	@EqualsAndHashCode.Exclude
     private TimeOffTypeEntity timeOffType;
     @ManyToOne
     @NotNull
     @JoinColumn(name = "employee_id")
-	@EqualsAndHashCode.Exclude
     private EmployeeEntity employee;
 
     @AssertFalse
