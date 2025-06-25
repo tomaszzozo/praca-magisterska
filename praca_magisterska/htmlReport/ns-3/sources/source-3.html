@@ -41,18 +41,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">TimeOffService</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    85,7%
   </span>
   <span class="absValue">
-    (7/7)
+    (6/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    76,1%
   </span>
   <span class="absValue">
-    (46/46)
+    (35/46)
   </span>
 </td>
 </tr>
@@ -63,18 +63,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    85,7%
   </span>
   <span class="absValue">
-    (7/7)
+    (6/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    76,1%
   </span>
   <span class="absValue">
-    (46/46)
+    (35/46)
   </span>
 </td>
 </tr>
@@ -131,9 +131,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        if (yearlyLimit.getMaxHours() &lt; usedHours + dto.getHoursCount()) {</b>
 <b class="fc">&nbsp;            int hoursOverLimit = usedHours + dto.getHoursCount() - yearlyLimit.getMaxHours();</b>
 <b class="fc">&nbsp;            if (hoursOverLimit == 1) {</b>
-<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o 1 godzinę&quot;);</b>
+<b class="nc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o 1 godzinę&quot;);</b>
 <b class="fc">&nbsp;            } else if (Integer.toString(hoursOverLimit).matches(&quot;[234]$&quot;)) {</b>
-<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godziny&quot;.formatted(hoursOverLimit));</b>
+<b class="nc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godziny&quot;.formatted(hoursOverLimit));</b>
 &nbsp;            }
 <b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godzin&quot;.formatted(hoursOverLimit));</b>
 &nbsp;        }
@@ -155,21 +155,21 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        var otherTimeOffs = timeOffRepository.findAllByYearAndEmployeeId(dto.getEmployeeId(), dto.getFirstDay().getYear());</b>
 <b class="fc">&nbsp;        otherTimeOffs = otherTimeOffs.stream().filter(e -&gt; e.getId() != id).toList();</b>
 <b class="fc">&nbsp;        if (otherTimeOffs.stream().anyMatch(e -&gt;</b>
-<b class="fc">&nbsp;                !e.getLastDayInclusive().isBefore(dto.getFirstDay()) &amp;&amp;</b>
-<b class="fc">&nbsp;                        !e.getFirstDay().isAfter(dto.getLastDayInclusive()))) {</b>
-<b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop koliduje z istniejącym urlopem.&quot;);</b>
+<b class="nc">&nbsp;                !e.getLastDayInclusive().isBefore(dto.getFirstDay()) &amp;&amp;</b>
+<b class="nc">&nbsp;                        !e.getFirstDay().isAfter(dto.getLastDayInclusive()))) {</b>
+<b class="nc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop koliduje z istniejącym urlopem.&quot;);</b>
 &nbsp;        }
 &nbsp;
 <b class="fc">&nbsp;        var yearlyLimit = timeOffLimitService.getById(dto.getYearlyLimitId());</b>
 <b class="fc">&nbsp;        var usedHours = otherTimeOffs.stream().filter(e -&gt; e.getTimeOffType().getId() == dto.getTypeId()).mapToInt(TimeOffEntity::getHoursCount).sum();</b>
 <b class="fc">&nbsp;        if (yearlyLimit.getMaxHours() &lt; usedHours + dto.getHoursCount()) {</b>
-<b class="fc">&nbsp;            int hoursOverLimit = usedHours + dto.getHoursCount() - yearlyLimit.getMaxHours();</b>
-<b class="fc">&nbsp;            if (hoursOverLimit == 1) {</b>
-<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o 1 godzinę&quot;);</b>
-<b class="fc">&nbsp;            } else if (Integer.toString(hoursOverLimit).matches(&quot;[234]$&quot;)) {</b>
-<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godziny&quot;.formatted(hoursOverLimit));</b>
+<b class="nc">&nbsp;            int hoursOverLimit = usedHours + dto.getHoursCount() - yearlyLimit.getMaxHours();</b>
+<b class="nc">&nbsp;            if (hoursOverLimit == 1) {</b>
+<b class="nc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o 1 godzinę&quot;);</b>
+<b class="nc">&nbsp;            } else if (Integer.toString(hoursOverLimit).matches(&quot;[234]$&quot;)) {</b>
+<b class="nc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godziny&quot;.formatted(hoursOverLimit));</b>
 &nbsp;            }
-<b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godzin&quot;.formatted(hoursOverLimit));</b>
+<b class="nc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godzin&quot;.formatted(hoursOverLimit));</b>
 &nbsp;        }
 &nbsp;
 <b class="fc">&nbsp;        BeanUtils.copyProperties(dto, obj, &quot;typeId&quot;, &quot;employeeId&quot;, &quot;yearlyLimitId&quot;);</b>
@@ -211,7 +211,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-06-22 22:56</div>
+    <div style="float:right;">generated on 2025-06-25 17:05</div>
 </div>
 </body>
 </html>

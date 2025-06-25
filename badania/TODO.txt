@@ -1,0 +1,1 @@
+1. Asercje DTO i encji w postaci metod - jeżeli sprawdzają null, upewnij się w testach jednostkowych że ten przypadek jest sprawdzony.

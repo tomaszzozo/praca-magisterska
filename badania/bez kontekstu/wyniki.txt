@@ -1,0 +1,15 @@
+Pokrycie: 
+	Klasy: 100% (27/27)
+	Metody:	96% (72/75)
+	Linie: 92,5% (173/187)
+Liczba klas:
+Linijki kodu:
+Liczba testów:	
+Faktyczne przypadki testowe:
+Liczba wykrytych błędów-pułapek
+Liczba rodzajów błędów:
+Liczba błędów:
+Liczba niedokładności:
+Liczba testów jednostkowych:
+Liczba testów integracji:
+Liczba nieporawnie zkategoryzowanych testów:

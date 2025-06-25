@@ -1,0 +1,8 @@
+1. Wklej w czat zapytanie z odpowiedniego pliku prompt.txt
+2. Dodaj klasę, którą należy pokryć testami.
+3. Wyślij zapytanie.
+4. Jeżeli wariant z kontekstem - odpowiedz na pytania / dodaj kolejne pliki.
+5. Wklej wygenerowany kod do projektu.
+6. Jeżeli kod nie kompiluje się lub test nie kończy się powodzeniem, wprowadź jak najmniejsze potrzebne zmiany aby kod skompilował się / test kończył się powodzeniem. Staraj się nie usuwać logiki oryginalnego testu i nie modyfikuj kodu źródłowego. Zmiany w miarę możliwości udokumentuj.
+7. Dodaj odpowiednio adnotację unit (dla wyizolowanych testów) lub integration (dla testów zależnych od obiektów z poza klasy i standardowych bibliotek). Dodaj informację, jaki typ zasugerował czat.
+8. Uruchom automatyczne formatowanie kodu w edytorze IntelliJ aby pozbyć się niepotrzebnie załączonych bibliotek i usunąć nadmiarowe linie kodu.
