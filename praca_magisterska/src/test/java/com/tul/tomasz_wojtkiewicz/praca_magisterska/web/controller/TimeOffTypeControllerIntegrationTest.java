@@ -36,6 +36,7 @@ class TimeOffTypeControllerIntegrationTest {
 	private ObjectMapper objectMapper;
 
 	@Test
+		// cases: 1
 	void shouldGetAllTimeOffTypes() throws Exception {
 		// MISTAKE: assumed builder and toEntity dto method
 		var entity = new TimeOffTypeEntity();
@@ -53,6 +54,7 @@ class TimeOffTypeControllerIntegrationTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPutAllTimeOffTypes() throws Exception {
 		var putDto = new TimeOffTypePutDto();
 		putDto.setId(1L);

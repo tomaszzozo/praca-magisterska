@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class EmployeeGetDtoTest {
 
 	@Test
+		// cases: 1
 	void shouldMapFromEntityCorrectly() {
 		EmployeeEntity entity = new EmployeeEntity();
 		entity.setId(1L);

@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TimeOffEntityTest {
 
 	@Test
+	// cases: 1
 	void isFirstDayAfterLastDay_shouldReturnFalse_whenFirstDayIsBeforeLastDay() {
 		TimeOffEntity entity = new TimeOffEntity();
 		entity.setFirstDay(LocalDate.of(2025, 6, 1));
@@ -22,6 +23,7 @@ class TimeOffEntityTest {
 	}
 
 	@Test
+		// cases: 1
 	void isFirstDayAfterLastDay_shouldReturnTrue_whenFirstDayIsAfterLastDay() {
 		TimeOffEntity entity = new TimeOffEntity();
 		entity.setFirstDay(LocalDate.of(2025, 6, 10));
@@ -31,6 +33,7 @@ class TimeOffEntityTest {
 	}
 
 	@Test
+		// cases: 1
 	void isFirstDayAfterLastDay_shouldReturnFalse_whenEitherDateIsNull() {
 		TimeOffEntity entity = new TimeOffEntity();
 		entity.setFirstDay(null); // INACCURACY: does not set last day to null despite test name
@@ -40,6 +43,7 @@ class TimeOffEntityTest {
 	}
 
 	@Test
+		// cases: 1
 	void isYearAndMonthEqual_shouldReturnTrue_whenDatesInSameMonthAndYear() {
 		TimeOffEntity entity = new TimeOffEntity();
 		entity.setFirstDay(LocalDate.of(2025, 6, 1));
@@ -49,6 +53,7 @@ class TimeOffEntityTest {
 	}
 
 	@Test
+		// cases: 1
 	void isYearAndMonthEqual_shouldReturnFalse_whenDatesInDifferentMonths() {
 		TimeOffEntity entity = new TimeOffEntity();
 		entity.setFirstDay(LocalDate.of(2025, 6, 30));
@@ -58,6 +63,7 @@ class TimeOffEntityTest {
 	}
 
 	@Test
+		// cases: 1
 	void isHoursCountLessThanHoursInTimeOff_shouldReturnTrue_whenHoursAreWithinRange() {
 		TimeOffEntity entity = new TimeOffEntity();
 		entity.setFirstDay(LocalDate.of(2025, 6, 1));
@@ -68,6 +74,7 @@ class TimeOffEntityTest {
 	}
 
 	@Test
+		// cases: 1
 	void isHoursCountLessThanHoursInTimeOff_shouldReturnFalse_whenHoursExceedRange() {
 		TimeOffEntity entity = new TimeOffEntity();
 		entity.setFirstDay(LocalDate.of(2025, 6, 1));
@@ -78,6 +85,7 @@ class TimeOffEntityTest {
 	}
 
 	@Test
+		// cases: 1
 	void isYearInAcceptableRange_shouldReturnTrue_whenDatesInRange() {
 		TimeOffEntity entity = new TimeOffEntity();
 		entity.setFirstDay(LocalDate.of(2025, 1, 1));
@@ -87,6 +95,7 @@ class TimeOffEntityTest {
 	}
 
 	@Test
+		// cases: 1
 	void isYearInAcceptableRange_shouldReturnFalse_whenDateBefore2020() {
 		TimeOffEntity entity = new TimeOffEntity();
 		entity.setFirstDay(LocalDate.of(2019, 12, 31));
@@ -96,6 +105,7 @@ class TimeOffEntityTest {
 	}
 
 	@Test
+		// cases: 1
 	void isYearInAcceptableRange_shouldReturnFalse_whenDateAfter2100() {
 		TimeOffEntity entity = new TimeOffEntity();
 		entity.setFirstDay(LocalDate.of(2025, 1, 1));

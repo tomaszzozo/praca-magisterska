@@ -31,6 +31,7 @@ class TimeOffTypeServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void getById_shouldReturnEntity_whenFound() {
 		TimeOffTypeEntity entity = new TimeOffTypeEntity();
 		entity.setId(1L);
@@ -42,6 +43,7 @@ class TimeOffTypeServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void getById_shouldThrow_whenNotFound() {
 		when(repository.findById(1L)).thenReturn(Optional.empty());
 
@@ -50,6 +52,7 @@ class TimeOffTypeServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void putAll_shouldCreateNew_whenIdIsZero() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(0);
@@ -66,6 +69,7 @@ class TimeOffTypeServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void putAll_shouldThrow_whenNameConflictOnCreate() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(0);
@@ -79,6 +83,7 @@ class TimeOffTypeServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void putAll_shouldUpdate_whenExistsAndNameIsUnique() {
 		TimeOffTypeEntity existing = new TimeOffTypeEntity();
 		existing.setId(5L);
@@ -98,6 +103,7 @@ class TimeOffTypeServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void putAll_shouldDeleteUnusedTypes() {
 		TimeOffTypeEntity entity = new TimeOffTypeEntity();
 		entity.setId(10L);
@@ -118,6 +124,7 @@ class TimeOffTypeServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void putAll_shouldThrow_whenDeletingTypeInUse() {
 		TimeOffTypeEntity entity = new TimeOffTypeEntity();
 		entity.setId(10L);

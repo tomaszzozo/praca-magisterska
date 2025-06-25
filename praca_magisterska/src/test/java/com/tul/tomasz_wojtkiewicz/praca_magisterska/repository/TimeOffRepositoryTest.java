@@ -60,6 +60,7 @@ class TimeOffRepositoryTest {
 	}
 
 	@Test
+		// cases: 1
 	void findAllByYearAndEmployeeId_shouldReturnCorrectTimeOffs() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(LocalDate.of(2025, 3, 10));
@@ -78,6 +79,7 @@ class TimeOffRepositoryTest {
 	}
 
 	@Test
+		// cases: 1
 	void findAllByYearAndEmployeeId_shouldReturnEmptyList_whenNoTimeOffsInYear() {
 		List<TimeOffEntity> results = timeOffRepository.findAllByYearAndEmployeeId(employee.getId(), 2024);
 

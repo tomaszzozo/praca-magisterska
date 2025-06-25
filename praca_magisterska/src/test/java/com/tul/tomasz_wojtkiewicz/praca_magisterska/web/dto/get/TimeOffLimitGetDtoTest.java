@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TimeOffLimitGetDtoTest {
 
 	@Test
+		// cases: 1
 	void shouldMapFromEntityCorrectly() {
 		TimeOffTypeEntity typeEntity = new TimeOffTypeEntity();
 		typeEntity.setId(10L);

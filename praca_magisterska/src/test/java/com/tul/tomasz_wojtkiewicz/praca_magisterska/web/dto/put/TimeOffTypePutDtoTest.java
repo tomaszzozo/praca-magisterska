@@ -24,6 +24,7 @@ class TimeOffTypePutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPassValidationWhenAllFieldsAreValid() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(1L);
@@ -35,6 +36,7 @@ class TimeOffTypePutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWhenFieldsAreInvalid() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(-1L); // invalid
@@ -46,6 +48,7 @@ class TimeOffTypePutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWhenCompensationPercentageIsNull() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(1L);

@@ -31,6 +31,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
+		// cases: 1
 	void getAll_shouldReturnAllEmployees() {
 		var emp1 = new EmployeeEntity();
 		var emp2 = new EmployeeEntity();
@@ -42,6 +43,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
+		// cases: 1
 	void getById_shouldReturnEmployee_whenExists() {
 		var emp = new EmployeeEntity();
 		emp.setId(1L);
@@ -53,6 +55,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
+		// cases: 1
 	void getById_shouldThrow_whenEmployeeNotFound() {
 		when(employeeRepository.findById(2L)).thenReturn(Optional.empty());
 
@@ -62,6 +65,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
+		// cases: 1
 	void post_shouldSaveEmployee_whenEmailAndPhoneFree() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setFirstName("Anna");
@@ -85,6 +89,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
+		// cases: 1
 	void post_shouldThrow_whenEmailExists() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("existing@example.com");
@@ -98,6 +103,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
+		// cases: 1
 	void post_shouldThrow_whenPhoneNumberExists() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("new@example.com");
@@ -112,6 +118,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
+		// cases: 1
 	void put_shouldUpdateEmployee_whenDataIsValid() {
 		EmployeeEntity existing = new EmployeeEntity();
 		existing.setId(1L);
@@ -135,12 +142,11 @@ class EmployeeServiceUnitTest {
 		assertThat(existing.getEmail()).isEqualTo("new@example.com");
 		assertThat(existing.getPhoneNumber()).isEqualTo("444555666");
 		assertThat(existing.getFirstName()).isEqualTo("Updated");
-		// INACCURACY: does not check last name
-		// INACCURACY: does not check access level
-		// INACCURACY: does not check id
+		// INACCURACY: missing fields check
 	}
 
 	@Test
+		// cases: 1
 	void put_shouldThrow_whenEmailTakenByAnother() {
 		EmployeeEntity existing = new EmployeeEntity();
 		existing.setId(1L);
@@ -160,6 +166,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
+		// cases: 1
 	void put_shouldThrow_whenPhoneNumberTakenByAnother() {
 		EmployeeEntity existing = new EmployeeEntity();
 		existing.setId(1L);

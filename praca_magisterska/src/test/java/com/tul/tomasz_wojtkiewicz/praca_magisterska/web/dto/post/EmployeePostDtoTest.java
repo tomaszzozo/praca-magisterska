@@ -25,6 +25,7 @@ class EmployeePostDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPassValidationWithCorrectData() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("john.doe@example.com");
@@ -38,6 +39,7 @@ class EmployeePostDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWithInvalidEmail() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("invalid-email");
@@ -51,6 +53,7 @@ class EmployeePostDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWithNullFields() {
 		EmployeePostDto dto = new EmployeePostDto();
 
@@ -59,6 +62,7 @@ class EmployeePostDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWithInvalidAccessLevel() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("john.doe@example.com");

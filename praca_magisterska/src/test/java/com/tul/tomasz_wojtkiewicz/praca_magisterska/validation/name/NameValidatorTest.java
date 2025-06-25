@@ -24,6 +24,7 @@ class NameValidatorTest {
 	}
 
 	@Test
+		// cases: 5
 	void shouldAcceptValidNames() {
 		assertTrue(validator.isValid("Jan Kowalski", context));
 		assertTrue(validator.isValid("Łukasz Żółć", context));
@@ -34,6 +35,7 @@ class NameValidatorTest {
 	}
 
 	@Test
+		// cases: 7
 	void shouldRejectInvalidNames() {
 		assertFalse(validator.isValid("  Jan", context));
 		assertFalse(validator.isValid("Anna--Maria", context));
@@ -45,6 +47,7 @@ class NameValidatorTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldAcceptNullValue() {
 		assertTrue(validator.isValid(null, context));
 	}

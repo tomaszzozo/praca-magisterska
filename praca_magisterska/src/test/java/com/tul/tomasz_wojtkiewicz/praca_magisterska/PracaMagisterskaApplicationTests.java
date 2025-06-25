@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class PracaMagisterskaApplicationTests {
 
 	@Test
+		// cases: 1
 	void contextLoads() {
 	}
 }

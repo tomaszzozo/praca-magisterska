@@ -38,6 +38,7 @@ class TimeOffLimitControllerIntegrationTest {
 	private ObjectMapper objectMapper;
 
 	@Test
+		// cases: 1
 	void shouldGetAllByYearAndEmployee() throws Exception {
 		var mockedEmployee = Mockito.mock(EmployeeEntity.class);
 		Mockito.doReturn(10L).when(mockedEmployee).getId();
@@ -67,6 +68,7 @@ class TimeOffLimitControllerIntegrationTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPutAllTimeOffLimits() throws Exception {
 		var putDto = new TimeOffLimitPutDto();
 		putDto.setId(1L);

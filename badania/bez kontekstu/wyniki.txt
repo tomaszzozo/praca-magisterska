@@ -2,14 +2,13 @@ Pokrycie:
 	Klasy: 100% (27/27)
 	Metody:	96% (72/75)
 	Linie: 92,5% (173/187)
-Liczba klas:
-Linijki kodu:
-Liczba testów:	
+Liczba klas: 29
+Linijki kodu: 1754
+Liczba testów: 112
 Faktyczne przypadki testowe:
-Liczba wykrytych błędów-pułapek
-Liczba rodzajów błędów:
-Liczba błędów:
-Liczba niedokładności:
-Liczba testów jednostkowych:
-Liczba testów integracji:
-Liczba nieporawnie zkategoryzowanych testów:
+Liczba wykrytych błędów-pułapek: 
+Liczba błędów: 36
+Liczba niedokładności: 15
+Liczba testów jednostkowych: 64
+Liczba testów integracji: 48
+Liczba nieporawnie zkategoryzowanych klas testowych: 7

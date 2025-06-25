@@ -36,6 +36,7 @@ class TimeOffLimitServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void getById_shouldReturnEntity_whenExists() {
 		var entity = new TimeOffLimitEntity();
 		when(repository.findById(1L)).thenReturn(Optional.of(entity));
@@ -46,6 +47,7 @@ class TimeOffLimitServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void getById_shouldThrow_whenNotFound() {
 		when(repository.findById(1L)).thenReturn(Optional.empty());
 
@@ -55,6 +57,7 @@ class TimeOffLimitServiceTest {
 
 
 	@Test
+		// cases: 1
 	void putAll_shouldSaveNewEntity_whenIdIsZero() {
 		var dto = new TimeOffLimitPutDto();
 		dto.setId(0L); // MISTAKE: type int instead of long
@@ -74,6 +77,7 @@ class TimeOffLimitServiceTest {
 
 
 	@Test
+		// cases: 1
 	void putAll_shouldThrow_whenLimitAlreadyExists() {
 		var dto = new TimeOffLimitPutDto();
 		dto.setId(0L); // MISTAKE: type int instead of long
@@ -89,6 +93,7 @@ class TimeOffLimitServiceTest {
 
 
 	@Test
+		// cases: 1
 	void putAll_shouldUpdateExisting_whenValid() {
 		var dto = new TimeOffLimitPutDto();
 		dto.setId(10L);
@@ -105,6 +110,7 @@ class TimeOffLimitServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void putAll_shouldThrow_whenUsedHoursExceedNewLimit() {
 		var dto = new TimeOffLimitPutDto();
 		dto.setId(10L);
@@ -122,6 +128,7 @@ class TimeOffLimitServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void getAllByYearAndEmployeeId_shouldReturnCompleteList() {
 		var employee = new EmployeeEntity();
 		employee.setId(1L);

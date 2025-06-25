@@ -17,6 +17,7 @@ class EmployeeRepositoryTest {
 	private EmployeeRepository employeeRepository;
 
 	@Test
+		// cases: 1
 	void existsByEmail_shouldReturnTrue_whenEmailExists() {
 		EmployeeEntity employee = new EmployeeEntity();
 		employee.setEmail("test@example.com");
@@ -32,6 +33,7 @@ class EmployeeRepositoryTest {
 	}
 
 	@Test
+		// cases: 1
 	void existsByEmail_shouldReturnFalse_whenEmailDoesNotExist() {
 		boolean exists = employeeRepository.existsByEmail("nonexistent@example.com");
 
@@ -39,6 +41,7 @@ class EmployeeRepositoryTest {
 	}
 
 	@Test
+		// cases: 1
 	void existsByPhoneNumber_shouldReturnTrue_whenPhoneNumberExists() {
 		EmployeeEntity employee = new EmployeeEntity();
 		employee.setEmail("phone@example.com");
@@ -54,6 +57,7 @@ class EmployeeRepositoryTest {
 	}
 
 	@Test
+		// cases: 1
 	void existsByPhoneNumber_shouldReturnFalse_whenPhoneNumberDoesNotExist() {
 		boolean exists = employeeRepository.existsByPhoneNumber("000000000");
 

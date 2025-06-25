@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ApiExceptionTest {
 
 	@Test
+		// cases: 1
 	void shouldStoreHttpStatusAndMessages() {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		String message = "Invalid request";

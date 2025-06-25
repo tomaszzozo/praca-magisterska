@@ -24,6 +24,7 @@ class TimeOffLimitPutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPassValidationWhenAllFieldsAreValid() {
 		TimeOffLimitPutDto dto = new TimeOffLimitPutDto();
 		dto.setId(1L);
@@ -37,6 +38,7 @@ class TimeOffLimitPutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWhenFieldsAreInvalid() {
 		TimeOffLimitPutDto dto = new TimeOffLimitPutDto();
 		dto.setId(-1L); // invalid
@@ -50,6 +52,7 @@ class TimeOffLimitPutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailCustomValidationWhenMaxHoursExceedYearLimit() {
 		TimeOffLimitPutDto dto = new TimeOffLimitPutDto();
 		dto.setId(1L);
@@ -63,6 +66,7 @@ class TimeOffLimitPutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPassCustomValidationWhenMaxHoursAtLimitOfLeapYear() {
 		TimeOffLimitPutDto dto = new TimeOffLimitPutDto();
 		dto.setId(1L);

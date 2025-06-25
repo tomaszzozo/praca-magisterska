@@ -23,6 +23,7 @@ class EmployeePutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPassValidationWhenFieldsAreValid() {
 		var dto = new EmployeePutDto();
 		dto.setEmail("test@example.com");
@@ -36,6 +37,7 @@ class EmployeePutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWhenFieldsAreInvalid() {
 		var dto = new EmployeePutDto();
 		dto.setEmail("invalid-email");

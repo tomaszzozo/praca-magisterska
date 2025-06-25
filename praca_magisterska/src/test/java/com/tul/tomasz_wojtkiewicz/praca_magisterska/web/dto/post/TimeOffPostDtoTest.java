@@ -39,6 +39,7 @@ class TimeOffPostDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPassValidationWithCorrectData() {
 		TimeOffPostDto dto = createValidDto();
 		Set<ConstraintViolation<TimeOffPostDto>> violations = validator.validate(dto);
@@ -46,6 +47,7 @@ class TimeOffPostDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailIfFirstDayAfterLastDay() {
 		TimeOffPostDto dto = createValidDto();
 		dto.setFirstDay(LocalDate.of(2025, 6, 5));
@@ -71,6 +73,7 @@ class TimeOffPostDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailIfHoursExceedAvailableTime() {
 		TimeOffPostDto dto = createValidDto();
 		dto.setHoursCount(1000); // More than 72
@@ -82,6 +85,7 @@ class TimeOffPostDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailIfYearIsOutOfRange() {
 		TimeOffPostDto dto = createValidDto();
 		dto.setFirstDay(LocalDate.of(2019, 6, 1));
@@ -94,6 +98,7 @@ class TimeOffPostDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailWithNullFields() {
 		TimeOffPostDto dto = new TimeOffPostDto();
 		Set<ConstraintViolation<TimeOffPostDto>> violations = validator.validate(dto);

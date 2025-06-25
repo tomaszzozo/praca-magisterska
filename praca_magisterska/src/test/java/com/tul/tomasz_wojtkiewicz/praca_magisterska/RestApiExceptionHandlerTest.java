@@ -26,6 +26,7 @@ class RestApiExceptionHandlerTest {
 	}
 
 	@Test
+		// cases: 1
 	void handleMethodArgumentNotValidException_returnsBadRequest() {
 		MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -34,6 +35,7 @@ class RestApiExceptionHandlerTest {
 	}
 
 	@Test
+		// cases: 1
 	void handleConstraintViolationException_returnsBadRequest() {
 		ConstraintViolationException ex = mock(ConstraintViolationException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -42,6 +44,7 @@ class RestApiExceptionHandlerTest {
 	}
 
 	@Test
+		// cases: 1
 	void handleUnexpectedTypeException_returnsBadRequest() {
 		UnexpectedTypeException ex = mock(UnexpectedTypeException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -50,6 +53,7 @@ class RestApiExceptionHandlerTest {
 	}
 
 	@Test
+		// cases: 1
 	void handleDataIntegrityViolationException_returnsBadRequest() {
 		DataIntegrityViolationException ex = mock(DataIntegrityViolationException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -58,6 +62,7 @@ class RestApiExceptionHandlerTest {
 	}
 
 	@Test
+		// cases: 1
 	void handleApiException_returnsCustomStatusAndMessage() {
 		ApiException ex = new ApiException(HttpStatus.NOT_FOUND, "Not found error");
 		ResponseEntity<String> response = handler.handleException(ex);

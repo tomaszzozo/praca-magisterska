@@ -17,6 +17,7 @@ class TimeOffTypeRepositoryTest {
 	private TimeOffTypeRepository timeOffTypeRepository;
 
 	@Test
+		// cases: 1
 	void existsByName_shouldReturnTrue_whenNameExists() {
 		TimeOffTypeEntity type = new TimeOffTypeEntity();
 		type.setName("Vacation");
@@ -29,6 +30,7 @@ class TimeOffTypeRepositoryTest {
 	}
 
 	@Test
+		// cases: 1
 	void existsByName_shouldReturnFalse_whenNameDoesNotExist() {
 		boolean exists = timeOffTypeRepository.existsByName("Sick Leave");
 

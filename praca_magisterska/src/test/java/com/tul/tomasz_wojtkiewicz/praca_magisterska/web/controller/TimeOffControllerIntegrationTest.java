@@ -40,6 +40,7 @@ class TimeOffControllerIntegrationTest {
 	private ObjectMapper objectMapper;
 
 	@Test
+		// cases: 1
 	void shouldGetAllByYearAndEmployeeId() throws Exception {
 		var mockedEmployee = Mockito.mock(EmployeeEntity.class);
 		Mockito.doReturn(5L).when(mockedEmployee).getId();
@@ -73,6 +74,7 @@ class TimeOffControllerIntegrationTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPostTimeOff() throws Exception {
 		TimeOffPostDto postDto = new TimeOffPostDto();
 		postDto.setEmployeeId(5L);
@@ -93,6 +95,7 @@ class TimeOffControllerIntegrationTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPutTimeOff() throws Exception {
 		TimeOffPutDto putDto = new TimeOffPutDto();
 		putDto.setTypeId(2L);
@@ -113,6 +116,7 @@ class TimeOffControllerIntegrationTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldDeleteTimeOff() throws Exception {
 		mockMvc.perform(delete("/time-offs/1"))
 			.andExpect(status().isOk());

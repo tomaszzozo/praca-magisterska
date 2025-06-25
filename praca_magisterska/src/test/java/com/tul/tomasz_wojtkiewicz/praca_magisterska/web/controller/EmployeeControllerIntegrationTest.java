@@ -37,6 +37,7 @@ class EmployeeControllerIntegrationTest {
 	private ObjectMapper objectMapper;
 
 	@Test
+		// cases: 1
 	void shouldGetAllEmployees() throws Exception {
 		// MISTAKE: assumed builder and toEntity dto method
 		var employee = new EmployeeEntity();
@@ -54,6 +55,7 @@ class EmployeeControllerIntegrationTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldGetEmployeeById() throws Exception {
 		// MISTAKE: assumed builder and toEntity dto method
 		var employee = new EmployeeEntity();
@@ -71,6 +73,7 @@ class EmployeeControllerIntegrationTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldCreateEmployee() throws Exception {
 		var postDto = new EmployeePostDto();
 		postDto.setFirstName("Alice");
@@ -89,6 +92,7 @@ class EmployeeControllerIntegrationTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldUpdateEmployee() throws Exception {
 		var putDto = new EmployeePutDto();
 		putDto.setFirstName("Bob");

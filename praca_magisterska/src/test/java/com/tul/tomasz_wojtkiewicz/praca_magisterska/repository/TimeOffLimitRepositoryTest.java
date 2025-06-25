@@ -47,6 +47,7 @@ class TimeOffLimitRepositoryTest {
 	}
 
 	@Test
+		// cases: 1
 	void findAllByLeaveYearAndEmployeeId_shouldReturnMatchingEntities() {
 		TimeOffLimitEntity limit = new TimeOffLimitEntity();
 		limit.setLeaveYear(2025);
@@ -62,6 +63,7 @@ class TimeOffLimitRepositoryTest {
 	}
 
 	@Test
+		// cases: 1
 	void existsByLeaveYearAndEmployeeIdAndTimeOffTypeId_shouldReturnTrue_whenRecordExists() {
 		TimeOffLimitEntity limit = new TimeOffLimitEntity();
 		limit.setLeaveYear(2025);
@@ -78,6 +80,7 @@ class TimeOffLimitRepositoryTest {
 	}
 
 	@Test
+		// cases: 1
 	void existsByLeaveYearAndEmployeeIdAndTimeOffTypeId_shouldReturnFalse_whenNoRecordExists() {
 		boolean exists = timeOffLimitRepository.existsByLeaveYearAndEmployeeIdAndTimeOffTypeId(
 			2024, 999L, 999L

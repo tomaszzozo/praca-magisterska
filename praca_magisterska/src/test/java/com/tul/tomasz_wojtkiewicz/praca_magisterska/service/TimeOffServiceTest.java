@@ -40,6 +40,7 @@ class TimeOffServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void getAllByYearAndEmployeeId_shouldReturnList() {
 		when(repository.findAllByYearAndEmployeeId(1L, 2024)).thenReturn(List.of(new TimeOffEntity()));
 
@@ -49,6 +50,7 @@ class TimeOffServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void post_shouldSave_whenValid() {
 		TimeOffPostDto dto = new TimeOffPostDto();
 		dto.setEmployeeId(1L);
@@ -71,6 +73,7 @@ class TimeOffServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void post_shouldThrow_whenOverlapping() {
 		TimeOffPostDto dto = new TimeOffPostDto();
 		dto.setEmployeeId(1L);
@@ -87,6 +90,7 @@ class TimeOffServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void post_shouldThrow_whenOverLimit() {
 		TimeOffPostDto dto = new TimeOffPostDto();
 		dto.setEmployeeId(1L);
@@ -115,6 +119,7 @@ class TimeOffServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void put_shouldSave_whenValid() {
 		TimeOffPutDto dto = new TimeOffPutDto();
 		dto.setFirstDay(LocalDate.of(2024, 6, 1));
@@ -143,6 +148,7 @@ class TimeOffServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void put_shouldThrow_whenChangingYear() {
 		TimeOffPutDto dto = new TimeOffPutDto();
 		dto.setFirstDay(LocalDate.of(2025, 1, 1));
@@ -157,6 +163,7 @@ class TimeOffServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void delete_shouldRemove_whenExists() {
 		TimeOffEntity entity = new TimeOffEntity();
 		when(repository.findById(1L)).thenReturn(Optional.of(entity));
@@ -167,6 +174,7 @@ class TimeOffServiceTest {
 	}
 
 	@Test
+		// cases: 1
 	void delete_shouldThrow_whenNotFound() {
 		when(repository.findById(1L)).thenReturn(Optional.empty());
 

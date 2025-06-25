@@ -26,6 +26,7 @@ class TimeOffPutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldPassValidationWhenAllFieldsAreValid() {
 		TimeOffPutDto dto = new TimeOffPutDto();
 		dto.setFirstDay(LocalDate.of(2025, 6, 1));
@@ -41,6 +42,7 @@ class TimeOffPutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWhenFirstDayAfterLastDay() {
 		TimeOffPutDto dto = new TimeOffPutDto();
 		dto.setFirstDay(LocalDate.of(2025, 6, 5));
@@ -60,6 +62,7 @@ class TimeOffPutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWhenYearAndMonthAreDifferent() {
 		TimeOffPutDto dto = new TimeOffPutDto();
 		dto.setFirstDay(LocalDate.of(2025, 6, 30));
@@ -75,6 +78,7 @@ class TimeOffPutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWhenHoursCountExceedsAvailableTime() {
 		TimeOffPutDto dto = new TimeOffPutDto();
 		dto.setFirstDay(LocalDate.of(2025, 6, 1));
@@ -90,6 +94,7 @@ class TimeOffPutDtoTest {
 	}
 
 	@Test
+		// cases: 1
 	void shouldFailValidationWhenYearOutOfRange() {
 		TimeOffPutDto dto = new TimeOffPutDto();
 		dto.setFirstDay(LocalDate.of(2105, 6, 1));
