@@ -52,4 +52,16 @@ public interface InvalidDataProvider {
 		var now = LocalDate.now();
 		return Stream.of(1, 10, 100, 1000).map(daysAfter -> Arguments.of(now, now.plusDays(daysAfter)));
 	}
+
+	static Stream<Arguments> nullableFirstAndLastDayAndHoursCount() {
+		return Stream.of(
+			Arguments.of(null, null, null),
+			Arguments.of(LocalDate.now(), null, null),
+			Arguments.of(null, LocalDate.now(), null),
+			Arguments.of(null, null, 1),
+			Arguments.of(LocalDate.now(), LocalDate.now(), null),
+			Arguments.of(null, LocalDate.now(), 1),
+			Arguments.of(LocalDate.now(), null, 1)
+		);
+	}
 }

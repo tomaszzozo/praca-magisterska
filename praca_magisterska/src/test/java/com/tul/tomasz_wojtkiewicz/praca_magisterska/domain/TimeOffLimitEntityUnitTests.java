@@ -19,6 +19,17 @@ class TimeOffLimitEntityUnitTests {
 		assertFalse(TimeOffLimitTestEntityFactory.builder().leaveYear(year).maxHours(invalidMaxHoursInYear).build().asEntity().isMaxHoursNotHigherThanHoursInYear());
 	}
 
+	@Test
+	void isMaxHoursNotHigherThanHoursInYearReturnsTrueIfEitherValueIsNull() {
+		var entity = TimeOffLimitTestEntityFactory.builder().maxHours(null).leaveYear(null).build().asEntity();
+		assertTrue(entity.isMaxHoursNotHigherThanHoursInYear());
+		entity.setMaxHours(366*25);
+		assertTrue(entity.isMaxHoursNotHigherThanHoursInYear());
+		entity.setMaxHours(null);
+		entity.setLeaveYear(2000);
+		assertTrue(entity.isMaxHoursNotHigherThanHoursInYear());
+	}
+
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider#hoursInYearLessThanOrMax")
 	void isMaxHoursNotHigherThanHoursInYearReturnsTrueWhenMaxHoursEqualsHoursInYear(int year, int validMaxHoursInYear) {

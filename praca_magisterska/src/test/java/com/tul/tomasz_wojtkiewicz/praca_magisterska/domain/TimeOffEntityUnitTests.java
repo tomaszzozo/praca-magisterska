@@ -13,11 +13,24 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("unit")
 @Tag("entity")
 class TimeOffEntityUnitTests {
+
+
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#firstDayAfterLastDay")
 	void isFirstDayAfterLastDayShouldReturnTrueWhenFirstDayAfterLastDay(LocalDate lastDay, LocalDate firstDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).build().asEntity();
 		assertTrue(entity.isFirstDayAfterLastDay());
+	}
+
+	@Test
+	void isFirstDayAfterLastDayShouldReturnFalseWhenEitherValueIsNull() {
+		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(null).firstDay(null).build().asEntity();
+		assertFalse(entity.isFirstDayAfterLastDay());
+		entity.setFirstDay(LocalDate.now());
+		assertFalse(entity.isFirstDayAfterLastDay());
+		entity.setFirstDay(null);
+		entity.setLastDayInclusive(LocalDate.now());
+		assertFalse(entity.isFirstDayAfterLastDay());
 	}
 
 	@ParameterizedTest
@@ -31,6 +44,17 @@ class TimeOffEntityUnitTests {
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider#sameDatesDifferentDays")
 	void isYearAndMonthEqualShouldReturnTrue(LocalDate firstDay, LocalDate lastDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).build().asEntity();
+		assertTrue(entity.isYearAndMonthEqual());
+	}
+
+	@Test
+	void isYearAndMonthEqualShouldReturnTrueIfEitherValueIsNull() {
+		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(null).firstDay(null).build().asEntity();
+		assertTrue(entity.isYearAndMonthEqual());
+		entity.setFirstDay(LocalDate.now());
+		assertTrue(entity.isYearAndMonthEqual());
+		entity.setFirstDay(null);
+		entity.setLastDayInclusive(LocalDate.now());
 		assertTrue(entity.isYearAndMonthEqual());
 	}
 
@@ -49,6 +73,13 @@ class TimeOffEntityUnitTests {
 	}
 
 	@ParameterizedTest
+	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#nullableFirstAndLastDayAndHoursCount")
+	void isHoursCountLessThanHoursInTimeOffShouldReturnFalseShouldReturnTrueIfEitherValueIsNull(LocalDate firstDay, LocalDate lastDay, Integer hoursCount) {
+		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).hoursCount(hoursCount).build().asEntity();
+		assertTrue(entity.isHoursCountLessThanHoursInTimeOff());
+	}
+
+	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider#hoursCountLessOrEqualHoursInTimeOff")
 	void isHoursCountLessThanHoursInTimeOffShouldReturnTrue(int validHoursCount, LocalDate firstDay, LocalDate lastDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).hoursCount(validHoursCount).build().asEntity();
@@ -60,6 +91,17 @@ class TimeOffEntityUnitTests {
 	void isYearInAcceptableRangeShouldReturnFalse(LocalDate firstDay, LocalDate lastDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).build().asEntity();
 		assertFalse(entity.isYearInAcceptableRange());
+	}
+
+	@Test
+	void isYearInAcceptableRangeShouldReturnTrueIfEitherValueIsNull() {
+		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(null).firstDay(null).build().asEntity();
+		assertTrue(entity.isYearInAcceptableRange());
+		entity.setFirstDay(LocalDate.now());
+		assertTrue(entity.isYearInAcceptableRange());
+		entity.setFirstDay(null);
+		entity.setLastDayInclusive(LocalDate.now());
+		assertTrue(entity.isYearInAcceptableRange());
 	}
 
 	@ParameterizedTest
@@ -97,11 +139,11 @@ class TimeOffEntityUnitTests {
 		assertNotEquals(entity1, entity2);
 
 		entity1.setId(entity2.getId());
-		entity1.setHoursCount(entity2.getHoursCount()+1);
+		entity1.setHoursCount(entity2.getHoursCount() + 1);
 		assertNotEquals(entity1, entity2);
 
 		entity1.setHoursCount(entity2.getHoursCount());
-		entity1.setComment(entity2.getComment()+"a");
+		entity1.setComment(entity2.getComment() + "a");
 		assertNotEquals(entity1, entity2);
 
 		entity1.setComment(entity2.getComment());
