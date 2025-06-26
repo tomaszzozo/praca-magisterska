@@ -40,6 +40,7 @@ class EmployeeControllerIntegrationTests {
 	private ObjectMapper objectMapper;
 
 	@Test
+		// cases: 1
 	void given_serviceReturnsListWithEmployee_when_getAll_then_returnsListWithEmployee_and_statusOk() throws Exception {
 		var entity = EmployeeTestEntityFactory.builder().id(1L).build().asEntity();
 		when(employeeService.getAll()).thenReturn(List.of(entity));
@@ -55,6 +56,7 @@ class EmployeeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_serviceReturnsEmptyList_when_getAll_then_returnsEmptyList_and_statusOk() throws Exception {
 		when(employeeService.getAll()).thenReturn(List.of());
 		mockMvc.perform(get("/employees"))
@@ -64,17 +66,20 @@ class EmployeeControllerIntegrationTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_when_getById_then_statusBadRequest(int id) throws Exception {
 		mockMvc.perform(get("/employees/" + id)).andExpect(status().isBadRequest());
 	}
 
 	@Test
+		// cases: 1
 	void given_serviceThrowsApiExceptionNotFound_when_getById_then_statusBadRequest() throws Exception {
 		when(employeeService.getById(1)).thenThrow(new ApiException(HttpStatus.NOT_FOUND, ""));
 		mockMvc.perform(get("/employees/1")).andExpect(status().isNotFound());
 	}
 
 	@Test
+		// cases: 1
 	void given_serviceDoesNotThrow_when_getById_then_statusOk_and_returnsEmployee() throws Exception {
 		var entity = EmployeeTestEntityFactory.builder().id(1L).build().asEntity();
 		when(employeeService.getById(1)).thenReturn(entity);
@@ -89,6 +94,7 @@ class EmployeeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidDto_when_post_then_statusBadRequest() throws Exception {
 		var dto = EmployeePostTestDtoFactory.builder().phoneNumber("whoops").build().asDto();
 		mockMvc.perform(
@@ -99,6 +105,7 @@ class EmployeeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceThrowsApiExceptionConflict_when_post_then_statusConflict() throws Exception {
 		var dto = EmployeePostTestDtoFactory.build().asDto();
 		doThrow(new ApiException(HttpStatus.CONFLICT, "")).when(employeeService).post(dto);
@@ -110,6 +117,7 @@ class EmployeeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceDoesNotThrow_when_post_then_statusCreated() throws Exception {
 		var dto = EmployeePostTestDtoFactory.build().asDto();
 		mockMvc.perform(
@@ -121,6 +129,7 @@ class EmployeeControllerIntegrationTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_when_put_then_statusBadRequest(int id) throws Exception {
 		var dto = EmployeePutTestDtoFactory.build().asDto();
 		mockMvc.perform(
@@ -131,6 +140,7 @@ class EmployeeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidDto_when_put_then_statusBadRequest() throws Exception {
 		var dto = EmployeePutTestDtoFactory.builder().phoneNumber("whoops").build().asDto();
 		mockMvc.perform(
@@ -141,6 +151,7 @@ class EmployeeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_serviceThrowsApiExceptionConflict_when_put_then_statusConflict() throws Exception {
 		var dto = EmployeePutTestDtoFactory.builder().build().asDto();
 		doThrow(new ApiException(HttpStatus.CONFLICT, "")).when(employeeService).put(1L, dto);
@@ -152,6 +163,7 @@ class EmployeeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_serviceDoesNotThrow_when_put_then_statusOk() throws Exception {
 		var dto = EmployeePutTestDtoFactory.builder().build().asDto();
 		mockMvc.perform(

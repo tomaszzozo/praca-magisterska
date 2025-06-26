@@ -22,6 +22,7 @@ class TimeOffLimitPutDtoIntegrationTests  implements ConstraintValidation {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#hoursInYearNegative")
+		// cases: 3
 	void maxHoursCanNotBeNegative(int invalidMaxHours) {
 		var validation = validateConstraints(TimeOffLimitTestDtoFactory.builder().maxHours(invalidMaxHours).build().asPutDto());
 		assertEquals(1, validation.size());
@@ -29,6 +30,7 @@ class TimeOffLimitPutDtoIntegrationTests  implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void maxHoursCanNotBeNull() {
 		var validation = validateConstraints(TimeOffLimitTestDtoFactory.builder().maxHours(null).build().asPutDto());
 		assertEquals(1, validation.size());
@@ -36,11 +38,13 @@ class TimeOffLimitPutDtoIntegrationTests  implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void defaultMaxHoursIsZero() {
 		assertEquals(0, new TimeOffLimitEntity().getMaxHours());
 	}
 
 	@Test
+		// cases: 1
 	void maxHoursMoreThanHoursInYearTriggersCustomValidationAssertion() {
 		var validation = validateConstraints(TimeOffLimitTestDtoFactory.builder().year(2025).maxHours(LocalDate.of(2025, 12, 31).getDayOfYear() * 24 + 1).build().asPutDto());
 		assertEquals(1, validation.size());
@@ -48,6 +52,7 @@ class TimeOffLimitPutDtoIntegrationTests  implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void yearCanNotBeNull() {
 		var validation = validateConstraints(TimeOffLimitTestDtoFactory.builder().year(null).build().asPutDto());
 		assertEquals(1, validation.size());
@@ -56,6 +61,7 @@ class TimeOffLimitPutDtoIntegrationTests  implements ConstraintValidation {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
+		// cases: 8
 	void yearMustBeInRange(int invalidLeaveYear) {
 		var validation = validateConstraints(TimeOffLimitTestDtoFactory.builder().year(invalidLeaveYear).build().asPutDto());
 		assertEquals(1, validation.size());
@@ -63,6 +69,7 @@ class TimeOffLimitPutDtoIntegrationTests  implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void employeeMustNotBeNull() {
 		var validation = validateConstraints(TimeOffLimitTestDtoFactory.builder().employeeId(null).build().asPutDto());
 		assertEquals(1, validation.size());
@@ -70,6 +77,7 @@ class TimeOffLimitPutDtoIntegrationTests  implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void timeOffTypeMustNotBeNull() {
 		var validation = validateConstraints(TimeOffLimitTestDtoFactory.builder().typeId(null).build().asPutDto());
 		assertEquals(1, validation.size());

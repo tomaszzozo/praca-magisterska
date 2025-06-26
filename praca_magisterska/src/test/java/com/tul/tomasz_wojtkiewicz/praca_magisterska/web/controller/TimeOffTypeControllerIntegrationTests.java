@@ -39,6 +39,7 @@ class TimeOffTypeControllerIntegrationTests {
 	private ObjectMapper objectMapper;
 
 	@Test
+		// cases: 1
 	void given_serviceReturnsListWithTimeOffType_when_getAll_then_statusOk_and_returnsListWithTimeOffType() throws Exception {
 		var entity = TimeOffTypeTestEntityFactory.builder().id(1L).build().asEntity();
 		when(timeOffTypeService.getAll()).thenReturn(List.of(entity));
@@ -51,6 +52,7 @@ class TimeOffTypeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_serviceReturnsEmptyList_when_getAll_then_statusOk_and_returnsEmptyList() throws Exception {
 		when(timeOffTypeService.getAll()).thenReturn(List.of());
 		mockMvc.perform(get("/time-offs/types"))
@@ -59,6 +61,7 @@ class TimeOffTypeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidDto_when_putAll_then_statusBadRequest() throws Exception {
 		var dto = TimeOffTypePutTestDtoFactory.builder().id(-1L).build().asDto();
 		mockMvc.perform(
@@ -70,6 +73,7 @@ class TimeOffTypeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceThrowsApiExceptionConflict_when_putAll_then_statusConflict() throws Exception {
 		var dto = TimeOffTypePutTestDtoFactory.build().asDto();
 		doThrow(new ApiException(HttpStatus.CONFLICT, "")).when(timeOffTypeService).putAll(List.of(dto));
@@ -82,6 +86,7 @@ class TimeOffTypeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceThrowsApiExceptionNotFound_when_putAll_then_statusNotFound() throws Exception {
 		var dto = TimeOffTypePutTestDtoFactory.build().asDto();
 		doThrow(new ApiException(HttpStatus.NOT_FOUND, "")).when(timeOffTypeService).putAll(List.of(dto));
@@ -94,6 +99,7 @@ class TimeOffTypeControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceDoesNotThrow_when_putAll_then_statusCreated() throws Exception {
 		var dto = TimeOffTypePutTestDtoFactory.build().asDto();
 		mockMvc.perform(

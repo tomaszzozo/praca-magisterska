@@ -24,11 +24,13 @@ class EmployeeRepositoryIntegrationTests {
 	private EmployeeRepository employeeRepository;
 
 	@Test
+		// cases: 5
 	void fieldsOtherThanEmailAndPhoneNumberAreNotUnique() {
 		assertDoesNotThrow(() -> employeeRepository.saveAllAndFlush(Stream.of(Arguments.of("Ruggiero", "Stealy", "rstealy0@plala.or.jp", "712568069", 1), Arguments.of("Ruggiero", "Stealy", "cbiggin1@tiny.cc", "709347655", 1), Arguments.of("Ruggiero", "Maypother", "sbowlesworth2@de.vu", "452172090", 2), Arguments.of("Waneta", "Stealy", "wkarus3@reverbnation.com", "164781938", 2), Arguments.of("Roxine", "Maypother", "rmaypother4@paginegialle.it", "131396665", 3)).map(a -> EmployeeTestEntityFactory.builder().firstName((String) a.get()[0]).lastName((String) a.get()[1]).email((String) a.get()[2]).phoneNumber((String) a.get()[3]).accessLevel((Integer) a.get()[4]).build().asEntity()).toList()));
 	}
 
 	@Test
+		// cases: 1
 	void emailIsUnique() {
 		var firstEmployee = EmployeeTestEntityFactory.build().asEntity();
 		employeeRepository.save(firstEmployee);
@@ -37,6 +39,7 @@ class EmployeeRepositoryIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void phoneNumberIsUnique() {
 		var firstEmployee = EmployeeTestEntityFactory.build().asEntity();
 		employeeRepository.save(firstEmployee);
@@ -45,6 +48,7 @@ class EmployeeRepositoryIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void samePhoneNumberAndEmailAlsoFails() {
 		var firstEmployee = EmployeeTestEntityFactory.build().asEntity();
 		employeeRepository.save(firstEmployee);
@@ -53,6 +57,7 @@ class EmployeeRepositoryIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void timeOffLimitsRelationWorks() {
 		var employee = EmployeeTestEntityFactory.build().asEntity();
 		var limit = TimeOffLimitTestEntityFactory.builder().maxHours(5).employee(employee).build().asEntity();
@@ -66,6 +71,7 @@ class EmployeeRepositoryIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void timeOffsRelationWorks() {
 		var employee = EmployeeTestEntityFactory.build().asEntity();
 		var timeOffDate = LocalDate.of(2024, 11, 4);

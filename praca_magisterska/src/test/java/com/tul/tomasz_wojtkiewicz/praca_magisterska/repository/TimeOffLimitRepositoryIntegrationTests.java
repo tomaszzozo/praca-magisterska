@@ -27,6 +27,7 @@ class TimeOffLimitRepositoryIntegrationTests {
 	private TimeOffLimitRepository timeOffLimitRepository;
 
 	@Test
+		// cases: 1
 	void combinationOfLeaveYearTypeAndEmployeeIsUnique() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -35,6 +36,7 @@ class TimeOffLimitRepositoryIntegrationTests {
 	}
 
 	@Test
+		// cases: 4
 	void otherFieldsAndCombinationsAreNotUnique() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var employee2 = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.builder().email("a" + employee.getEmail()).phoneNumber(new StringBuilder(employee.getPhoneNumber()).reverse().toString()).build().asEntity());
@@ -48,6 +50,7 @@ class TimeOffLimitRepositoryIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void timeOffsRelationWorks() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());

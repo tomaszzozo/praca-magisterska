@@ -13,11 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Tag("integration")
 class TimeOffTypePutDtoIntegrationTests implements ConstraintValidation {
 	@Test
+		// cases: 1
 	void basicValidEntityPassesValidation() {
 		assertEquals(0, validateConstraints(TimeOffTypePutTestDtoFactory.build().asDto()).size());
 	}
 
 	@Test
+		// cases: 1
 	void nameCanNotBeNull() {
 		var validation = validateConstraints(TimeOffTypePutTestDtoFactory.builder().name(null).build().asDto());
 		assertEquals(1, validation.size());
@@ -25,6 +27,7 @@ class TimeOffTypePutDtoIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void nameCanNotBeBlank() {
 		var validation = validateConstraints(TimeOffTypePutTestDtoFactory.builder().name("").build().asDto());
 		assertEquals(1, validation.size());
@@ -32,6 +35,7 @@ class TimeOffTypePutDtoIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void compensationPercentageCanNotBeNull() {
 		var validation = validateConstraints(TimeOffTypePutTestDtoFactory.builder().compensationPercentage(null).build().asDto());
 		assertEquals(1, validation.size());
@@ -40,6 +44,7 @@ class TimeOffTypePutDtoIntegrationTests implements ConstraintValidation {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#compensationPercentages")
+		// cases: 6
 	void entityWithInvalidCompensationPercentageDoesNotPassTheValidation(Float invalidCompensationPercentage) {
 		var validation = validateConstraints(TimeOffTypePutTestDtoFactory.builder().compensationPercentage(invalidCompensationPercentage).build().asDto());
 		assertEquals(1, validation.size());

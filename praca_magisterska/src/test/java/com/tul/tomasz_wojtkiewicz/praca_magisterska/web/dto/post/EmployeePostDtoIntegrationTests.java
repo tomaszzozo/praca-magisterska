@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Tag("integration")
 class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 	@Test
+		// cases: 1
 	void given_validDto_when_constraintsValidation_then_noErrors() {
 		var dto = EmployeePostTestDtoFactory.build().asDto();
 		var validation = validateConstraints(dto);
@@ -24,6 +25,7 @@ class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#emails")
+		// cases: 6
 	void given_invalidEmail_when_constraintsValidation_then_oneError_and_emailCausedError(String email) {
 		var dto = EmployeePostTestDtoFactory.builder().email(email).build().asDto();
 		var validation = validateConstraints(dto);
@@ -32,6 +34,7 @@ class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 2
 	void given_blankOrNullEmail_when_constraintsValidation_then_oneError_and_emailCausedError() {
 		{
 			var dto = EmployeePostTestDtoFactory.builder().email(null).build().asDto();
@@ -48,6 +51,7 @@ class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidFirstName_when_constraintsValidation_then_oneError_and_constraintAnnotationIsName() {
 		var validation = validateConstraints(EmployeePostTestDtoFactory.builder().firstName("3").build().asDto());
 		assertEquals(1, validation.size());
@@ -55,6 +59,7 @@ class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void given_nullFirstName_when_constraintsValidation_then_oneError_and_firstNameCausedError() {
 		var validation = validateConstraints(EmployeePostTestDtoFactory.builder().firstName(null).build().asDto());
 		assertEquals(1, validation.size());
@@ -62,6 +67,7 @@ class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidLastName_when_constraintsValidation_then_oneError_and_constraintAnnotationIsName() {
 		var validation = validateConstraints(EmployeePostTestDtoFactory.builder().lastName("3").build().asDto());
 		assertEquals(1, validation.size());
@@ -69,6 +75,7 @@ class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void given_nullLastName_when_constraintsValidation_then_oneError_and_lastNameCausedError() {
 		var validation = validateConstraints(EmployeePostTestDtoFactory.builder().lastName(null).build().asDto());
 		assertEquals(1, validation.size());
@@ -76,6 +83,7 @@ class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidPhoneNumber_when_constraintsValidation_then_oneError_and_constraintAnnotationIsPhoneNumber() {
 		var validation = validateConstraints(EmployeePostTestDtoFactory.builder().phoneNumber("3").build().asDto());
 		assertEquals(1, validation.size());
@@ -83,6 +91,7 @@ class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void given_nullPhoneNumber_when_constraintsValidation_then_oneError_and_phoneNumberCausedError() {
 		var validation = validateConstraints(EmployeePostTestDtoFactory.builder().phoneNumber(null).build().asDto());
 		assertEquals(1, validation.size());
@@ -91,6 +100,7 @@ class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#accessLevels")
+		// cases: 6
 	void given_invalidAccessLevel_when_constraintsValidation_then_oneError_and_accessLevelCausedError(Integer invalidAccessLevel) {
 		var validation = validateConstraints(EmployeePostTestDtoFactory.builder().accessLevel(invalidAccessLevel).build().asDto());
 		assertEquals(1, validation.size());
@@ -98,6 +108,7 @@ class EmployeePostDtoIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void given_nullAccessLevel_when_constraintsValidation_then_oneError_and_accessLevelCausedError() {
 		var validation = validateConstraints(EmployeePostTestDtoFactory.builder().accessLevel(null).build().asDto());
 		assertEquals(1, validation.size());

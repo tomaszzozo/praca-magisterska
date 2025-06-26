@@ -43,17 +43,20 @@ class TimeOffControllerIntegrationTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_when_getAllByYearAndEmployee_then_statusBadRequest(int id) throws Exception {
 		mockMvc.perform(get("/time-offs?employeeId=%d&year=2025".formatted(id))).andExpect(status().isBadRequest());
 	}
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
+		// cases: 8
 	void given_invalidYear_when_getAllByYearAndEmployee_then_statusBadRequest(int year) throws Exception {
 		mockMvc.perform(get("/time-offs?employeeId=1&year=%d".formatted(year))).andExpect(status().isBadRequest());
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_serviceReturnsEmptyList_when_getAllByYearAndEmployee_then_statusOk_and_returnsEmptyList() throws Exception {
 		when(timeOffService.getAllByYearAndEmployeeId(2025, 1)).thenReturn(List.of());
 		mockMvc.perform(get("/time-offs?employeeId=1&year=2025"))
@@ -62,6 +65,7 @@ class TimeOffControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_serviceReturnsListOfTimeOffs_when_getAllByYearAndEmployee_then_statusOk_and_returnsListOfTimeOffs() throws Exception {
 		var employee = EmployeeTestEntityFactory.builder().id(1L).build().asEntity();
 		var type = TimeOffTypeTestEntityFactory.builder().id(2L).build().asEntity();
@@ -82,6 +86,7 @@ class TimeOffControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidDto_when_post_then_statusBadRequest() throws Exception {
 		var dto = TimeOffTestDtoFactory.builder().typeId(-1L).build().asPostDto();
 		mockMvc.perform(
@@ -92,6 +97,7 @@ class TimeOffControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceThrowsApiExceptionConflict_when_post_then_statusConflict() throws Exception {
 		var dto = TimeOffTestDtoFactory.builder().typeId(1L).employeeId(1L).yearlyLimitId(1L).build().asPostDto();
 		doThrow(new ApiException(HttpStatus.CONFLICT, "")).when(timeOffService).post(dto);
@@ -103,6 +109,7 @@ class TimeOffControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceThrowsApiExceptionNotFound_when_post_then_statusNotFound() throws Exception {
 		var dto = TimeOffTestDtoFactory.builder().typeId(1L).employeeId(1L).yearlyLimitId(1L).build().asPostDto();
 		doThrow(new ApiException(HttpStatus.NOT_FOUND, "")).when(timeOffService).post(dto);
@@ -114,6 +121,7 @@ class TimeOffControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceDoesNotThrow_when_post_then_statusCreated() throws Exception {
 		var dto = TimeOffTestDtoFactory.builder().typeId(1L).employeeId(1L).yearlyLimitId(1L).build().asPostDto();
 		mockMvc.perform(
@@ -124,6 +132,7 @@ class TimeOffControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidDto_when_put_then_statusBadRequest() throws Exception {
 		var dto = TimeOffTestDtoFactory.builder().typeId(-1L).build().asPutDto();
 		mockMvc.perform(
@@ -135,6 +144,7 @@ class TimeOffControllerIntegrationTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_when_put_then_statusBadRequest(int id) throws Exception {
 		var dto = TimeOffTestDtoFactory.builder().typeId(1L).employeeId(1L).yearlyLimitId(1L).build().asPutDto();
 		mockMvc.perform(
@@ -145,6 +155,7 @@ class TimeOffControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceThrowsApiExceptionConflict_when_put_then_statusConflict() throws Exception {
 		var dto = TimeOffTestDtoFactory.builder().typeId(1L).employeeId(1L).yearlyLimitId(1L).build().asPutDto();
 		doThrow(new ApiException(HttpStatus.CONFLICT, "")).when(timeOffService).put(1, dto);
@@ -156,6 +167,7 @@ class TimeOffControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceThrowsApiExceptionNotFound_when_put_then_statusNotFound() throws Exception {
 		var dto = TimeOffTestDtoFactory.builder().typeId(1L).employeeId(1L).yearlyLimitId(1L).build().asPutDto();
 		doThrow(new ApiException(HttpStatus.NOT_FOUND, "")).when(timeOffService).put(1, dto);
@@ -167,6 +179,7 @@ class TimeOffControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceDoesNotThrow_when_post_put_statusCreated() throws Exception {
 		var dto = TimeOffTestDtoFactory.builder().typeId(1L).employeeId(1L).yearlyLimitId(1L).build().asPutDto();
 		mockMvc.perform(
@@ -178,17 +191,20 @@ class TimeOffControllerIntegrationTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_when_delete_then_statusBadRequest(int id) throws Exception {
 		mockMvc.perform(delete("/time-offs/" + id)).andExpect(status().isBadRequest());
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_serviceThrowsApiExceptionNotFound_when_delete_then_statusNotFound() throws Exception {
 		doThrow(new ApiException(HttpStatus.NOT_FOUND, "")).when(timeOffService).delete(1);
 		mockMvc.perform(delete("/time-offs/1")).andExpect(status().isNotFound());
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_serviceDoesNotThrow_when_delete_then_statusOk() throws Exception {
 		mockMvc.perform(delete("/time-offs/1")).andExpect(status().isOk());
 	}

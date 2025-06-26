@@ -42,6 +42,7 @@ class TimeOffLimitControllerIntegrationTests {
 	private ObjectMapper objectMapper;
 
 	@Test
+		// cases: 1
 	void given_missingRequiredRequestParam_when_getAllByYearAndEmployee_then_statusBadRequest() throws Exception {
 		mockMvc.perform(get("/time-offs/types/limits?employeeId=1")).andExpect(status().isBadRequest());
 		mockMvc.perform(get("/time-offs/types/limits?year=2025")).andExpect(status().isBadRequest());
@@ -49,23 +50,27 @@ class TimeOffLimitControllerIntegrationTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_when_getAllByYearAndEmployee_then_statusBadRequest(int id) throws Exception {
 		mockMvc.perform(get("/time-offs/types/limits?employeeId=%d&year=2025".formatted(id))).andExpect(status().isBadRequest());
 	}
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
+		// cases: 8
 	void given_invalidYear_when_getAllByYearAndEmployee_then_statusBadRequest(int year) throws Exception {
 		mockMvc.perform(get("/time-offs/types/limits?employeeId=1&year=%d".formatted(year))).andExpect(status().isBadRequest());
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_serviceThrowsApiExceptionNotFound_when_getAllByYearAndEmployee_then_statusNotFound() throws Exception {
 		when(timeOffLimitService.getAllByYearAndEmployeeId(2025, 1)).thenThrow(new ApiException(HttpStatus.NOT_FOUND, ""));
 		mockMvc.perform(get("/time-offs/types/limits?employeeId=1&year=2025")).andExpect(status().isNotFound());
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_serviceReturnsListOfLimits_when_getAllByYearAndEmployee_then_statusOk_and_returnsListOfLimits() throws Exception {
 		var employee = EmployeeTestEntityFactory.builder().id(1L).build().asEntity();
 		var type = TimeOffTypeTestEntityFactory.builder().id(2L).build().asEntity();
@@ -82,6 +87,7 @@ class TimeOffLimitControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_serviceReturnsEmptyList_when_getAllByYearAndEmployee_then_statusOk_and_returnsEmptyList() throws Exception {
 		when(timeOffLimitService.getAllByYearAndEmployeeId(2025, 1)).thenReturn(List.of());
 		mockMvc.perform(get("/time-offs/types/limits?employeeId=1&year=2025"))
@@ -90,6 +96,7 @@ class TimeOffLimitControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidDto_when_putAll_then_statusBadRequest() throws Exception {
 		var dto = TimeOffLimitTestDtoFactory.builder().typeId(-1L).employeeId(1L).build().asPutDto();
 		mockMvc.perform(
@@ -100,6 +107,7 @@ class TimeOffLimitControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceThrowsApiExceptionNotFound_when_putAll_then_statusNotFound() throws Exception {
 		var dto = TimeOffLimitTestDtoFactory.builder().typeId(1L).employeeId(1L).build().asPutDto();
 		doThrow(new ApiException(HttpStatus.NOT_FOUND, "")).when(timeOffLimitService).putAll(List.of(dto));
@@ -111,6 +119,7 @@ class TimeOffLimitControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceThrowsApiExceptionConflict_when_putAll_then_statusNotFound() throws Exception {
 		var dto = TimeOffLimitTestDtoFactory.builder().typeId(1L).employeeId(1L).build().asPutDto();
 		doThrow(new ApiException(HttpStatus.CONFLICT, "")).when(timeOffLimitService).putAll(List.of(dto));
@@ -122,6 +131,7 @@ class TimeOffLimitControllerIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_serviceDoesNotThrow_when_putAll_then_statusCreated() throws Exception {
 		var dto = TimeOffLimitTestDtoFactory.builder().typeId(1L).employeeId(1L).build().asPutDto();
 		mockMvc.perform(

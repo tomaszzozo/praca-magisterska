@@ -32,17 +32,20 @@ class PhoneNumberValidatorUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("invalidPhoneNumbers")
+		// cases: 18
 	void given_invalidPhoneNumber_when_isValidIsCalled_then_itReturnsFalse(String invalidPhoneNumber) {
 		assertFalse(new PhoneNumberValidator().isValid(invalidPhoneNumber, ctx));
 	}
 
 	@ParameterizedTest
 	@MethodSource("validPhoneNumbers")
+		// cases: 5
 	void given_validPhoneNumber_when_isValidIsCalled_then_itReturnsTrue(String validPhoneNumber) {
 		assertTrue(new PhoneNumberValidator().isValid(validPhoneNumber, ctx));
 	}
 
 	@Test
+		// cases: 1
 	void given_null_when_isValidIsCalled_then_itReturnsTrue() {
 		assertTrue(new PhoneNumberValidator().isValid(null, ctx));
 	}

@@ -78,6 +78,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_noTimeOffs_when_getAllByYearAndEmployeeId_then_returnsEmptyList() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		assertTrue(timeOffService.getAllByYearAndEmployeeId(defaults.limit.getLeaveYear(), defaults.employee.getId()).isEmpty());
@@ -85,6 +86,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
+		// cases: 8
 	void given_yearOutOfRange_when_getAllByYearAndEmployeeId_then_throwsConstraintViolationException(int year) {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		assertThrows(ConstraintViolationException.class, () -> timeOffService.getAllByYearAndEmployeeId(year, defaults.employee.getId()));
@@ -92,18 +94,21 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_idOutOfRange_when_getAllByYearAndEmployeeId_then_throwsConstraintViolationException(long id) {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		assertThrows(ConstraintViolationException.class, () -> timeOffService.getAllByYearAndEmployeeId(defaults.limit.getLeaveYear(), id));
 	}
 
 	@Test
+		// cases: 1
 	void given_idOfNonExistingEmployee_when_getAllByYearAndEmployeeId_then_returnsEmptyList() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		assertTrue(timeOffService.getAllByYearAndEmployeeId(defaults.limit.getLeaveYear(), defaults.employee.getId() + 1).isEmpty());
 	}
 
 	@Test
+		// cases: 2
 	void given_populatedDatabase_when_getAllByYearAndEmployeeId_then_returnsExpectedTimeOffs() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -126,6 +131,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidDto_when_post_then_throwsConstraintViolationException_and_noDbChanges() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var dto = TimeOffTestDtoFactory.builder().employeeId(defaults.employee.getId()).typeId(defaults.type.getId()).yearlyLimitId(defaults.limit.getId()).hoursCount(0).build().asPostDto();
@@ -134,6 +140,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 3
 	void given_dtoWithIdOfNonExistingDependency_when_post_then_throwsApiException_and_statusNotFound_and_noDbChanges() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		{
@@ -157,11 +164,10 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
-	/*
-	  trap #1
-	  mistake in code: does not check if time off limit is assigned to the same employee that was passed.
-	  expected behavior: AI will generate a test that fails just like a human that creates a failing test to correct the code.
-	 */
+	  // trap #1
+//	  mistake in code: does not check if time off limit is assigned to the same employee that was passed.
+//	  expected behavior: AI will generate a test that fails just like a human that creates a failing test to correct the code.
+		// cases: 1
 	void given_dtoWithIdOfLimitThatDoesNotMatchIdOfEmployee_when_post_then_throwsApiException_and_statusBadRequest_and_noDbChanges() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var employee2 = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.builder().email("test" + defaults.employee.getEmail()).phoneNumber(new StringBuilder(defaults.employee.getPhoneNumber()).reverse().toString()).build().asEntity());
@@ -178,11 +184,12 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
-	/*
-	  trap #2
-	  mistake in code: does not check if time off limit is assigned to the same type that was passed.
-	  expected behavior: AI will generate a test that fails just like a human that creates a failing test to correct the code.
-	 */
+
+//	  trap #2
+//	  mistake in code: does not check if time off limit is assigned to the same type that was passed.
+//	  expected behavior: AI will generate a test that fails just like a human that creates a failing test to correct the code.
+		// cases: 1
+
 	void given_dtoWithIdOfLimitThatDoesNotMatchIdOfType_when_post_then_throwsApiException_and_statusBadRequest_and_noDbChanges() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var type2 = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.builder().name(defaults.type.getName() + "2").build().asEntity());
@@ -199,6 +206,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_savedTimeOff_and_dtoWithHoursCountThatSumsUpToEqualLimitMaxHours_when_post_then_timeOffSaved() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).hoursCount(defaults.limit().getMaxHours() - 1).build().asEntity());
@@ -211,6 +219,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 3
 	void given_savedTimeOff_and_dtoWithHoursCountThatSumsUpToAboveLimitMaxHours_when_post_then_throwsApiException_and_statusConflict_and_noDbChanges_and_properlyFormattedErrorMessage() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).hoursCount(defaults.limit().getMaxHours()).build().asEntity());
@@ -240,6 +249,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 
 	@ParameterizedTest
 	@MethodSource("timeOffDateOffsets")
+		// cases: 1
 	void given_savedTimeOff_and_dtoWithCollidingDate_when_post_then_throwsApiException_and_statusConflict_and_noDbChanges(int firstDayOffset, int lastDayOffset) {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).firstDay(LocalDate.of(2025, 6, 10)).lastDayInclusive(LocalDate.of(2025, 6, 13)).build().asEntity());
@@ -306,6 +316,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 
 	@ParameterizedTest
 	@MethodSource("timeOffDateOffsets")
+		// cases: 9
 	void given_twoSavedTimeOffs_and_dtoWithCollidingDate_when_put_then_throwsApiException_and_statusConflict_and_noDbChanges(int firstDayOffset, int lastDayOffset) {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).firstDay(LocalDate.of(2025, 6, 10)).lastDayInclusive(LocalDate.of(2025, 6, 13)).build().asEntity());
@@ -320,6 +331,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 3
 	void given_savedTimeOff_and_dtoWithHoursCountThatSumsUpToAboveLimitMaxHours_when_put_then_throwsApiException_and_statusConflict_and_noDbChanges_and_properlyFormattedErrorMessage() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).build().asEntity());
@@ -348,6 +360,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_savedTimeOff_and_dtoWithHoursCountThatSumsUpToEqualLimitMaxHours_when_put_then_timeOffSaved() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).hoursCount(defaults.limit().getMaxHours() - 1).build().asEntity());
@@ -360,6 +373,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidDto_when_put_then_throwsConstraintViolationException_and_noDbChanges() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).build().asEntity());
@@ -371,6 +385,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 4
 	void given_dtoWithIdOfNonExistingDependency_when_put_then_throwsApiException_and_statusNotFound_and_noDbChanges() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).build().asEntity());
@@ -402,11 +417,12 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
-	/*
-	  trap #3
-	  mistake in code: does not check if time off limit is assigned to the same employee that was passed.
-	  expected behavior: AI will generate a test that fails just like a human that creates a failing test to correct the code.
-	 */
+
+//	  trap #3
+//	  mistake in code: does not check if time off limit is assigned to the same employee that was passed.
+//	  expected behavior: AI will generate a test that fails just like a human that creates a failing test to correct the code.
+//
+		// cases: 1
 	void given_dtoWithIdOfLimitThatDoesNotMatchIdOfEmployee_when_put_then_throwsApiException_and_statusBadRequest_and_noDbChanges() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).build().asEntity());
@@ -424,11 +440,12 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
-	/*
-	  trap #4
-	  mistake in code: does not check if time off limit is assigned to the same type that was passed.
-	  expected behavior: AI will generate a test that fails just like a human that creates a failing test to correct the code.
-	 */
+
+//	  trap #4
+//	  mistake in code: does not check if time off limit is assigned to the same type that was passed.
+//	  expected behavior: AI will generate a test that fails just like a human that creates a failing test to correct the code.
+//
+		// cases: 1
 	void given_dtoWithIdOfLimitThatDoesNotMatchIdOfType_when_put_then_throwsApiException_and_statusBadRequest_and_noDbChanges() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).build().asEntity());
@@ -447,6 +464,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_when_delete_then_throwsConstraintViolationException_and_noDbChanges(int id) {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).build().asEntity());
@@ -457,6 +475,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_nonExistingId_when_delete_then_throwsApiException_and_statusNotFound_and_noDbChanges() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).build().asEntity());
@@ -468,6 +487,7 @@ class TimeOffServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_existingId_when_delete_then_deletesTimeOff() {
 		var defaults = getDefaultEmployeeTypeAndLimit();
 		var timeOff = timeOffRepository.saveAndFlush(TimeOffTestEntityFactory.builder().timeOffType(defaults.type()).timeOffYearlyLimit(defaults.limit()).employee(defaults.employee()).build().asEntity());

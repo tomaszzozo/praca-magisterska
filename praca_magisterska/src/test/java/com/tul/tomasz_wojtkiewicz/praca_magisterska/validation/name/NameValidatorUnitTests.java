@@ -29,17 +29,20 @@ class NameValidatorUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("invalidNames")
+		// cases: 22
 	void isValidReturnsFalseForInvalidNames(String invalidName) {
 		Assertions.assertFalse(new NameValidator().isValid(invalidName, ctx));
 	}
 
 	@ParameterizedTest
 	@MethodSource("validNames")
+		// cases: 13
 	void isValidReturnsTrueForValidNames(String validName) {
 		Assertions.assertTrue(new NameValidator().isValid(validName, ctx));
 	}
 
 	@Test
+		// cases: 1
 	void isValidReturnsTrueForNull() {
 		Assertions.assertTrue(new NameValidator().isValid(null, ctx));
 	}

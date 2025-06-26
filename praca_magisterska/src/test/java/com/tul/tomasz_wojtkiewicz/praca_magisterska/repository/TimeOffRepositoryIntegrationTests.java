@@ -29,6 +29,7 @@ class TimeOffRepositoryIntegrationTests {
 	private TimeOffLimitRepository timeOffLimitRepository;
 
 	@Test
+		// cases: 1
 	void given_twoTimeOffsWithMatchingFirstDayAndEmployee_when_saveAll_then_throwsDataIntegrityViolationException() {
 		var employee = employeeRepository.save(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.save(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -39,6 +40,7 @@ class TimeOffRepositoryIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_twoTimeOffsWithMatchingLastDayAndEmployee_when_saveAll_then_throwsDataIntegrityViolationException() {
 		var employee = employeeRepository.save(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.save(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -49,6 +51,7 @@ class TimeOffRepositoryIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_twoTimeOffsWithMatchingNonUniqueFields_and_differentUniqueFields_when_saveAll_then_timeOffsSaved() {
 		var employee = employeeRepository.save(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.save(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -60,6 +63,7 @@ class TimeOffRepositoryIntegrationTests {
 	}
 
 	@Test
+		// cases: 4
 	void given_someTimeOffs_when_findAllByYearAndEmployeeId_then_returnsExpectedEntities() {
 		var employee1 = employeeRepository.save(EmployeeTestEntityFactory.builder().email("employee1@test.com").phoneNumber("111111112").build().asEntity());
 		var employee2 = employeeRepository.save(EmployeeTestEntityFactory.builder().email("employee2@test.com").phoneNumber("111111113").build().asEntity());

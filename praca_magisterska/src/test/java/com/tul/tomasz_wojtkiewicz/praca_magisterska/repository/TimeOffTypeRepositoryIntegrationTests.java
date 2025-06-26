@@ -21,11 +21,13 @@ class TimeOffTypeRepositoryIntegrationTests {
 	private TimeOffTypeRepository timeOffTypeRepository;
 
 	@Test
+		// cases: 3
 	void fieldsOtherThanNameAreNotUnique() {
 		assertDoesNotThrow(() -> timeOffTypeRepository.saveAllAndFlush(Map.ofEntries(Map.entry("Urlop wypoczynkowy", 1.0f), Map.entry("Urlop na żądanie", 1.0f), Map.entry("Urlop zdrowotny", 0.8f), Map.entry("Urlop szkoleniowy", 0.8f), Map.entry("Urlop rodzicielski", 0.6f), Map.entry("Urlop bo tak", 0.0f)).entrySet().stream().map(e -> TimeOffTypeTestEntityFactory.builder().name(e.getKey()).compensationPercentage(e.getValue()).build().asEntity()).toList()));
 	}
 
 	@Test
+		// cases: 1
 	void nameIsUnique() {
 		var firstType = TimeOffTypeTestEntityFactory.build().asEntity();
 		timeOffTypeRepository.saveAndFlush(firstType);
@@ -34,6 +36,7 @@ class TimeOffTypeRepositoryIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void timeOffLimitsRelationWorks() {
 		var timeOffType = TimeOffTypeTestEntityFactory.build().asEntity();
 		var limit = TimeOffLimitTestEntityFactory.builder().maxHours(89).build().asEntity();

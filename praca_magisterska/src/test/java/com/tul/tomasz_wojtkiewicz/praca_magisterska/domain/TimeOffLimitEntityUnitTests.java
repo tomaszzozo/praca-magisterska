@@ -15,11 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class TimeOffLimitEntityUnitTests {
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#hoursInYearMoreThanMax")
+		// cases: 6
 	void isMaxHoursNotHigherThanHoursInYearReturnsFalseWhenMaxHoursExceedsHoursInYear(int year, int invalidMaxHoursInYear) {
 		assertFalse(TimeOffLimitTestEntityFactory.builder().leaveYear(year).maxHours(invalidMaxHoursInYear).build().asEntity().isMaxHoursNotHigherThanHoursInYear());
 	}
 
 	@Test
+		// cases: 3
 	void isMaxHoursNotHigherThanHoursInYearReturnsTrueIfEitherValueIsNull() {
 		var entity = TimeOffLimitTestEntityFactory.builder().maxHours(null).leaveYear(null).build().asEntity();
 		assertTrue(entity.isMaxHoursNotHigherThanHoursInYear());
@@ -32,11 +34,13 @@ class TimeOffLimitEntityUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider#hoursInYearLessThanOrMax")
+		// cases: 5
 	void isMaxHoursNotHigherThanHoursInYearReturnsTrueWhenMaxHoursEqualsHoursInYear(int year, int validMaxHoursInYear) {
 		assertTrue(TimeOffLimitTestEntityFactory.builder().leaveYear(year).maxHours(validMaxHoursInYear).build().asEntity().isMaxHoursNotHigherThanHoursInYear());
 	}
 
 	@Test
+		// cases: 9
 	void equalsShouldCompareFieldsOtherThanTimeOffs() {
 		var type = new TimeOffTypeEntity();
 		var employee = new EmployeeEntity();

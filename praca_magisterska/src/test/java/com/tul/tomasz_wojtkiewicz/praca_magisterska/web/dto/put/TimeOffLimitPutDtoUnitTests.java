@@ -14,11 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TimeOffLimitPutDtoUnitTests {
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#hoursInYearMoreThanMax")
+		// cases: 6
 	void isMaxHoursNotHigherThanHoursInYearReturnsFalseWhenMaxHoursExceedsHoursInYear(int year, int invalidMaxHoursInYear) {
 		assertFalse(TimeOffLimitTestDtoFactory.builder().year(year).maxHours(invalidMaxHoursInYear).build().asPutDto().isMaxHoursNotHigherThanHoursInYear());
 	}
 
 	@Test
+		// cases: 3
 	void isMaxHoursNotHigherThanHoursInYearReturnsTrueIfEitherValueIsNull() {
 		var dto = TimeOffLimitTestDtoFactory.builder().maxHours(null).year(null).build().asPutDto();
 		assertTrue(dto.isMaxHoursNotHigherThanHoursInYear());
@@ -31,6 +33,7 @@ class TimeOffLimitPutDtoUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider#hoursInYearLessThanOrMax")
+		// cases: 5
 	void isMaxHoursNotHigherThanHoursInYearReturnsTrueWhenMaxHoursEqualsHoursInYear(int year, int validMaxHoursInYear) {
 		assertTrue(TimeOffLimitTestDtoFactory.builder().year(year).maxHours(validMaxHoursInYear).build().asPutDto().isMaxHoursNotHigherThanHoursInYear());
 	}

@@ -35,6 +35,7 @@ class TimeOffTypeRepositoryIntegrationDeletionTests {
 	}
 
 	@Test
+		// cases: 1
 	void entityCanNotBeDeletedIfThereAreDependentTimeOffEntities() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -44,6 +45,7 @@ class TimeOffTypeRepositoryIntegrationDeletionTests {
 	}
 
 	@Test
+		// cases: 1
 	void entityCanBeDeletedAndDeletesDependentTimeOffLimitsEntitiesIfThereAreNoDependentTimeOffEntitiesButThereAreDependentTimeOffLimitEntities() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -53,6 +55,7 @@ class TimeOffTypeRepositoryIntegrationDeletionTests {
 	}
 
 	@Test
+		// cases: 1
 	void entityCanBeDeletedIfThereAreNoDependentEntities() {
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
 		assertDoesNotThrow(() -> timeOffTypeRepository.deleteById(type.getId()));

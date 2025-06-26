@@ -18,12 +18,14 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @Tag("entity")
 class TimeOffLimitEntityIntegrationTests implements ConstraintValidation {
 	@Test
+		// cases: 1
 	void basicValidEntityPassesValidation() {
 		assertEquals(0, validateConstraints(TimeOffLimitTestEntityFactory.build().asEntity()).size());
 	}
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#hoursInYearNegative")
+		// cases: 3
 	void maxHoursCanNotBeNegative(int invalidMaxHours) {
 		var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().maxHours(invalidMaxHours).build().asEntity());
 		assertEquals(1, validation.size());
@@ -31,6 +33,7 @@ class TimeOffLimitEntityIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void maxHoursCanNotBeNull() {
 		var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().maxHours(null).build().asEntity());
 		assertEquals(1, validation.size());
@@ -38,11 +41,13 @@ class TimeOffLimitEntityIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void defaultMaxHoursIsZero() {
 		assertEquals(0, new TimeOffLimitEntity().getMaxHours());
 	}
 
 	@Test
+		// cases: 1
 	void maxHoursMoreThanHoursInYearTriggersCustomValidationAssertion() {
 		var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().leaveYear(2025).maxHours(LocalDate.of(2025, 12, 31).getDayOfYear() * 24 + 1).build().asEntity());
 		assertEquals(1, validation.size());
@@ -50,6 +55,7 @@ class TimeOffLimitEntityIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void leaveYearCanNotBeNull() {
 		var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().leaveYear(null).build().asEntity());
 		assertEquals(1, validation.size());
@@ -58,6 +64,7 @@ class TimeOffLimitEntityIntegrationTests implements ConstraintValidation {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
+		// cases: 8
 	void leaveYearMustBeInRange(int invalidLeaveYear) {
 		var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().leaveYear(invalidLeaveYear).build().asEntity());
 		assertEquals(1, validation.size());
@@ -65,6 +72,7 @@ class TimeOffLimitEntityIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void employeeMustNotBeNull() {
 		var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().employee(null).build().asEntity());
 		assertEquals(1, validation.size());
@@ -72,6 +80,7 @@ class TimeOffLimitEntityIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 1
 	void timeOffTypeMustNotBeNull() {
 		var validation = validateConstraints(TimeOffLimitTestEntityFactory.builder().timeOffType(null).build().asEntity());
 		assertEquals(1, validation.size());
@@ -79,6 +88,7 @@ class TimeOffLimitEntityIntegrationTests implements ConstraintValidation {
 	}
 
 	@Test
+		// cases: 4
 	void equalsReturnsTrueIfBothOEntitiesHaveDifferentTypeOrEmployeeObjectsWithMatchingValues() {
 		var type1 = TimeOffTypeTestEntityFactory.build().asEntity();
 		var type2 = TimeOffTypeTestEntityFactory.build().asEntity();

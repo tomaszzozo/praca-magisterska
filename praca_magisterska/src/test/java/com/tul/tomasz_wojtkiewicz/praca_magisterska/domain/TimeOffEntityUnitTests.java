@@ -17,12 +17,14 @@ class TimeOffEntityUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#firstDayAfterLastDay")
+		// cases: 4
 	void isFirstDayAfterLastDayShouldReturnTrueWhenFirstDayAfterLastDay(LocalDate lastDay, LocalDate firstDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).build().asEntity();
 		assertTrue(entity.isFirstDayAfterLastDay());
 	}
 
 	@Test
+		// cases: 3
 	void isFirstDayAfterLastDayShouldReturnFalseWhenEitherValueIsNull() {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(null).firstDay(null).build().asEntity();
 		assertFalse(entity.isFirstDayAfterLastDay());
@@ -35,6 +37,7 @@ class TimeOffEntityUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider#firstDayBeforeOrSameAsLastDay")
+		// cases: 5
 	void isFirstDayAfterLastDayShouldReturnFalseWhenFirstDayBeforeOrSameAsLastDay(LocalDate lastDay, LocalDate firstDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).build().asEntity();
 		assertFalse(entity.isFirstDayAfterLastDay());
@@ -42,12 +45,14 @@ class TimeOffEntityUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider#sameDatesDifferentDays")
+		// cases: 8
 	void isYearAndMonthEqualShouldReturnTrue(LocalDate firstDay, LocalDate lastDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).build().asEntity();
 		assertTrue(entity.isYearAndMonthEqual());
 	}
 
 	@Test
+		// cases: 3
 	void isYearAndMonthEqualShouldReturnTrueIfEitherValueIsNull() {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(null).firstDay(null).build().asEntity();
 		assertTrue(entity.isYearAndMonthEqual());
@@ -60,6 +65,7 @@ class TimeOffEntityUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#differentDates")
+		// cases: 6
 	void isYearAndMonthEqualShouldReturnFalse(LocalDate firstDay, LocalDate lastDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).build().asEntity();
 		assertFalse(entity.isYearAndMonthEqual());
@@ -67,6 +73,7 @@ class TimeOffEntityUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#hoursCountMoreThanHoursInTimeOff")
+		// cases: 3
 	void isHoursCountLessThanHoursInTimeOffShouldReturnFalse(int invalidHoursCount, LocalDate firstDay, LocalDate lastDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).hoursCount(invalidHoursCount).build().asEntity();
 		assertFalse(entity.isHoursCountLessThanHoursInTimeOff());
@@ -74,6 +81,7 @@ class TimeOffEntityUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#nullableFirstAndLastDayAndHoursCount")
+		// cases: 7
 	void isHoursCountLessThanHoursInTimeOffShouldReturnFalseShouldReturnTrueIfEitherValueIsNull(LocalDate firstDay, LocalDate lastDay, Integer hoursCount) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).hoursCount(hoursCount).build().asEntity();
 		assertTrue(entity.isHoursCountLessThanHoursInTimeOff());
@@ -81,6 +89,7 @@ class TimeOffEntityUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider#hoursCountLessOrEqualHoursInTimeOff")
+		// cases: 4
 	void isHoursCountLessThanHoursInTimeOffShouldReturnTrue(int validHoursCount, LocalDate firstDay, LocalDate lastDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).hoursCount(validHoursCount).build().asEntity();
 		assertTrue(entity.isHoursCountLessThanHoursInTimeOff());
@@ -88,12 +97,14 @@ class TimeOffEntityUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#firstOrLastDayWithYearOutsideOfRange")
+		// cases: 8
 	void isYearInAcceptableRangeShouldReturnFalse(LocalDate firstDay, LocalDate lastDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).build().asEntity();
 		assertFalse(entity.isYearInAcceptableRange());
 	}
 
 	@Test
+		// cases: 3
 	void isYearInAcceptableRangeShouldReturnTrueIfEitherValueIsNull() {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(null).firstDay(null).build().asEntity();
 		assertTrue(entity.isYearInAcceptableRange());
@@ -106,12 +117,14 @@ class TimeOffEntityUnitTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.ValidDataProvider#firstAndLastDayWithYearInRange")
+		// cases: 4
 	void isYearInAcceptableRangeShouldReturnTrue(LocalDate firstDay, LocalDate lastDay) {
 		var entity = TimeOffTestEntityFactory.builder().lastDayInclusive(lastDay).firstDay(firstDay).build().asEntity();
 		assertTrue(entity.isYearInAcceptableRange());
 	}
 
 	@Test
+		// cases: 12
 	void equalsShouldCompareFieldsOtherThanEmployeeAndLimitAndType() {
 		var type = new TimeOffTypeEntity();
 		var employee = new EmployeeEntity();

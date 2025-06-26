@@ -34,11 +34,13 @@ class EmployeeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_noSavedEntities_when_iCallGetAll_then_iGetEmptyList() {
 		assertTrue(employeeService.getAll().isEmpty());
 	}
 
 	@Test
+		// cases: 1
 	void given_multipleSavedEntities_when_iCallGetAll_then_iGetListOfSavedEntities() {
 		var employee1 = EmployeeTestEntityFactory.builder().email("e1@employee.com").phoneNumber("100000000").build().asEntity();
 		var employee2 = EmployeeTestEntityFactory.builder().email("e2@employee.com").phoneNumber("200000000").build().asEntity();
@@ -55,11 +57,13 @@ class EmployeeServiceIntegrationTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_when_iCallGetById_then_throwsConstraintViolationException(int invalidId) {
 		assertThrows(ConstraintViolationException.class, () -> employeeService.getById(invalidId));
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_savedEntityWithDifferentId_when_iCallGetById_then_throwsApiException_and_statusCodeIsNotFound() {
 		var employee = employeeRepository.save(EmployeeTestEntityFactory.build().asEntity());
 		var exception = assertThrows(ApiException.class, () -> employeeService.getById(employee.getId() + 1));
@@ -67,6 +71,7 @@ class EmployeeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_savedEntityWithGivenId_when_iCallGetById_then_savedEntityIsReturned() {
 		var employee = employeeRepository.save(EmployeeTestEntityFactory.build().asEntity());
 		var result = employeeService.getById(employee.getId());
@@ -74,12 +79,14 @@ class EmployeeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidDto_when_iCallPost_then_throwsConstraintViolationException() {
 		var dto = EmployeePostTestDtoFactory.builder().email("INVALID_MAIL").build().asDto();
 		assertThrows(ConstraintViolationException.class, () -> employeeService.post(dto));
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_savedEmployeeWithSameEmail_when_iCallPost_then_throwsApiException() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.builder().phoneNumber("111111111").build().asEntity());
 		var dto = EmployeePostTestDtoFactory.builder().phoneNumber("222222222").email(employee.getEmail()).build().asDto();
@@ -89,6 +96,7 @@ class EmployeeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_savedEmployeeWithSamePhoneNumber_when_iCallPost_then_throwsApiException() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.builder().email("employee@domain.com").build().asEntity());
 		var dto = EmployeePostTestDtoFactory.builder().phoneNumber(employee.getPhoneNumber()).email("employee2@domain.com").build().asDto();
@@ -98,6 +106,7 @@ class EmployeeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_emptyDatabase_when_iCallPost_then_newEmployeeExistsInDatabase_and_itHasExpectedValues() {
 		var dto = EmployeePostTestDtoFactory.build().asDto();
 		employeeService.post(dto);
@@ -113,12 +122,14 @@ class EmployeeServiceIntegrationTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_and_validDto_when_iCallPut_then_throwsConstraintViolationException(int invalidId) {
 		var dto = EmployeePutTestDtoFactory.build().asDto();
 		assertThrows(ConstraintViolationException.class, () -> employeeService.put(invalidId, dto));
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_invalidDto_and_employeeWithSameIdInDatabase_when_iCallPut_then_throwsConstraintViolationException() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var dto = EmployeePutTestDtoFactory.builder().email("INVALID_MAIL").build().asDto();
@@ -126,6 +137,7 @@ class EmployeeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_validDto_and_emptyDatabase_when_iCallPut_then_throwsApiException_with_codeNotFound() {
 		var dto = EmployeePutTestDtoFactory.build().asDto();
 		var result = assertThrows(ApiException.class, () -> employeeService.put(1, dto));
@@ -133,6 +145,7 @@ class EmployeeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_validDto_and_employeeWithSameIdInDatabase_and_employeeWithDifferentIdButSameMailAsDto_when_iCallPut_then_throwsApiException_with_codeConflict() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.builder().email("employee@gmail.com").phoneNumber("111111111").build().asEntity());
 		var employee2 = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.builder().email("employee2@gmail.com").phoneNumber("222222222").build().asEntity());
@@ -143,6 +156,7 @@ class EmployeeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_validDto_and_employeeWithSameIdInDatabase_and_employeeWithDifferentIdButSamePhoneNumberAsDto_when_iCallPut_then_throwsApiException_with_codeConflict() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.builder().email("employee@gmail.com").phoneNumber("111111111").build().asEntity());
 		var employee2 = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.builder().email("employee2@gmail.com").phoneNumber("222222222").build().asEntity());
@@ -153,6 +167,7 @@ class EmployeeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_employeeWithSameIdInDatabase_when_iCallPut_then_employeeIsUpdatedInDatabase_and_itHasExpectedValues() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.builder().firstName("Tester").lastName("Testinger").email("tester@test.com").phoneNumber("123456789").accessLevel(0).build().asEntity());
 		var dto = EmployeePutTestDtoFactory.builder().firstName(employee.getLastName()).lastName(employee.getFirstName()).accessLevel(employee.getAccessLevel() + 1).email("test@tester.com").phoneNumber("987654321").build().asDto();
@@ -168,6 +183,7 @@ class EmployeeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_employeeWithSameIdAndDataInDatabase_when_iCallPut_then_employeeDataDoesNotChange() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var dto = EmployeePutTestDtoFactory.builder().firstName(employee.getFirstName()).lastName(employee.getLastName()).email(employee.getEmail()).phoneNumber(employee.getPhoneNumber()).accessLevel(employee.getAccessLevel()).build().asDto();

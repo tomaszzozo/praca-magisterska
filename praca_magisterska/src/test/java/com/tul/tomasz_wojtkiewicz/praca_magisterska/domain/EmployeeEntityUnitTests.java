@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @Tag("unit")
 class EmployeeEntityUnitTests {
 	@Test
+		// cases: 8
 	void equalsShouldCompareFieldsOtherThanLimitsAndTimeOffs() {
 		var entity1 = EmployeeTestEntityFactory.build().asEntity();
 		var entity2 = EmployeeTestEntityFactory.build().asEntity();

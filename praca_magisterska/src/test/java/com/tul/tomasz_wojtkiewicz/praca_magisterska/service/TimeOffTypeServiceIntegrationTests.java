@@ -49,11 +49,13 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_emptyDatabase_when_getAll_then_returnsEmptyList() {
 		assertTrue(timeOffTypeService.getAll().isEmpty());
 	}
 
 	@Test
+		// cases: 1
 	void given_multipleSavedEntities_when_getAll_then_returnsListOfSavedEntities() {
 		var type1 = TimeOffTypeTestEntityFactory.builder().name("sick leave").compensationPercentage(80f).build().asEntity();
 		var type2 = TimeOffTypeTestEntityFactory.builder().name("maternity leave").compensationPercentage(70f).build().asEntity();
@@ -70,11 +72,13 @@ class TimeOffTypeServiceIntegrationTests {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_when_getById_then_throwsConstraintViolationException(int invalidId) {
 		assertThrows(ConstraintViolationException.class, () -> timeOffTypeService.getById(invalidId));
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_savedTypeWithDifferentId_when_getById_then_throwsApiException_and_statusCodeNotFound() {
 		var type = timeOffTypeRepository.save(TimeOffTypeTestEntityFactory.build().asEntity());
 		var exception = assertThrows(ApiException.class, () -> timeOffTypeService.getById(type.getId() + 1));
@@ -82,6 +86,7 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_savedTypeWithMatchingId_when_getById_then_returnsSavedType() {
 		var type = timeOffTypeRepository.save(TimeOffTypeTestEntityFactory.build().asEntity());
 		var result = timeOffTypeService.getById(type.getId());
@@ -89,12 +94,14 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_invalidDto_when_iCallPutAll_then_throwsConstraintViolationException() {
 		var dto = TimeOffTypePutTestDtoFactory.builder().name("").build().asDto();
 		assertThrows(ConstraintViolationException.class, () -> timeOffTypeService.putAll(List.of(dto)));
 	}
 
 	@Test
+		// cases: 1
 	void given_emptyDtoList_and_notEmptyDatabase_when_iCallPutAll_then_allEntitiesAreDeleted() {
 		var type1 = TimeOffTypeTestEntityFactory.builder().name("sick leave").compensationPercentage(80f).build().asEntity();
 		var type2 = TimeOffTypeTestEntityFactory.builder().name("maternity leave").compensationPercentage(70f).build().asEntity();
@@ -107,6 +114,7 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_typeSavedWithMatchingId_and_otherTypesSaved_when_iCallPutAll_then_typesWithNonMatchingIdsAreDeleted_and_typeWithMatchingIdIsUpdated() {
 		var type1 = TimeOffTypeTestEntityFactory.builder().name("sick leave").compensationPercentage(80f).build().asEntity();
 		var type2 = TimeOffTypeTestEntityFactory.builder().name("maternity leave").compensationPercentage(70f).build().asEntity();
@@ -123,6 +131,7 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_typeSavedWithSameData_when_iCallPutAll_then_noUpdatesAreMade() {
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
 		var dto = TimeOffTypePutTestDtoFactory.builder().id(type.getId()).name(type.getName()).compensationPercentage(type.getCompensationPercentage()).build().asDto();
@@ -135,6 +144,7 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_noDtos_and_typeSavedWithDependentTimeOffs_when_iCallPutAll_then_throwsApiException_with_statusCodeConflict() {
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
@@ -146,6 +156,7 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_typeSavedWithMatchingId_and_otherTypeSavedWithMatchingName_when_iCallPutAll_then_throwsApiException_with_statusCodeConflict_and_databaseIsNotUpdated() {
 		var type1 = TimeOffTypeTestEntityFactory.builder().name("sick leave").compensationPercentage(80f).build().asEntity();
 		var type2 = TimeOffTypeTestEntityFactory.builder().name("maternity leave").compensationPercentage(70f).build().asEntity();
@@ -160,6 +171,7 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDtos_and_savedTypeWithMatchingName_when_iCallPutAll_then_savedTypeIsDeleted_and_newTypesAreCreated() {
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.builder().compensationPercentage(100f).build().asEntity());
 		var dto1 = TimeOffTypePutTestDtoFactory.builder().id(0L).name(type.getName()).compensationPercentage(0f).build().asDto();
@@ -174,6 +186,7 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDto_and_otherValidDtoWithSameName_when_iCallPutAll_then_throwsApiException_with_statusCodeConflict() {
 		var dto1 = TimeOffTypePutTestDtoFactory.builder().compensationPercentage(100f).build().asDto();
 		var dto2 = TimeOffTypePutTestDtoFactory.builder().compensationPercentage(50f).build().asDto();
@@ -183,6 +196,7 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDtoWithNonZeroId_and_emptyDatabase_when_iCallPutAll_then_throwsApiException_with_statusNotFound() {
 		var dto = TimeOffTypePutTestDtoFactory.builder().id(1L).build().asDto();
 
@@ -191,6 +205,7 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDtoWithMatchingId_and_validDtoWithZeroId_when_putAll_then_existingTypeIsUpdated_and_newTypeIsCreated() {
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.builder().compensationPercentage(100f).build().asEntity());
 		var dto1 = TimeOffTypePutTestDtoFactory.builder().id(type.getId()).name(type.getName()).compensationPercentage(0f).build().asDto();
@@ -203,6 +218,7 @@ class TimeOffTypeServiceIntegrationTests {
 	}
 
 	@Test
+		// cases: 1
 	void given_emptyDtoList_and_emptyDatabase_when_putAll_then_noErrors_and_noDbUpdates() {
 		assertDoesNotThrow(() -> timeOffTypeService.putAll(List.of()));
 		assertEquals(0, timeOffTypeRepository.count());

@@ -52,11 +52,13 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_when_getById_then_throwsConstraintViolationException(int invalidId) {
 		assertThrows(ConstraintViolationException.class, () -> timeOffLimitService.getById(invalidId));
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_savedEntityWithDifferentId_when_getById_then_throwsApiException_and_statusCodeIsNotFound() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -66,6 +68,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_validId_and_savedEntityWithGivenId_when_iCallGetById_then_savedEntityIsReturned() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -76,29 +79,34 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#integerNegativeAndZero")
+		// cases: 4
 	void given_invalidId_and_validYear_when_getAllByYearAndEmployeeId_then_throwsConstraintViolationException(int invalidId) {
 		assertThrows(ConstraintViolationException.class, () -> timeOffLimitService.getAllByYearAndEmployeeId(2030, invalidId));
 	}
 
 	@ParameterizedTest
 	@MethodSource("com.tul.tomasz_wojtkiewicz.praca_magisterska.data_providers.InvalidDataProvider#years")
+		// cases: 8
 	void given_validId_and_invalidYear_when_getAllByYearAndEmployeeId_then_throwsConstraintViolationException(int invalidYear) {
 		assertThrows(ConstraintViolationException.class, () -> timeOffLimitService.getAllByYearAndEmployeeId(invalidYear, 1));
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_noSavedEmployee_when_getAllByYearAndEmployeeId_then_throwsApiException_with_statusCodeNotFound() {
 		var exception = assertThrows(ApiException.class, () -> timeOffLimitService.getAllByYearAndEmployeeId(2030, 1));
 		assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_savedEmployee_and_noSavedTypes_when_getAllByYearAndEmployeeId_then_returnsEmptyList() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		assertTrue(timeOffLimitService.getAllByYearAndEmployeeId(2030, employee.getId()).isEmpty());
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_savedEmployee_and_savedType_and_noSavedLimits_when_getAllByYearAndEmployeeId_then_returnsListWithDefaultLimit() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -112,6 +120,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_savedLimit_when_getAllByYearAndEmployeeId_then_returnsListWithExistingLimit() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -123,6 +132,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_validInput_and_savedLimit_and_twoSavedTypes_when_getAllByYearAndEmployeeId_then_returnsListWithExistingAndDefaultLimit() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type1 = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -141,6 +151,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_emptyList_and_savedLimit_when_putAll_then_noChanges() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -152,6 +163,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_emptyRepository_and_validDtoWithId0_and_savedType_when_putAll_then_limitIsCreated() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -168,6 +180,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_savedLimit_and_validDtoWithIdOfSavedLimit_when_putAll_then_onlyMaxHoursIsUpdated() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -185,6 +198,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDtoWithIdOfSavedLimit_and_invalidDtoWithId0_when_putAll_then_throwsConstraintViolationException_and_noChanges() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type1 = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.builder().name("type 1").build().asEntity());
@@ -199,6 +213,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDtoWithId0_and_invalidDtoWithIdOfSavedLimit_when_putAll_then_throwsConstraintViolationException_and_noChanges() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type1 = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.builder().name("type 1").build().asEntity());
@@ -213,6 +228,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDtoWithNonZeroId_and_noSavedLimits_when_putAll_then_throwsApiException_and_statusCodeIsNotFound_and_noUpdates() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -224,6 +240,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDtoWithIdOfSavedLimit_and_validDtoWithId0YearEmployeeAndTimeOffTypeOfSavedLimit_when_putAll_then_throwsApiException_and_statusCodeIsConflict_and_noUpdates() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -239,6 +256,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_validDtoWithIdOfSavedLimit_and_validDtoWithIdOfSavedLimitAndNewMaxHoursLessThanInSavedTimeOff_when_putAll_then_throwsApiException_and_statusCodeIsConflict_and_noUpdates() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.builder().name("type 1").build().asEntity());
@@ -259,6 +277,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_twoSavedLimits_and_validDtoWithIdOfFirstSavedLimitChangedMaxHoursButYearEmployeeAndTimeOffTypeOfSecondSavedLimit_when_putAll_then_onlyYearOfFirstSavedLimitIsChanged() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.builder().name("type 1").compensationPercentage(10f).build().asEntity());
@@ -276,6 +295,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_twoDtosWithSameDataAndId0_when_putAll_then_throwsApiException_and_statusCodeConflict_and_noDbChanges() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -288,6 +308,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_twoDtosWithSameDataAndSameExistingId_when_putAll_then_secondDtoUsedToUpdateLimit() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -302,6 +323,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_dtoWithNotExistingEmployeeId_when_putAll_then_throwsApiException_and_statusCodeIsNotFound() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -312,6 +334,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_dtoWithNotExistingTypeId_when_putAll_then_throwsApiException_and_statusCodeIsNotFound() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
@@ -322,6 +345,7 @@ class TimeOffLimitServiceIntegrationTests extends IntegrationTestsBase {
 	}
 
 	@Test
+		// cases: 1
 	void given_dtoWithExistingLimitIdButNonExistingEmployeeAndTypeId_when_putAll_then_dtoIsUpdated() {
 		var employee = employeeRepository.saveAndFlush(EmployeeTestEntityFactory.build().asEntity());
 		var type = timeOffTypeRepository.saveAndFlush(TimeOffTypeTestEntityFactory.build().asEntity());
