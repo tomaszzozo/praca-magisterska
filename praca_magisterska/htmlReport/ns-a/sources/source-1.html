@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > TimeOffLimitRepository</title>
+  <title>Coverage Report > EmployeeRepository</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,14 +22,14 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.tul.tomasz_wojtkiewicz.praca_magisterska.repository</a>
 </div>
 
-<h1>Coverage Summary for Class: TimeOffLimitRepository (com.tul.tomasz_wojtkiewicz.praca_magisterska.repository)</h1>
+<h1>Coverage Summary for Class: EmployeeRepository (com.tul.tomasz_wojtkiewicz.praca_magisterska.repository)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
 </tr>
 <tr>
-  <td class="name">TimeOffLimitRepository</td>
+  <td class="name">EmployeeRepository</td>
 </tr>
 
 </table>
@@ -41,16 +41,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.tul.tomasz_wojtkiewicz.praca_magisterska.repository;
 &nbsp;
-&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
 &nbsp;import org.springframework.data.jpa.repository.JpaRepository;
 &nbsp;import org.springframework.stereotype.Repository;
 &nbsp;
-&nbsp;import java.util.List;
-&nbsp;
 &nbsp;@Repository
-&nbsp;public interface TimeOffLimitRepository extends JpaRepository&lt;TimeOffLimitEntity, Long&gt; {
-&nbsp;    List&lt;TimeOffLimitEntity&gt; findAllByLeaveYearAndEmployeeId(int year, long employeeId);
-&nbsp;    boolean existsByLeaveYearAndEmployeeIdAndTimeOffTypeId(int year, long employeeId, long timeOffTypeId);
+&nbsp;public interface EmployeeRepository extends JpaRepository&lt;EmployeeEntity, Long&gt; {
+&nbsp;    boolean existsByEmail(String email);
+&nbsp;    boolean existsByPhoneNumber(String phoneNumber);
 &nbsp;}
 </code>
 </pre>
@@ -75,7 +73,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-06-22 22:56</div>
+    <div style="float:right;">generated on 2025-06-26 20:00</div>
 </div>
 </body>
 </html>
