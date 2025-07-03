@@ -32,21 +32,25 @@ class EmployeeRepositoryIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void existsByEmail_ShouldReturnTrue_WhenEmailExists() {
 		assertTrue(employeeRepository.existsByEmail("test@example.com"));
 	}
 
 	@Test
+		// CASES: 1
 	void existsByEmail_ShouldReturnFalse_WhenEmailDoesNotExist() {
 		assertFalse(employeeRepository.existsByEmail("notfound@example.com"));
 	}
 
 	@Test
+		// CASES: 1
 	void existsByPhoneNumber_ShouldReturnTrue_WhenPhoneNumberExists() {
 		assertTrue(employeeRepository.existsByPhoneNumber("123456789"));
 	}
 
 	@Test
+		// CASES: 1
 	void existsByPhoneNumber_ShouldReturnFalse_WhenPhoneNumberDoesNotExist() {
 		assertFalse(employeeRepository.existsByPhoneNumber("987654321"));
 	}

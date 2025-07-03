@@ -56,6 +56,7 @@ class TimeOffLimitRepositoryIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void findAllByLeaveYearAndEmployeeId_ShouldReturnMatchingEntities() {
 		List<TimeOffLimitEntity> results = timeOffLimitRepository.findAllByLeaveYearAndEmployeeId(2025, employee.getId());
 		assertFalse(results.isEmpty());
@@ -63,18 +64,21 @@ class TimeOffLimitRepositoryIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void findAllByLeaveYearAndEmployeeId_ShouldReturnEmptyList_WhenNoMatch() {
 		List<TimeOffLimitEntity> results = timeOffLimitRepository.findAllByLeaveYearAndEmployeeId(2024, employee.getId());
 		assertTrue(results.isEmpty());
 	}
 
 	@Test
+		// CASES: 1
 	void existsByLeaveYearAndEmployeeIdAndTimeOffTypeId_ShouldReturnTrue_WhenExists() {
 		boolean exists = timeOffLimitRepository.existsByLeaveYearAndEmployeeIdAndTimeOffTypeId(2025, employee.getId(), timeOffType.getId());
 		assertTrue(exists);
 	}
 
 	@Test
+		// CASES: 1
 	void existsByLeaveYearAndEmployeeIdAndTimeOffTypeId_ShouldReturnFalse_WhenNotExists() {
 		boolean exists = timeOffLimitRepository.existsByLeaveYearAndEmployeeIdAndTimeOffTypeId(2024, employee.getId(), timeOffType.getId());
 		assertFalse(exists);

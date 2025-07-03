@@ -83,6 +83,7 @@ class TimeOffRepositoryIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void findAllByYearAndEmployeeId_ShouldReturnOnlyTimeOffInSpecifiedYear() {
 		List<TimeOffEntity> results = timeOffRepository.findAllByYearAndEmployeeId(employee.getId(), 2024);
 		assertNotNull(results);
@@ -91,6 +92,7 @@ class TimeOffRepositoryIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void findAllByYearAndEmployeeId_ShouldReturnEmptyList_WhenNoMatches() {
 		List<TimeOffEntity> results = timeOffRepository.findAllByYearAndEmployeeId(employee.getId(), 2025);
 		assertNotNull(results);

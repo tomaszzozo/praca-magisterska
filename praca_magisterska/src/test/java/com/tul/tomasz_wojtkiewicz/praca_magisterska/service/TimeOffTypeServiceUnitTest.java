@@ -33,6 +33,7 @@ class TimeOffTypeServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void getAll_ShouldReturnList() {
 		List<TimeOffTypeEntity> list = List.of(new TimeOffTypeEntity());
 		when(timeOffTypeRepository.findAll()).thenReturn(list);
@@ -43,6 +44,7 @@ class TimeOffTypeServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void getById_ShouldReturnEntity_WhenFound() {
 		TimeOffTypeEntity entity = new TimeOffTypeEntity();
 		entity.setId(1L);
@@ -54,6 +56,7 @@ class TimeOffTypeServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void getById_ShouldThrowApiException_WhenNotFound() {
 		when(timeOffTypeRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -63,6 +66,7 @@ class TimeOffTypeServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void putAll_ShouldDeleteUnusedEntitiesAndSaveAllDtos() {
 		TimeOffTypeEntity existing1 = new TimeOffTypeEntity();
 		existing1.setId(1L);
@@ -108,6 +112,7 @@ class TimeOffTypeServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void putAll_ShouldThrowApiException_WhenUsedEntityWouldBeDeleted() {
 		TimeOffTypeEntity used = new TimeOffTypeEntity();
 		used.setId(1L);
@@ -128,6 +133,7 @@ class TimeOffTypeServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void putAll_ShouldThrowApiException_WhenNewNameAlreadyExists() {
 		TimeOffTypePutDto newDto = new TimeOffTypePutDto();
 		newDto.setId(0);
@@ -144,6 +150,7 @@ class TimeOffTypeServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void putAll_ShouldThrowApiException_WhenExistingNameChangeToDuplicate() {
 		TimeOffTypeEntity existing = new TimeOffTypeEntity();
 		existing.setId(1L);

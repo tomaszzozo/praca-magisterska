@@ -40,6 +40,7 @@ class TimeOffLimitServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void getAllByYearAndEmployeeId_ShouldReturnDefaultsAndExistingLimits() {
 		int year = 2025;
 		long employeeId = 1L;
@@ -81,6 +82,7 @@ class TimeOffLimitServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void getById_ShouldReturnEntity_WhenExists() {
 		TimeOffLimitEntity entity = new TimeOffLimitEntity();
 		entity.setId(1L);
@@ -92,6 +94,7 @@ class TimeOffLimitServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void getById_ShouldThrowApiException_WhenNotFound() {
 		when(timeOffLimitRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -101,6 +104,7 @@ class TimeOffLimitServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void putAll_ShouldSaveNewAndExistingLimits_WhenValid() {
 		EmployeeEntity employee = new EmployeeEntity();
 		employee.setId(1L);
@@ -153,6 +157,7 @@ class TimeOffLimitServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void putAll_ShouldThrowApiException_WhenDuplicateLimitExists() {
 		TimeOffLimitPutDto newDto = new TimeOffLimitPutDto();
 		newDto.setId(0L); // MISTAKE: no L
@@ -171,6 +176,7 @@ class TimeOffLimitServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void putAll_ShouldThrowApiException_WhenExistingLimitNotFound() {
 		TimeOffLimitPutDto dto = new TimeOffLimitPutDto();
 		dto.setId(2L);
@@ -189,6 +195,7 @@ class TimeOffLimitServiceUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void putAll_ShouldThrowApiException_WhenMaxHoursLessThanSumOfTimeOffs() {
 		TimeOffLimitPutDto dto = new TimeOffLimitPutDto();
 		dto.setId(1L);

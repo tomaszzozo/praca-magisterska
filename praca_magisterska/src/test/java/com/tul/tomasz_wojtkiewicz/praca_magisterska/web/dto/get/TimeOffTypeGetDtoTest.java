@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TimeOffTypeGetDtoTest { // MISTAKE: Missing package statement: 'com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.get'
 
 	@Test
+		// CASES: 1
 	void fromEntity_shouldCopyPropertiesCorrectly() {
 		TimeOffTypeEntity entity = new TimeOffTypeEntity();
 		entity.setId(10L);
@@ -26,6 +27,7 @@ class TimeOffTypeGetDtoTest { // MISTAKE: Missing package statement: 'com.tul.to
 	}
 
 	@Test
+		// CASES: 1
 	void fromEntity_shouldReturnNonNullInstance() {
 		TimeOffTypeEntity entity = new TimeOffTypeEntity();
 		entity.setCompensationPercentage(100f);

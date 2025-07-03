@@ -43,6 +43,7 @@ class TimeOffLimitPutDtoValidationTest { // MISTAKE: Missing package statement: 
 	}
 
 	@Test
+		// CASES: 1
 	void validDto_shouldHaveNoViolations() {
 		TimeOffLimitPutDto dto = createValidDto();
 		Set<ConstraintViolation<TimeOffLimitPutDto>> violations = validator.validate(dto);
@@ -50,6 +51,7 @@ class TimeOffLimitPutDtoValidationTest { // MISTAKE: Missing package statement: 
 	}
 
 	@Test
+		// CASES: 5
 	void nullFields_shouldReturnViolations() {
 		TimeOffLimitPutDto dto = new TimeOffLimitPutDto();
 		Set<ConstraintViolation<TimeOffLimitPutDto>> violations = validator.validate(dto);
@@ -62,6 +64,7 @@ class TimeOffLimitPutDtoValidationTest { // MISTAKE: Missing package statement: 
 	}
 
 	@Test
+		// CASES: 1
 	void negativeId_shouldReturnViolation() {
 		TimeOffLimitPutDto dto = createValidDto();
 		dto.setId(-1L);
@@ -70,6 +73,7 @@ class TimeOffLimitPutDtoValidationTest { // MISTAKE: Missing package statement: 
 	}
 
 	@Test
+		// CASES: 1
 	void negativeMaxHours_shouldReturnViolation() {
 		TimeOffLimitPutDto dto = createValidDto();
 		dto.setMaxHours(-10);
@@ -78,6 +82,7 @@ class TimeOffLimitPutDtoValidationTest { // MISTAKE: Missing package statement: 
 	}
 
 	@Test
+		// CASES: 2
 	void yearOutOfRange_shouldReturnViolation() {
 		TimeOffLimitPutDto dto = createValidDto();
 		dto.setYear(2019);
@@ -90,6 +95,7 @@ class TimeOffLimitPutDtoValidationTest { // MISTAKE: Missing package statement: 
 	}
 
 	@Test
+		// CASES: 1
 	void typeIdLessThanOne_shouldReturnViolation() {
 		TimeOffLimitPutDto dto = createValidDto();
 		dto.setTypeId(0L);
@@ -98,6 +104,7 @@ class TimeOffLimitPutDtoValidationTest { // MISTAKE: Missing package statement: 
 	}
 
 	@Test
+		// CASES: 1
 	void employeeIdLessThanOne_shouldReturnViolation() {
 		TimeOffLimitPutDto dto = createValidDto();
 		dto.setEmployeeId(0L);
@@ -106,6 +113,7 @@ class TimeOffLimitPutDtoValidationTest { // MISTAKE: Missing package statement: 
 	}
 
 	@Test
+		// CASES: 1
 	void maxHoursHigherThanHoursInYear_shouldFailAssertTrue() {
 		TimeOffLimitPutDto dto = createValidDto();
 		// 366 days in a leap year * 24 = 8784
@@ -117,6 +125,7 @@ class TimeOffLimitPutDtoValidationTest { // MISTAKE: Missing package statement: 
 	}
 
 	@Test
+		// CASES: 1
 	void maxHoursEqualToHoursInYear_shouldPassAssertTrue() {
 		TimeOffLimitPutDto dto = createValidDto();
 		// 365 days in 2025 * 24 = 8760

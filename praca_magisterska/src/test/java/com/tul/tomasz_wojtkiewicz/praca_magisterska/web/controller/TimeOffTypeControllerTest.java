@@ -29,6 +29,7 @@ class TimeOffTypeControllerTest { // MISTAKE: Missing package statement: 'com.tu
 	}
 
 	@Test
+		// CASES: 1
 	void getAll_shouldReturnListOfTimeOffTypeGetDto() {
 		var entity1 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity.class);
 		var entity2 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity.class);
@@ -42,6 +43,7 @@ class TimeOffTypeControllerTest { // MISTAKE: Missing package statement: 'com.tu
 	}
 
 	@Test
+		// CASES: 1
 	void putAll_shouldCallServiceAndReturnCreated() {
 		TimeOffTypePutDto dto1 = new TimeOffTypePutDto();
 		TimeOffTypePutDto dto2 = new TimeOffTypePutDto();

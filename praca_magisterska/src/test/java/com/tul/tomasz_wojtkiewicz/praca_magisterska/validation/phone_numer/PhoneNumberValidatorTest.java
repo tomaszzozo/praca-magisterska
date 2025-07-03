@@ -22,31 +22,37 @@ class PhoneNumberValidatorTest { // MISTAKE: Missing package statement: 'com.tul
 	}
 
 	@Test
+		// CASES: 1
 	void shouldReturnTrueForNull() {
 		assertTrue(validator.isValid(null, context));
 	}
 
 	@Test
+		// CASES: 1
 	void shouldReturnTrueForValidPhoneNumber() {
 		assertTrue(validator.isValid("123456789", context));
 	}
 
 	@Test
+		// CASES: 1
 	void shouldReturnFalseForTooShort() {
 		assertFalse(validator.isValid("12345678", context));
 	}
 
 	@Test
+		// CASES: 1
 	void shouldReturnFalseForTooLong() {
 		assertFalse(validator.isValid("1234567890", context));
 	}
 
 	@Test
+		// CASES: 1
 	void shouldReturnFalseForNonDigits() {
 		assertFalse(validator.isValid("12345a789", context));
 	}
 
 	@Test
+		// CASES: 1
 	void shouldReturnFalseForEmptyString() {
 		assertFalse(validator.isValid("", context));
 	}

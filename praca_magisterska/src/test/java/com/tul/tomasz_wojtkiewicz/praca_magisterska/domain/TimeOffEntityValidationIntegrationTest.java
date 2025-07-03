@@ -58,12 +58,14 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void validTimeOffEntity_ShouldHaveNoViolations() {
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
 		assertTrue(violations.isEmpty());
 	}
 
 	@Test
+		// CASES: 1
 	void nullFirstDay_ShouldFailValidation() {
 		timeOff.setFirstDay(null);
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
@@ -72,6 +74,7 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void nullLastDayInclusive_ShouldFailValidation() {
 		timeOff.setLastDayInclusive(null);
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
@@ -80,6 +83,7 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void hoursCountLessThanOne_ShouldFailValidation() {
 		timeOff.setHoursCount(0);
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
@@ -88,6 +92,7 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void nullComment_ShouldFailValidation() {
 		timeOff.setComment(null);
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
@@ -96,6 +101,7 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void nullTimeOffYearlyLimit_ShouldFailValidation() {
 		timeOff.setTimeOffYearlyLimit(null);
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
@@ -104,6 +110,7 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void nullTimeOffType_ShouldFailValidation() {
 		timeOff.setTimeOffType(null);
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
@@ -112,6 +119,7 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void nullEmployee_ShouldFailValidation() {
 		timeOff.setEmployee(null);
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
@@ -120,6 +128,7 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void firstDayAfterLastDay_ShouldFailAssertFalseValidation() {
 		timeOff.setFirstDay(LocalDate.of(2023, 5, 5));
 		timeOff.setLastDayInclusive(LocalDate.of(2023, 5, 3));
@@ -128,6 +137,7 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void differentYearMonth_ShouldFailAssertTrueValidation() {
 		timeOff.setFirstDay(LocalDate.of(2023, 5, 31));
 		timeOff.setLastDayInclusive(LocalDate.of(2023, 6, 1));
@@ -136,6 +146,7 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void hoursCountMoreThanAllowed_ShouldFailAssertTrueValidation() {
 		timeOff.setHoursCount(1000);
 		timeOff.setFirstDay(LocalDate.of(2023, 1, 1));
@@ -146,6 +157,7 @@ class TimeOffEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void yearOutOfRange_ShouldFailAssertTrueValidation() {
 		timeOff.setFirstDay(LocalDate.of(2019, 12, 31));
 		timeOff.setLastDayInclusive(LocalDate.of(2023, 1, 1));

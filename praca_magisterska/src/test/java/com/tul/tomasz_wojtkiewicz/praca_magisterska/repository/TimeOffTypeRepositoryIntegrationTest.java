@@ -18,6 +18,7 @@ class TimeOffTypeRepositoryIntegrationTest {
 	private TimeOffTypeRepository timeOffTypeRepository;
 
 	@Test
+		// CASES: 1
 	void existsByName_ShouldReturnTrue_WhenEntityWithNameExists() {
 		TimeOffTypeEntity entity = new TimeOffTypeEntity();
 		entity.setName("Holiday");
@@ -28,6 +29,7 @@ class TimeOffTypeRepositoryIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void existsByName_ShouldReturnFalse_WhenEntityWithNameDoesNotExist() {
 		assertFalse(timeOffTypeRepository.existsByName("NonExistingName"));
 	}

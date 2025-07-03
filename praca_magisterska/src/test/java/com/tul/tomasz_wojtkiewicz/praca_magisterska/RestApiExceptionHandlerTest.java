@@ -2,20 +2,16 @@ package com.tul.tomasz_wojtkiewicz.praca_magisterska;// Testy jednostkowe
 
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.UnexpectedTypeException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 // INACCURACY: class should be package-private
 @Tag("unit")
@@ -39,6 +35,7 @@ public class RestApiExceptionHandlerTest { // MISTAKE: Missing package statement
 	}
 
 	@Test
+		// CASES: 1
 	void handleMethodArgumentNotValidException_shouldReturnBadRequestAndLog() {
 		MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -47,6 +44,7 @@ public class RestApiExceptionHandlerTest { // MISTAKE: Missing package statement
 	}
 
 	@Test
+		// CASES: 1
 	void handleConstraintViolationException_shouldReturnBadRequestAndLog() {
 		ConstraintViolationException ex = mock(ConstraintViolationException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -55,6 +53,7 @@ public class RestApiExceptionHandlerTest { // MISTAKE: Missing package statement
 	}
 
 	@Test
+		// CASES: 1
 	void handleUnexpectedTypeException_shouldReturnBadRequestAndLog() {
 		UnexpectedTypeException ex = mock(UnexpectedTypeException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -63,6 +62,7 @@ public class RestApiExceptionHandlerTest { // MISTAKE: Missing package statement
 	}
 
 	@Test
+		// CASES: 1
 	void handleDataIntegrityViolationException_shouldReturnBadRequestAndLog() {
 		DataIntegrityViolationException ex = mock(DataIntegrityViolationException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -71,6 +71,7 @@ public class RestApiExceptionHandlerTest { // MISTAKE: Missing package statement
 	}
 
 	@Test
+		// CASES: 1
 	void handleApiException_shouldReturnApiExceptionStatusAndMessageAndLog() {
 		ApiException ex = new ApiException(HttpStatus.FORBIDDEN, "Forbidden access");
 		ResponseEntity<String> response = handler.handleException(ex);

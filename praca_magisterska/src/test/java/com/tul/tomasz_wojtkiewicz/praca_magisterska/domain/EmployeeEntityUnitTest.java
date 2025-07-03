@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class EmployeeEntityUnitTest {
 
 	@Test
+	// CASES: 1
 	void testGettersAndSetters() {
 		EmployeeEntity employee = new EmployeeEntity();
 
@@ -30,6 +31,7 @@ class EmployeeEntityUnitTest {
 	}
 
 	@Test
+		// CASES: 1
 	void testEqualsAndHashCode() {
 		EmployeeEntity e1 = new EmployeeEntity();
 		e1.setId(1L);

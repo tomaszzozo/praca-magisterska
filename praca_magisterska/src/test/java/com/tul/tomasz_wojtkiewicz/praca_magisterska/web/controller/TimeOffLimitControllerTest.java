@@ -29,6 +29,7 @@ class TimeOffLimitControllerTest { // MISTAKE: Missing package statement: 'com.t
 	}
 
 	@Test
+		// CASES: 1
 	void getAllByYearAndEmployee_shouldReturnListOfTimeOffLimitGetDto() {
 		var entity1 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity.class, Mockito.RETURNS_DEEP_STUBS);
 		var entity2 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity.class, Mockito.RETURNS_DEEP_STUBS);
@@ -44,6 +45,7 @@ class TimeOffLimitControllerTest { // MISTAKE: Missing package statement: 'com.t
 	}
 
 	@Test
+		// CASES: 1
 	void putAll_shouldCallServiceAndReturnCreated() {
 		TimeOffLimitPutDto dto1 = new TimeOffLimitPutDto();
 		TimeOffLimitPutDto dto2 = new TimeOffLimitPutDto();

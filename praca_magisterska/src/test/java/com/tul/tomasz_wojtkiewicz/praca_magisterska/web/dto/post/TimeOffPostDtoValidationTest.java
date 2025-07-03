@@ -46,6 +46,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
+		// CASES: 1
 	void validDto_shouldHaveNoViolations() {
 		TimeOffPostDto dto = createValidDto();
 		Set<ConstraintViolation<TimeOffPostDto>> violations = validator.validate(dto);
@@ -53,6 +54,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
+		// CASES: 7
 	void nullFields_shouldReturnViolations() {
 		TimeOffPostDto dto = new TimeOffPostDto();
 		Set<ConstraintViolation<TimeOffPostDto>> violations = validator.validate(dto);
@@ -67,6 +69,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
+		// CASES: 1
 	void hoursCountLessThanOne_shouldReturnViolation() {
 		TimeOffPostDto dto = createValidDto();
 		dto.setHoursCount(0);
@@ -76,6 +79,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
+		// CASES: 1
 	void typeIdLessThanOne_shouldReturnViolation() {
 		TimeOffPostDto dto = createValidDto();
 		dto.setTypeId(0L);
@@ -85,6 +89,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
+		// CASES: 1
 	void yearlyLimitIdLessThanOne_shouldReturnViolation() {
 		TimeOffPostDto dto = createValidDto();
 		dto.setYearlyLimitId(0L);
@@ -94,6 +99,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
+		// CASES: 1
 	void employeeIdLessThanOne_shouldReturnViolation() {
 		TimeOffPostDto dto = createValidDto();
 		dto.setEmployeeId(0L);
@@ -103,6 +109,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
+		// CASES: 1
 	void firstDayAfterLastDay_shouldReturnViolation() {
 		TimeOffPostDto dto = createValidDto();
 		dto.setFirstDay(LocalDate.of(2025, 7, 5));
@@ -113,6 +120,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
+		// CASES: 1
 	void yearAndMonthNotEqual_shouldReturnViolation() {
 		TimeOffPostDto dto = createValidDto();
 		dto.setFirstDay(LocalDate.of(2025, 7, 31));
@@ -123,6 +131,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
+		// CASES: 1
 	void hoursCountExceedsDaysTimes24_shouldReturnViolation() {
 		TimeOffPostDto dto = createValidDto();
 		// Period 3 days (1,2,3) * 24 = 72 hours max
@@ -133,6 +142,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
+		// CASES: 2
 	void yearOutOfRange_shouldReturnViolation() {
 		TimeOffPostDto dto = createValidDto();
 		dto.setFirstDay(LocalDate.of(2019, 7, 1));

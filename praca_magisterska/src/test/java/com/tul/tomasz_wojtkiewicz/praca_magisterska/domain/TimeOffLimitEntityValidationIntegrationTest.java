@@ -49,12 +49,14 @@ class TimeOffLimitEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void validTimeOffLimitEntity_ShouldHaveNoViolations() {
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
 		assertTrue(violations.isEmpty());
 	}
 
 	@Test
+		// CASES: 1
 	void nullMaxHours_ShouldPassAssertTrueValidation() {
 		limit.setMaxHours(null);
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
@@ -62,6 +64,7 @@ class TimeOffLimitEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void nullLeaveYear_ShouldPassAssertTrueValidation() {
 		limit.setLeaveYear(null);
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
@@ -69,6 +72,7 @@ class TimeOffLimitEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void maxHoursNegative_ShouldFailMinValidation() {
 		limit.setMaxHours(-1);
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
@@ -77,6 +81,7 @@ class TimeOffLimitEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void leaveYearOutOfRangeLow_ShouldFailRangeValidation() {
 		limit.setLeaveYear(2019);
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
@@ -85,6 +90,7 @@ class TimeOffLimitEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void leaveYearOutOfRangeHigh_ShouldFailRangeValidation() {
 		limit.setLeaveYear(2101);
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
@@ -93,6 +99,7 @@ class TimeOffLimitEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void nullTimeOffType_ShouldFailNotNullValidation() {
 		limit.setTimeOffType(null);
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
@@ -101,6 +108,7 @@ class TimeOffLimitEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void nullEmployee_ShouldFailNotNullValidation() {
 		limit.setEmployee(null);
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
@@ -109,6 +117,7 @@ class TimeOffLimitEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void maxHoursGreaterThanHoursInYear_ShouldFailAssertTrueValidation() {
 		int daysInYear = LocalDate.of(limit.getLeaveYear(), 12, 31).getDayOfYear();
 		limit.setMaxHours(daysInYear * 24 + 1); // o 1 za dużo
@@ -117,6 +126,7 @@ class TimeOffLimitEntityValidationIntegrationTest {
 	}
 
 	@Test
+		// CASES: 1
 	void maxHoursEqualToHoursInYear_ShouldPassAssertTrueValidation() {
 		int daysInYear = LocalDate.of(limit.getLeaveYear(), 12, 31).getDayOfYear();
 		limit.setMaxHours(daysInYear * 24); // dokładnie limit
