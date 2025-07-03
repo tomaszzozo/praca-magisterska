@@ -31,11 +31,13 @@ class TimeOffControllerTest { // MISTAKE: Missing package statement: 'com.tul.to
 
 	@Test
 	void getAllByYearAndEmployeeId_shouldReturnListOfTimeOffGetDto() {
-		var entity1 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity.class);
-		var entity2 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity.class);
+		var entity1 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity.class, Mockito.RETURNS_DEEP_STUBS);
+		var entity2 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity.class, Mockito.RETURNS_DEEP_STUBS);
+		when(entity1.getTimeOffType().getId()).thenReturn(1L);
+		when(entity2.getTimeOffType().getId()).thenReturn(1L);
 		when(timeOffService.getAllByYearAndEmployeeId(2023, 1L)).thenReturn(List.of(entity1, entity2));
 
-		ResponseEntity<List<TimeOffGetDto>> response = timeOffController.getAllByYearAndEmployeeId(2023, 1L);
+		ResponseEntity<List<TimeOffGetDto>> response = timeOffController.getAllByYearAndEmployeeId(2023, 1L); // MISTAKE: missing deep stubs cause null pointer exception
 
 		verify(timeOffService).getAllByYearAndEmployeeId(2023, 1L);
 		assertEquals(HttpStatus.OK, response.getStatusCode());

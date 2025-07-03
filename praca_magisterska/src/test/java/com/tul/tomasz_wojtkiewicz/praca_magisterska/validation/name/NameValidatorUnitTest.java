@@ -24,7 +24,7 @@ class NameValidatorUnitTest {
 
 	@Test
 	void isValid_ShouldReturnFalse_WhenNull() {
-		assertFalse(validator.isValid(null, mock(ConstraintValidatorContext.class)));
+		assertTrue(validator.isValid(null, mock(ConstraintValidatorContext.class))); // MISTAKE: actually should return true when null
 	}
 
 	@Test

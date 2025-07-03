@@ -53,11 +53,19 @@ class TimeOffGetDtoTest { // MISTAKE: Missing package statement: 'com.tul.tomasz
 	@Test
 	void fromEntity_shouldReturnNonNullInstance() {
 		TimeOffEntity entity = new TimeOffEntity();
-		entity.setTimeOffType(new TimeOffTypeEntity());
-		entity.setTimeOffYearlyLimit(new TimeOffLimitEntity()); // MISTAKE: usage of non-existing class TimeOffYearlyLimitEntity
-		entity.setEmployee(new EmployeeEntity());
+		var type = new TimeOffTypeEntity();
+		type.setId(1L);
+		entity.setTimeOffType(type);
+		var limit = new TimeOffLimitEntity();
+		limit.setId(1L);
+		entity.setTimeOffYearlyLimit(limit); // MISTAKE: usage of non-existing class TimeOffYearlyLimitEntity
+		var employee = new EmployeeEntity();
+		employee.setId(1L);
+		entity.setEmployee(employee);
+		entity.setHoursCount(1);
+		entity.setId(1L);
 
-		TimeOffGetDto dto = TimeOffGetDto.fromEntity(entity);
+		TimeOffGetDto dto = TimeOffGetDto.fromEntity(entity); // MISTAKE: fields not set - null pointer exception
 		assertNotNull(dto);
 	}
 }

@@ -73,10 +73,10 @@ class TimeOffLimitServiceUnitTest {
 		// Should contain the existing limit and a default for the missing type2
 		assertEquals(2, result.size());
 
-		boolean hasExistingLimit = result.stream().anyMatch(l -> l.getId() == 100L);
+		boolean hasExistingLimit = result.stream().anyMatch(l -> l.getId() != null && l.getId() == 100L); // MISTAKE: id of default limits is null -> null pointer exception
 		assertTrue(hasExistingLimit);
 
-		boolean hasDefaultForType2 = result.stream().anyMatch(l -> l.getTimeOffType().getId() == 20L && l.getId() == 0);
+		boolean hasDefaultForType2 = result.stream().anyMatch(l -> l.getTimeOffType().getId() == 20L && l.getId() == null); // MISTAKE: id of default limit is null -> null pointer exception
 		assertTrue(hasDefaultForType2);
 	}
 

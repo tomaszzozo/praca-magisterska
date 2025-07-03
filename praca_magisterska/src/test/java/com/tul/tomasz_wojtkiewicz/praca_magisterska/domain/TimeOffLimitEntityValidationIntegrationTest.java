@@ -58,14 +58,14 @@ class TimeOffLimitEntityValidationIntegrationTest {
 	void nullMaxHours_ShouldPassAssertTrueValidation() {
 		limit.setMaxHours(null);
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
-		assertTrue(violations.isEmpty());
+		assertFalse(violations.isEmpty()); // MISTAKE: should fail due to @NotNull annotation
 	}
 
 	@Test
 	void nullLeaveYear_ShouldPassAssertTrueValidation() {
 		limit.setLeaveYear(null);
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
-		assertTrue(violations.isEmpty());
+		assertFalse(violations.isEmpty()); // MISTAKE: should fail due to @NotNull annotation
 	}
 
 	@Test
@@ -113,7 +113,7 @@ class TimeOffLimitEntityValidationIntegrationTest {
 		int daysInYear = LocalDate.of(limit.getLeaveYear(), 12, 31).getDayOfYear();
 		limit.setMaxHours(daysInYear * 24 + 1); // o 1 za dużo
 		Set<ConstraintViolation<TimeOffLimitEntity>> violations = validator.validate(limit);
-		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("must be true")));
+		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("musi mieć wartość true"))); // MISTAKE: assuming english violation messages
 	}
 
 	@Test

@@ -28,7 +28,9 @@ class TimeOffTypeGetDtoTest { // MISTAKE: Missing package statement: 'com.tul.to
 	@Test
 	void fromEntity_shouldReturnNonNullInstance() {
 		TimeOffTypeEntity entity = new TimeOffTypeEntity();
-		TimeOffTypeGetDto dto = TimeOffTypeGetDto.fromEntity(entity);
+		entity.setCompensationPercentage(100f);
+		entity.setId(1L);
+		TimeOffTypeGetDto dto = TimeOffTypeGetDto.fromEntity(entity); // MISTAKE: fields not set - null pointer exception
 		assertNotNull(dto);
 	}
 }

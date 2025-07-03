@@ -124,7 +124,7 @@ class TimeOffEntityValidationIntegrationTest {
 		timeOff.setFirstDay(LocalDate.of(2023, 5, 5));
 		timeOff.setLastDayInclusive(LocalDate.of(2023, 5, 3));
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
-		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("must be false")));
+		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("musi mieć wartość false"))); // MISTAKE: assumed english violation messages
 	}
 
 	@Test
@@ -132,7 +132,7 @@ class TimeOffEntityValidationIntegrationTest {
 		timeOff.setFirstDay(LocalDate.of(2023, 5, 31));
 		timeOff.setLastDayInclusive(LocalDate.of(2023, 6, 1));
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
-		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("must be true")));
+		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("musi mieć wartość true"))); // MISTAKE: assumed english violation messages
 	}
 
 	@Test
@@ -142,7 +142,7 @@ class TimeOffEntityValidationIntegrationTest {
 		timeOff.setLastDayInclusive(LocalDate.of(2023, 1, 1));
 		// 1 day * 24 = 24 < 1000 invalid
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
-		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("must be true")));
+		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("musi mieć wartość true"))); // MISTAKE: assumed english violation messages
 	}
 
 	@Test
@@ -150,6 +150,6 @@ class TimeOffEntityValidationIntegrationTest {
 		timeOff.setFirstDay(LocalDate.of(2019, 12, 31));
 		timeOff.setLastDayInclusive(LocalDate.of(2023, 1, 1));
 		Set<ConstraintViolation<TimeOffEntity>> violations = validator.validate(timeOff);
-		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("must be true")));
+		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("musi mieć wartość true"))); // MISTAKE: assumed english violation messages
 	}
 }

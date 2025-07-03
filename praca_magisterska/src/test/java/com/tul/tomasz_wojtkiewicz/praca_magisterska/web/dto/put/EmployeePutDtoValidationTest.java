@@ -37,7 +37,7 @@ class EmployeePutDtoValidationTest { // MISTAKE: Missing package statement: 'com
 		dto.setEmail("test@example.com");
 		dto.setFirstName("John");
 		dto.setLastName("Doe");
-		dto.setPhoneNumber("+48123123123");
+		dto.setPhoneNumber("123123123"); // MISTAKE: +48 is not accepted
 		dto.setAccessLevel(2);
 		return dto;
 	}

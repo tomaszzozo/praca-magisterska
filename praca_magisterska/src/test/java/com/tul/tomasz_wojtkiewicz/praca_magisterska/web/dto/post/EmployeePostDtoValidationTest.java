@@ -38,7 +38,7 @@ class EmployeePostDtoValidationTest { // MISTAKE: Missing package statement: 'co
 		dto.setEmail("test@example.com");
 		dto.setFirstName("John");
 		dto.setLastName("Doe");
-		dto.setPhoneNumber("+48123123123");
+		dto.setPhoneNumber("123123123"); // MISTAKE: phone number should not accept +48
 		dto.setAccessLevel(2);
 
 		Set<ConstraintViolation<EmployeePostDto>> violations = validator.validate(dto);

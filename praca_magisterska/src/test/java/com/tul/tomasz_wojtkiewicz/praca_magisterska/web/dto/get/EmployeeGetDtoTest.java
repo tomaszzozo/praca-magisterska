@@ -34,7 +34,9 @@ class EmployeeGetDtoTest { // MISTAKE: Missing package statement: 'com.tul.tomas
 	@Test
 	void fromEntity_shouldReturnNonNullInstance() {
 		EmployeeEntity entity = new EmployeeEntity();
-		EmployeeGetDto dto = EmployeeGetDto.fromEntity(entity);
+		entity.setAccessLevel(1);
+		entity.setId(1L);
+		EmployeeGetDto dto = EmployeeGetDto.fromEntity(entity); // MISTAKE: fields not set - null pointer exception
 		assertNotNull(dto);
 	}
 }

@@ -40,10 +40,16 @@ class TimeOffLimitGetDtoTest { // MISTAKE: Missing package statement: 'com.tul.t
 	@Test
 	void fromEntity_shouldReturnNonNullInstance() {
 		TimeOffLimitEntity entity = new TimeOffLimitEntity();
-		entity.setTimeOffType(new TimeOffTypeEntity());
-		entity.setEmployee(new EmployeeEntity());
+		var type = new TimeOffTypeEntity();
+		type.setId(1L);
+		entity.setTimeOffType(type);
+		var employee = new EmployeeEntity();
+		employee.setId(1L);
+		entity.setEmployee(employee);
+		entity.setId(1L);
+		entity.setLeaveYear(2025);
 
-		TimeOffLimitGetDto dto = TimeOffLimitGetDto.fromEntity(entity);
+		TimeOffLimitGetDto dto = TimeOffLimitGetDto.fromEntity(entity); // MISTAKE: fields not set - null pointer exception
 		assertNotNull(dto);
 	}
 }

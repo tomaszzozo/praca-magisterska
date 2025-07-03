@@ -109,7 +109,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 		dto.setLastDayInclusive(LocalDate.of(2025, 7, 3));
 		Set<ConstraintViolation<TimeOffPostDto>> violations = validator.validate(dto);
 		assertFalse(violations.isEmpty());
-		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("must be false"))); // @AssertFalse
+		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("musi mieć wartość false"))); // MISTAKE: assuming english violation messages
 	}
 
 	@Test
@@ -119,7 +119,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 		dto.setLastDayInclusive(LocalDate.of(2025, 8, 1));
 		Set<ConstraintViolation<TimeOffPostDto>> violations = validator.validate(dto);
 		assertFalse(violations.isEmpty());
-		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("must be true"))); // @AssertTrue
+		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("musi mieć wartość true"))); // MISTAKE: assuming english violation messages
 	}
 
 	@Test
@@ -129,7 +129,7 @@ class TimeOffPostDtoValidationTest { // MISTAKE: Missing package statement: 'com
 		dto.setHoursCount(73);
 		Set<ConstraintViolation<TimeOffPostDto>> violations = validator.validate(dto);
 		assertFalse(violations.isEmpty());
-		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("must be true"))); // @AssertTrue
+		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("musi mieć wartość true"))); // MISTAKE: assuming english violation messages
 	}
 
 	@Test

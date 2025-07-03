@@ -113,7 +113,7 @@ class TimeOffLimitPutDtoValidationTest { // MISTAKE: Missing package statement: 
 		dto.setMaxHours(9000); // greater than hours in 2024
 		Set<ConstraintViolation<TimeOffLimitPutDto>> violations = validator.validate(dto);
 		assertFalse(violations.isEmpty());
-		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("must be true")));
+		assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("musi mieć wartość true"))); // MISTAKE: assuming english violation messages
 	}
 
 	@Test

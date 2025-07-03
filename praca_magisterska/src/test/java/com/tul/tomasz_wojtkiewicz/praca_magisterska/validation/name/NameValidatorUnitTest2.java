@@ -33,11 +33,10 @@ class NameValidatorUnitTest2 {
 		assertTrue(validator.isValid("O'Connor", mock(ConstraintValidatorContext.class)));
 		assertTrue(validator.isValid("Jean-Luc", mock(ConstraintValidatorContext.class)));
 		assertTrue(validator.isValid("Łukasz", mock(ConstraintValidatorContext.class)));
-		assertTrue(validator.isValid("Maria .", mock(ConstraintValidatorContext.class)));
+		// MISTAKE: this name should not pass validation assertTrue(validator.isValid("Maria .", mock(ConstraintValidatorContext.class)));
 		assertTrue(validator.isValid("A.B.", mock(ConstraintValidatorContext.class)));
 		assertTrue(validator.isValid("A B", mock(ConstraintValidatorContext.class)));
 	}
-
 	@Test
 	void isValid_ShouldReturnFalse_ForInvalidNames() {
 		assertFalse(validator.isValid("", mock(ConstraintValidatorContext.class)));

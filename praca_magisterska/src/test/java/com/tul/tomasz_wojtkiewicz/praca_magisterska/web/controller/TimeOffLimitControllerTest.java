@@ -30,11 +30,13 @@ class TimeOffLimitControllerTest { // MISTAKE: Missing package statement: 'com.t
 
 	@Test
 	void getAllByYearAndEmployee_shouldReturnListOfTimeOffLimitGetDto() {
-		var entity1 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity.class);
-		var entity2 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity.class);
+		var entity1 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity.class, Mockito.RETURNS_DEEP_STUBS);
+		var entity2 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity.class, Mockito.RETURNS_DEEP_STUBS);
+		when(entity1.getTimeOffType().getId()).thenReturn(1L);
+		when(entity2.getTimeOffType().getId()).thenReturn(1L);
 		when(timeOffLimitService.getAllByYearAndEmployeeId(2025, 10L)).thenReturn(List.of(entity1, entity2));
 
-		ResponseEntity<List<TimeOffLimitGetDto>> response = timeOffLimitController.getAllByYearAndEmployee(2025, 10L);
+		ResponseEntity<List<TimeOffLimitGetDto>> response = timeOffLimitController.getAllByYearAndEmployee(2025, 10L); // MISTAKE: missing deep stubs returning non-null id
 
 		verify(timeOffLimitService).getAllByYearAndEmployeeId(2025, 10L);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
