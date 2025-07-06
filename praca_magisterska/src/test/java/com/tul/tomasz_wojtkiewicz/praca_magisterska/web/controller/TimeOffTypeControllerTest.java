@@ -39,6 +39,7 @@ class TimeOffTypeControllerTest { // MISTAKE: Missing package statement: 'com.tu
 
 		verify(timeOffTypeService).getAll();
 		assertEquals(HttpStatus.OK, response.getStatusCode());
+		// INACCURACY: only sized checked, not actual content
 		assertEquals(2, response.getBody().size());
 	}
 

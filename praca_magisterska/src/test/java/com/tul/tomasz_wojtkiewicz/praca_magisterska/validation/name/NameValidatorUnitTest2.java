@@ -12,6 +12,8 @@ import static org.mockito.Mockito.mock;
 
 @Tag("unit")
 // ai tag: unit
+// MISTAKE: two classes were generated with the same name for two different source files
+// INACCURACY: similar tests in two different files
 class NameValidatorUnitTest2 {
 
 	private NameValidator validator;

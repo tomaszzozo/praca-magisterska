@@ -32,6 +32,7 @@ class EmployeeEntityUnitTest {
 
 	@Test
 		// CASES: 1
+	// INACCURACY: does not check if List<> fields are excluded
 	void testEqualsAndHashCode() {
 		EmployeeEntity e1 = new EmployeeEntity();
 		e1.setId(1L);

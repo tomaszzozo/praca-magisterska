@@ -42,6 +42,7 @@ class TimeOffControllerTest { // MISTAKE: Missing package statement: 'com.tul.to
 
 		verify(timeOffService).getAllByYearAndEmployeeId(2023, 1L);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
+		// INACCURACY: only sized checked, not actual content
 		assertEquals(2, response.getBody().size());
 	}
 

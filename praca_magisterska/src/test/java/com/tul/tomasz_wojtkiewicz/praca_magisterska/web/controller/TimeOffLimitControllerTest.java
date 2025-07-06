@@ -41,6 +41,7 @@ class TimeOffLimitControllerTest { // MISTAKE: Missing package statement: 'com.t
 
 		verify(timeOffLimitService).getAllByYearAndEmployeeId(2025, 10L);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
+		// INACCURACY: only sized checked, not actual content
 		assertEquals(2, response.getBody().size());
 	}
 

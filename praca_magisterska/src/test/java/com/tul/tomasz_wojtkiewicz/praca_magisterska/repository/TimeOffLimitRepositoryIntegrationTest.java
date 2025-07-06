@@ -60,6 +60,7 @@ class TimeOffLimitRepositoryIntegrationTest {
 	void findAllByLeaveYearAndEmployeeId_ShouldReturnMatchingEntities() {
 		List<TimeOffLimitEntity> results = timeOffLimitRepository.findAllByLeaveYearAndEmployeeId(2025, employee.getId());
 		assertFalse(results.isEmpty());
+		// INACCURACY: overall count should be checked
 		assertTrue(results.stream().anyMatch(l -> l.getId().equals(timeOffLimit.getId())));
 	}
 

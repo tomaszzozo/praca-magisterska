@@ -98,6 +98,7 @@ class TimeOffServiceUnitTest {
 		verify(timeOffRepository).save(captor.capture());
 		TimeOffEntity saved = captor.getValue();
 
+		// INACCURACY: comment field not checked
 		assertEquals(dto.getFirstDay(), saved.getFirstDay());
 		assertEquals(dto.getLastDayInclusive(), saved.getLastDayInclusive());
 		assertEquals(dto.getHoursCount(), saved.getHoursCount());
@@ -214,6 +215,7 @@ class TimeOffServiceUnitTest {
 		verify(timeOffRepository).save(captor.capture());
 		TimeOffEntity saved = captor.getValue();
 
+		// INACCURACY: comment field not included in testing
 		assertEquals(dto.getFirstDay(), saved.getFirstDay());
 		assertEquals(dto.getLastDayInclusive(), saved.getLastDayInclusive());
 		assertEquals(dto.getHoursCount(), saved.getHoursCount());

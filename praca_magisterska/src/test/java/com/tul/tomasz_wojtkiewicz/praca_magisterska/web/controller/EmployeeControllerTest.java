@@ -40,6 +40,7 @@ class EmployeeControllerTest { // MISTAKE: Missing package statement: 'com.tul.t
 		var result = employeeController.getAll();
 
 		verify(employeeService).getAll();
+		// INACCURACY: only sized checked, not actual content
 		assertEquals(2, result.getBody().size());
 		assertEquals(HttpStatus.OK, result.getStatusCode());
 	}
