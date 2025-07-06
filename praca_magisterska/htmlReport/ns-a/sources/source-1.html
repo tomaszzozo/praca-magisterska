@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > EmployeeRepository</title>
+  <title>Coverage Report > TimeOffTypeRepository</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,16 +22,25 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.tul.tomasz_wojtkiewicz.praca_magisterska.repository</a>
 </div>
 
-<h1>Coverage Summary for Class: EmployeeRepository (com.tul.tomasz_wojtkiewicz.praca_magisterska.repository)</h1>
+<h1>Coverage Summary for Class: TimeOffTypeRepository (com.tul.tomasz_wojtkiewicz.praca_magisterska.repository)</h1>
 
 <table class="coverageStats">
+
 <tr>
   <th class="name">Class</th>
 </tr>
+  <tr>
+    <td class="name">TimeOffTypeRepository$MockitoMock$XtCNmiCt</td>
+  </tr>
+  <tr>
+    <td class="name">TimeOffTypeRepository$MockitoMock$XtCNmiCt$auxiliary$2pjSyIOK</td>
+  </tr>
+  <tr>
+    <td class="name">TimeOffTypeRepository$MockitoMock$XtCNmiCt$auxiliary$BQbQ61kO</td>
+  </tr>
 <tr>
-  <td class="name">EmployeeRepository</td>
+  <td class="name"><strong>Total</strong></td>
 </tr>
-
 </table>
 
 <br/>
@@ -41,14 +50,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.tul.tomasz_wojtkiewicz.praca_magisterska.repository;
 &nbsp;
-&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
 &nbsp;import org.springframework.data.jpa.repository.JpaRepository;
 &nbsp;import org.springframework.stereotype.Repository;
 &nbsp;
 &nbsp;@Repository
-&nbsp;public interface EmployeeRepository extends JpaRepository&lt;EmployeeEntity, Long&gt; {
-&nbsp;    boolean existsByEmail(String email);
-&nbsp;    boolean existsByPhoneNumber(String phoneNumber);
+&nbsp;public interface TimeOffTypeRepository extends JpaRepository&lt;TimeOffTypeEntity, Long&gt; {
+&nbsp;    boolean existsByName(String name);
 &nbsp;}
 </code>
 </pre>
@@ -73,7 +81,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-06-26 20:00</div>
+    <div style="float:right;">generated on 2025-07-06 21:01</div>
 </div>
 </body>
 </html>

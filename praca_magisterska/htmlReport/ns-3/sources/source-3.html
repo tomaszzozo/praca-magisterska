@@ -49,10 +49,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    91,3%
   </span>
   <span class="absValue">
-    (46/46)
+    (42/46)
   </span>
 </td>
 </tr>
@@ -71,10 +71,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    91,3%
   </span>
   <span class="absValue">
-    (46/46)
+    (42/46)
   </span>
 </td>
 </tr>
@@ -131,9 +131,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        if (yearlyLimit.getMaxHours() &lt; usedHours + dto.getHoursCount()) {</b>
 <b class="fc">&nbsp;            int hoursOverLimit = usedHours + dto.getHoursCount() - yearlyLimit.getMaxHours();</b>
 <b class="fc">&nbsp;            if (hoursOverLimit == 1) {</b>
-<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o 1 godzinę&quot;);</b>
+<b class="nc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o 1 godzinę&quot;);</b>
 <b class="fc">&nbsp;            } else if (Integer.toString(hoursOverLimit).matches(&quot;[234]$&quot;)) {</b>
-<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godziny&quot;.formatted(hoursOverLimit));</b>
+<b class="nc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godziny&quot;.formatted(hoursOverLimit));</b>
 &nbsp;            }
 <b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godzin&quot;.formatted(hoursOverLimit));</b>
 &nbsp;        }
@@ -165,9 +165,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        if (yearlyLimit.getMaxHours() &lt; usedHours + dto.getHoursCount()) {</b>
 <b class="fc">&nbsp;            int hoursOverLimit = usedHours + dto.getHoursCount() - yearlyLimit.getMaxHours();</b>
 <b class="fc">&nbsp;            if (hoursOverLimit == 1) {</b>
-<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o 1 godzinę&quot;);</b>
+<b class="nc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o 1 godzinę&quot;);</b>
 <b class="fc">&nbsp;            } else if (Integer.toString(hoursOverLimit).matches(&quot;[234]$&quot;)) {</b>
-<b class="fc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godziny&quot;.formatted(hoursOverLimit));</b>
+<b class="nc">&nbsp;                throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godziny&quot;.formatted(hoursOverLimit));</b>
 &nbsp;            }
 <b class="fc">&nbsp;            throw new ApiException(HttpStatus.CONFLICT, &quot;Nowy urlop przekorczy limit o %d godzin&quot;.formatted(hoursOverLimit));</b>
 &nbsp;        }
@@ -211,7 +211,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-06-26 20:00</div>
+    <div style="float:right;">generated on 2025-07-06 21:01</div>
 </div>
 </body>
 </html>

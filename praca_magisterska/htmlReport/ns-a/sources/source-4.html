@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > TimeOffTypeRepository</title>
+  <title>Coverage Report > TimeOffLimitRepository</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,16 +22,25 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.tul.tomasz_wojtkiewicz.praca_magisterska.repository</a>
 </div>
 
-<h1>Coverage Summary for Class: TimeOffTypeRepository (com.tul.tomasz_wojtkiewicz.praca_magisterska.repository)</h1>
+<h1>Coverage Summary for Class: TimeOffLimitRepository (com.tul.tomasz_wojtkiewicz.praca_magisterska.repository)</h1>
 
 <table class="coverageStats">
+
 <tr>
   <th class="name">Class</th>
 </tr>
+  <tr>
+    <td class="name">TimeOffLimitRepository$MockitoMock$TVM8KvMn</td>
+  </tr>
+  <tr>
+    <td class="name">TimeOffLimitRepository$MockitoMock$TVM8KvMn$auxiliary$BcGmpgyx</td>
+  </tr>
+  <tr>
+    <td class="name">TimeOffLimitRepository$MockitoMock$TVM8KvMn$auxiliary$QdQJ8hpp</td>
+  </tr>
 <tr>
-  <td class="name">TimeOffTypeRepository</td>
+  <td class="name"><strong>Total</strong></td>
 </tr>
-
 </table>
 
 <br/>
@@ -41,13 +50,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.tul.tomasz_wojtkiewicz.praca_magisterska.repository;
 &nbsp;
-&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffTypeEntity;
+&nbsp;import com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffLimitEntity;
 &nbsp;import org.springframework.data.jpa.repository.JpaRepository;
 &nbsp;import org.springframework.stereotype.Repository;
 &nbsp;
+&nbsp;import java.util.List;
+&nbsp;
 &nbsp;@Repository
-&nbsp;public interface TimeOffTypeRepository extends JpaRepository&lt;TimeOffTypeEntity, Long&gt; {
-&nbsp;    boolean existsByName(String name);
+&nbsp;public interface TimeOffLimitRepository extends JpaRepository&lt;TimeOffLimitEntity, Long&gt; {
+&nbsp;    List&lt;TimeOffLimitEntity&gt; findAllByLeaveYearAndEmployeeId(int year, long employeeId);
+&nbsp;    boolean existsByLeaveYearAndEmployeeIdAndTimeOffTypeId(int year, long employeeId, long timeOffTypeId);
 &nbsp;}
 </code>
 </pre>
@@ -72,7 +84,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-06-26 20:00</div>
+    <div style="float:right;">generated on 2025-07-06 21:01</div>
 </div>
 </body>
 </html>
