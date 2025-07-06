@@ -34,14 +34,14 @@ class EmployeeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void validEmployee_ShouldHaveNoViolations() {
 		Set<ConstraintViolation<EmployeeEntity>> violations = validator.validate(validEmployee);
 		assertTrue(violations.isEmpty());
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void emailBlank_ShouldFailValidation() {
 		validEmployee.setEmail("");
 		Set<ConstraintViolation<EmployeeEntity>> violations = validator.validate(validEmployee);
@@ -50,7 +50,7 @@ class EmployeeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void emailInvalidFormat_ShouldFailValidation() {
 		validEmployee.setEmail("invalid-email");
 		Set<ConstraintViolation<EmployeeEntity>> violations = validator.validate(validEmployee);
@@ -59,7 +59,7 @@ class EmployeeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void firstNameNull_ShouldFailValidation() {
 		validEmployee.setFirstName(null);
 		Set<ConstraintViolation<EmployeeEntity>> violations = validator.validate(validEmployee);
@@ -67,7 +67,7 @@ class EmployeeEntityValidationIntegrationTest {
 		assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("firstName")));
 	}
 
-	// CASES: 1
+	// cases: 1
 	@Test
 	void lastNameNull_ShouldFailValidation() {
 		validEmployee.setLastName(null);
@@ -77,7 +77,7 @@ class EmployeeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void phoneNumberNull_ShouldFailValidation() {
 		validEmployee.setPhoneNumber(null);
 		Set<ConstraintViolation<EmployeeEntity>> violations = validator.validate(validEmployee);
@@ -86,7 +86,7 @@ class EmployeeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void phoneNumberWrongLength_ShouldFailValidation() {
 		validEmployee.setPhoneNumber("1234");
 		Set<ConstraintViolation<EmployeeEntity>> violations = validator.validate(validEmployee);
@@ -95,7 +95,7 @@ class EmployeeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void accessLevelBelowMin_ShouldFailValidation() {
 		validEmployee.setAccessLevel(-1);
 		Set<ConstraintViolation<EmployeeEntity>> violations = validator.validate(validEmployee);
@@ -104,7 +104,7 @@ class EmployeeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void accessLevelAboveMax_ShouldFailValidation() {
 		validEmployee.setAccessLevel(5);
 		Set<ConstraintViolation<EmployeeEntity>> violations = validator.validate(validEmployee);

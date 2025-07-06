@@ -42,7 +42,7 @@ class TimeOffServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void getAllByYearAndEmployeeId_ShouldReturnList() {
 		long employeeId = 1L;
 		int year = 2025;
@@ -58,7 +58,7 @@ class TimeOffServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void post_ShouldSaveNewTimeOff_WhenNoConflictsAndWithinLimit() {
 		TimeOffPostDto dto = new TimeOffPostDto();
 		dto.setEmployeeId(1L);
@@ -108,7 +108,7 @@ class TimeOffServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void post_ShouldThrowApiException_WhenOverlappingTimeOffExists() {
 		TimeOffPostDto dto = new TimeOffPostDto();
 		dto.setEmployeeId(1L);
@@ -132,7 +132,7 @@ class TimeOffServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void post_ShouldThrowApiException_WhenExceedsLimit() {
 		TimeOffPostDto dto = new TimeOffPostDto();
 		dto.setEmployeeId(1L);
@@ -165,7 +165,7 @@ class TimeOffServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void put_ShouldUpdateTimeOff_WhenValid() {
 		long id = 5L;
 		TimeOffPutDto dto = new TimeOffPutDto();
@@ -225,7 +225,7 @@ class TimeOffServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void put_ShouldThrowApiException_WhenYearChanged() {
 		long id = 5L;
 		TimeOffPutDto dto = new TimeOffPutDto();
@@ -250,7 +250,7 @@ class TimeOffServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void put_ShouldThrowApiException_WhenOverlappingExists() {
 		long id = 5L;
 		TimeOffPutDto dto = new TimeOffPutDto();
@@ -281,7 +281,7 @@ class TimeOffServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void put_ShouldThrowApiException_WhenExceedsLimit() {
 		long id = 5L;
 		TimeOffPutDto dto = new TimeOffPutDto();
@@ -320,7 +320,7 @@ class TimeOffServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void delete_ShouldDeleteExistingEntity() {
 		long id = 1L;
 		TimeOffEntity entity = new TimeOffEntity();
@@ -334,7 +334,7 @@ class TimeOffServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void delete_ShouldThrowApiException_WhenNotFound() {
 		long id = 1L;
 

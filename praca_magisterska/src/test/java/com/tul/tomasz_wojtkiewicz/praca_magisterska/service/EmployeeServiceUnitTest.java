@@ -33,7 +33,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void getAll_ShouldReturnAllEmployees() {
 		List<EmployeeEntity> mockList = List.of(new EmployeeEntity(), new EmployeeEntity());
 		when(employeeRepository.findAll()).thenReturn(mockList);
@@ -45,7 +45,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void getById_ShouldReturnEmployee_WhenExists() {
 		EmployeeEntity employee = new EmployeeEntity();
 		employee.setId(1L);
@@ -57,7 +57,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void getById_ShouldThrowApiException_WhenNotFound() {
 		when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -67,7 +67,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void post_ShouldSaveEmployee_WhenValidAndNoConflicts() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("email@example.com");
@@ -92,7 +92,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void post_ShouldThrowApiException_WhenEmailExists() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("email@example.com");
@@ -107,7 +107,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void post_ShouldThrowApiException_WhenPhoneNumberExists() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("email@example.com");
@@ -123,7 +123,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void put_ShouldUpdateEmployee_WhenValidAndNoConflicts() {
 		long id = 1L;
 		EmployeePutDto dto = new EmployeePutDto();
@@ -159,7 +159,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void put_ShouldThrowApiException_WhenEmployeeNotFound() {
 		long id = 1L;
 		EmployeePutDto dto = new EmployeePutDto();
@@ -171,7 +171,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void put_ShouldThrowApiException_WhenEmailExistsOnAnotherEmployee() {
 		long id = 1L;
 		EmployeePutDto dto = new EmployeePutDto();
@@ -193,7 +193,7 @@ class EmployeeServiceUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void put_ShouldThrowApiException_WhenPhoneNumberExistsOnAnotherEmployee() {
 		long id = 1L;
 		EmployeePutDto dto = new EmployeePutDto();

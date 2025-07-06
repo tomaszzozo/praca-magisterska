@@ -31,7 +31,7 @@ class EmployeeControllerTest { // MISTAKE: Missing package statement: 'com.tul.t
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void getAll_shouldReturnListOfEmployeeGetDto() {
 		var entity1 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity.class);
 		var entity2 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity.class);
@@ -46,7 +46,7 @@ class EmployeeControllerTest { // MISTAKE: Missing package statement: 'com.tul.t
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void getById_shouldReturnEmployeeGetDto() {
 		var entity = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.EmployeeEntity.class);
 		when(employeeService.getById(1L)).thenReturn(entity);
@@ -59,7 +59,7 @@ class EmployeeControllerTest { // MISTAKE: Missing package statement: 'com.tul.t
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void post_shouldCallServiceAndReturnCreated() {
 		EmployeePostDto dto = new EmployeePostDto();
 		ResponseEntity<Void> response = employeeController.post(dto);
@@ -70,7 +70,7 @@ class EmployeeControllerTest { // MISTAKE: Missing package statement: 'com.tul.t
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void put_shouldCallServiceAndReturnOk() {
 		EmployeePutDto dto = new EmployeePutDto();
 		ResponseEntity<Void> response = employeeController.put(1L, dto);

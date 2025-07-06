@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TimeOffEntityUnitTest {
 
 	@Test
-		// CASES: 8
+		// cases: 8
 	void testGettersAndSetters() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 
@@ -42,7 +42,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void isFirstDayAfterLastDay_whenFirstDayAfterLastDay_returnsTrue() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(LocalDate.of(2023, 5, 5));
@@ -51,7 +51,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 2
+		// cases: 2
 	void isFirstDayAfterLastDay_whenFirstDayBeforeOrEqualLastDay_returnsFalse() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(LocalDate.of(2023, 5, 1));
@@ -64,7 +64,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 3
+		// cases: 3
 	void isFirstDayAfterLastDay_whenNullDates_returnsFalse() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(null);
@@ -79,7 +79,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void isYearAndMonthEqual_whenSameMonthAndYear_returnsTrue() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(LocalDate.of(2023, 5, 1));
@@ -88,7 +88,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 2
+		// cases: 2
 	void isYearAndMonthEqual_whenDifferentMonthOrYear_returnsFalse() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(LocalDate.of(2023, 5, 31));
@@ -101,7 +101,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 3
+		// cases: 3
 	void isYearAndMonthEqual_whenNullDates_returnsTrue() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(null);
@@ -118,7 +118,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 2
+		// cases: 2
 	void isHoursCountLessThanHoursInTimeOff_whenValid_returnsTrue() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(LocalDate.of(2023, 5, 1));
@@ -131,7 +131,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void isHoursCountLessThanHoursInTimeOff_whenTooLarge_returnsFalse() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(LocalDate.of(2023, 5, 1));
@@ -141,7 +141,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 3
+		// cases: 3
 	void isHoursCountLessThanHoursInTimeOff_whenNullFields_returnsTrue() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setHoursCount(null);
@@ -158,7 +158,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 2
+		// cases: 2
 	void isYearInAcceptableRange_whenWithinRange_returnsTrue() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(LocalDate.of(2020, 1, 1));
@@ -171,7 +171,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 2
+		// cases: 2
 	void isYearInAcceptableRange_whenOutOfRange_returnsFalse() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(LocalDate.of(2019, 12, 31));
@@ -184,7 +184,7 @@ class TimeOffEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 3
+		// cases: 3
 	void isYearInAcceptableRange_whenNullDates_returnsTrue() {
 		TimeOffEntity timeOff = new TimeOffEntity();
 		timeOff.setFirstDay(null);

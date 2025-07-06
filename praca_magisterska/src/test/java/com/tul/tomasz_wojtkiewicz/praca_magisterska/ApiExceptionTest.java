@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ApiExceptionTest { // MISTAKE: Missing package statement: 'com.tul.tomasz_wojtkiewicz.praca_magisterska'
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void testConstructorAndGetters() {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		String message = "Test error message";

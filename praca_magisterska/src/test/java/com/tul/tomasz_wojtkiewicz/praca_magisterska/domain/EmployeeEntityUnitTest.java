@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class EmployeeEntityUnitTest {
 
 	@Test
-	// CASES: 1
+	// cases: 1
 	void testGettersAndSetters() {
 		EmployeeEntity employee = new EmployeeEntity();
 
@@ -31,7 +31,7 @@ class EmployeeEntityUnitTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	// INACCURACY: does not check if List<> fields are excluded
 	void testEqualsAndHashCode() {
 		EmployeeEntity e1 = new EmployeeEntity();

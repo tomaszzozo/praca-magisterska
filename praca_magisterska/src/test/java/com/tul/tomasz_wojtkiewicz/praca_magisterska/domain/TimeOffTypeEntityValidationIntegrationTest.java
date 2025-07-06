@@ -31,14 +31,14 @@ class TimeOffTypeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void validTimeOffTypeEntity_ShouldHaveNoViolations() {
 		Set<ConstraintViolation<TimeOffTypeEntity>> violations = validator.validate(timeOffType);
 		assertTrue(violations.isEmpty());
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void nullName_ShouldFailNotBlankValidation() {
 		timeOffType.setName(null);
 		Set<ConstraintViolation<TimeOffTypeEntity>> violations = validator.validate(timeOffType);
@@ -47,7 +47,7 @@ class TimeOffTypeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void blankName_ShouldFailNotBlankValidation() {
 		timeOffType.setName(" ");
 		Set<ConstraintViolation<TimeOffTypeEntity>> violations = validator.validate(timeOffType);
@@ -56,7 +56,7 @@ class TimeOffTypeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void nullCompensationPercentage_ShouldFailNotNullValidation() {
 		timeOffType.setCompensationPercentage(null);
 		Set<ConstraintViolation<TimeOffTypeEntity>> violations = validator.validate(timeOffType);
@@ -65,7 +65,7 @@ class TimeOffTypeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void compensationPercentageBelowRange_ShouldFailRangeValidation() {
 		timeOffType.setCompensationPercentage(-1f);
 		Set<ConstraintViolation<TimeOffTypeEntity>> violations = validator.validate(timeOffType);
@@ -74,7 +74,7 @@ class TimeOffTypeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void compensationPercentageAboveRange_ShouldFailRangeValidation() {
 		timeOffType.setCompensationPercentage(101f);
 		Set<ConstraintViolation<TimeOffTypeEntity>> violations = validator.validate(timeOffType);
@@ -83,7 +83,7 @@ class TimeOffTypeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void compensationPercentageAtLowerBound_ShouldPassValidation() {
 		timeOffType.setCompensationPercentage(0f);
 		Set<ConstraintViolation<TimeOffTypeEntity>> violations = validator.validate(timeOffType);
@@ -91,7 +91,7 @@ class TimeOffTypeEntityValidationIntegrationTest {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void compensationPercentageAtUpperBound_ShouldPassValidation() {
 		timeOffType.setCompensationPercentage(100f);
 		Set<ConstraintViolation<TimeOffTypeEntity>> violations = validator.validate(timeOffType);

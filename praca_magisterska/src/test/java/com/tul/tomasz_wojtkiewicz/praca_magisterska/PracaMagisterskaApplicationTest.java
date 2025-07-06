@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class PracaMagisterskaApplicationTest { // MISTAKE: Missing package statement: 'com.tul.tomasz_wojtkiewicz.praca_magisterska'
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void contextLoads() {
 		// Test sprawdza, czy kontekst aplikacji Spring Boot się uruchamia bez błędów
 	}

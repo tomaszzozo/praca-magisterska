@@ -43,7 +43,7 @@ class EmployeePutDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void validDto_shouldHaveNoViolations() {
 		EmployeePutDto dto = createValidDto();
 		Set<ConstraintViolation<EmployeePutDto>> violations = validator.validate(dto);
@@ -51,7 +51,7 @@ class EmployeePutDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void invalidEmail_shouldReturnViolation() {
 		EmployeePutDto dto = createValidDto();
 		dto.setEmail("invalid-email");
@@ -61,7 +61,7 @@ class EmployeePutDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void nullFirstName_shouldReturnViolation() {
 		EmployeePutDto dto = createValidDto();
 		dto.setFirstName(null);
@@ -71,7 +71,7 @@ class EmployeePutDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void nullLastName_shouldReturnViolation() {
 		EmployeePutDto dto = createValidDto();
 		dto.setLastName(null);
@@ -81,7 +81,7 @@ class EmployeePutDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void nullPhoneNumber_shouldReturnViolation() {
 		EmployeePutDto dto = createValidDto();
 		dto.setPhoneNumber(null);
@@ -91,7 +91,7 @@ class EmployeePutDtoValidationTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 2
+		// cases: 2
 	void accessLevelOutOfRange_shouldReturnViolation() {
 		EmployeePutDto dto = createValidDto();
 		dto.setAccessLevel(-1);

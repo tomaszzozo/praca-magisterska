@@ -26,7 +26,7 @@ public class TimeOffTypePutDtoTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void testValidDto() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(1L);
@@ -38,7 +38,7 @@ public class TimeOffTypePutDtoTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void testIdNegativeValue() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(-1L);
@@ -51,7 +51,7 @@ public class TimeOffTypePutDtoTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void testNameBlank() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(1L);
@@ -64,7 +64,7 @@ public class TimeOffTypePutDtoTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void testNameNull() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(1L);
@@ -77,7 +77,7 @@ public class TimeOffTypePutDtoTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void testCompensationPercentageNull() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(1L);
@@ -90,7 +90,7 @@ public class TimeOffTypePutDtoTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void testCompensationPercentageBelowMin() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(1L);
@@ -103,7 +103,7 @@ public class TimeOffTypePutDtoTest { // MISTAKE: Missing package statement: 'com
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void testCompensationPercentageAboveMax() {
 		TimeOffTypePutDto dto = new TimeOffTypePutDto();
 		dto.setId(1L);

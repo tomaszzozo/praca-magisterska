@@ -30,7 +30,7 @@ class TimeOffControllerTest { // MISTAKE: Missing package statement: 'com.tul.to
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void getAllByYearAndEmployeeId_shouldReturnListOfTimeOffGetDto() {
 		var entity1 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity.class, Mockito.RETURNS_DEEP_STUBS);
 		var entity2 = Mockito.mock(com.tul.tomasz_wojtkiewicz.praca_magisterska.domain.TimeOffEntity.class, Mockito.RETURNS_DEEP_STUBS);
@@ -47,7 +47,7 @@ class TimeOffControllerTest { // MISTAKE: Missing package statement: 'com.tul.to
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void post_shouldCallServiceAndReturnCreated() {
 		TimeOffPostDto dto = new TimeOffPostDto();
 
@@ -59,7 +59,7 @@ class TimeOffControllerTest { // MISTAKE: Missing package statement: 'com.tul.to
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void put_shouldCallServiceAndReturnCreated() {
 		TimeOffPutDto dto = new TimeOffPutDto();
 
@@ -71,7 +71,7 @@ class TimeOffControllerTest { // MISTAKE: Missing package statement: 'com.tul.to
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void delete_shouldCallServiceAndReturnOk() {
 		ResponseEntity<Void> response = timeOffController.delete(1L);
 

@@ -24,13 +24,13 @@ class NameValidatorUnitTest2 {
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void isValid_ShouldReturnTrue_WhenNull() {
 		assertTrue(validator.isValid(null, mock(ConstraintValidatorContext.class)));
 	}
 
 	@Test
-		// CASES: 7
+		// cases: 7
 	void isValid_ShouldReturnTrue_ForValidNames() {
 		assertTrue(validator.isValid("Jan", mock(ConstraintValidatorContext.class)));
 		assertTrue(validator.isValid("Anna-Maria", mock(ConstraintValidatorContext.class)));
@@ -42,7 +42,7 @@ class NameValidatorUnitTest2 {
 		assertTrue(validator.isValid("A B", mock(ConstraintValidatorContext.class)));
 	}
 	@Test
-		// CASES: 10
+		// cases: 10
 	void isValid_ShouldReturnFalse_ForInvalidNames() {
 		assertFalse(validator.isValid("", mock(ConstraintValidatorContext.class)));
 		assertFalse(validator.isValid("Jan123", mock(ConstraintValidatorContext.class)));

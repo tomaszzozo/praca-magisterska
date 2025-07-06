@@ -33,7 +33,7 @@ class EmployeePostDtoValidationTest { // MISTAKE: Missing package statement: 'co
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void validEmployeePostDto_shouldHaveNoViolations() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("test@example.com");
@@ -47,7 +47,7 @@ class EmployeePostDtoValidationTest { // MISTAKE: Missing package statement: 'co
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void invalidEmail_shouldReturnViolation() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("invalid-email");
@@ -62,7 +62,7 @@ class EmployeePostDtoValidationTest { // MISTAKE: Missing package statement: 'co
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void blankEmail_shouldReturnViolation() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("");
@@ -77,7 +77,7 @@ class EmployeePostDtoValidationTest { // MISTAKE: Missing package statement: 'co
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void nullFirstName_shouldReturnViolation() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("test@example.com");
@@ -92,7 +92,7 @@ class EmployeePostDtoValidationTest { // MISTAKE: Missing package statement: 'co
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void nullLastName_shouldReturnViolation() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("test@example.com");
@@ -107,7 +107,7 @@ class EmployeePostDtoValidationTest { // MISTAKE: Missing package statement: 'co
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void invalidPhoneNumber_shouldReturnViolation() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("test@example.com");
@@ -122,7 +122,7 @@ class EmployeePostDtoValidationTest { // MISTAKE: Missing package statement: 'co
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void nullPhoneNumber_shouldReturnViolation() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("test@example.com");
@@ -137,7 +137,7 @@ class EmployeePostDtoValidationTest { // MISTAKE: Missing package statement: 'co
 	}
 
 	@Test
-		// CASES: 2
+		// cases: 2
 	void accessLevelOutOfRange_shouldReturnViolation() {
 		EmployeePostDto dtoLow = new EmployeePostDto();
 		dtoLow.setEmail("test@example.com");
@@ -163,7 +163,7 @@ class EmployeePostDtoValidationTest { // MISTAKE: Missing package statement: 'co
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void nullAccessLevel_shouldReturnViolation() {
 		EmployeePostDto dto = new EmployeePostDto();
 		dto.setEmail("test@example.com");

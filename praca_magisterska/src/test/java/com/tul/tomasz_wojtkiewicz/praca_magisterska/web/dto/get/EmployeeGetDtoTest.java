@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class EmployeeGetDtoTest { // MISTAKE: Missing package statement: 'com.tul.tomasz_wojtkiewicz.praca_magisterska.web.dto.get'
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void fromEntity_shouldCopyPropertiesCorrectly() {
 		EmployeeEntity entity = new EmployeeEntity();
 		entity.setId(1L);
@@ -33,7 +33,7 @@ class EmployeeGetDtoTest { // MISTAKE: Missing package statement: 'com.tul.tomas
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void fromEntity_shouldReturnNonNullInstance() {
 		EmployeeEntity entity = new EmployeeEntity();
 		entity.setAccessLevel(1);

@@ -35,7 +35,7 @@ public class RestApiExceptionHandlerTest { // MISTAKE: Missing package statement
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void handleMethodArgumentNotValidException_shouldReturnBadRequestAndLog() {
 		MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -44,7 +44,7 @@ public class RestApiExceptionHandlerTest { // MISTAKE: Missing package statement
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void handleConstraintViolationException_shouldReturnBadRequestAndLog() {
 		ConstraintViolationException ex = mock(ConstraintViolationException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -53,7 +53,7 @@ public class RestApiExceptionHandlerTest { // MISTAKE: Missing package statement
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void handleUnexpectedTypeException_shouldReturnBadRequestAndLog() {
 		UnexpectedTypeException ex = mock(UnexpectedTypeException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -62,7 +62,7 @@ public class RestApiExceptionHandlerTest { // MISTAKE: Missing package statement
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void handleDataIntegrityViolationException_shouldReturnBadRequestAndLog() {
 		DataIntegrityViolationException ex = mock(DataIntegrityViolationException.class);
 		ResponseEntity<String> response = handler.handleException(ex);
@@ -71,7 +71,7 @@ public class RestApiExceptionHandlerTest { // MISTAKE: Missing package statement
 	}
 
 	@Test
-		// CASES: 1
+		// cases: 1
 	void handleApiException_shouldReturnApiExceptionStatusAndMessageAndLog() {
 		ApiException ex = new ApiException(HttpStatus.FORBIDDEN, "Forbidden access");
 		ResponseEntity<String> response = handler.handleException(ex);
