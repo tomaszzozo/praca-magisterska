@@ -1,0 +1,5 @@
+1. Klasy mają adnotacje @Tag("unit") lub @Tag("integration") w zależności od rodzajów testów, jakie zawierają.
+2. Klasy mają komentarz // ai tag: unit/integration i jest to typ nadany im przez LLM.
+3. Linijki kodu mają komentarze // MISTAKE: ... a komentarze te opisują błędy w wygenerowanym kodzie powodujące błędy w kompilacji kodu lub egzekucji testów.
+4. Linijki kodu mają komentarze // INACCURACY: ... a komentarze te opisują przypadki, kiedy wygenerowany test zwraca pozytywny wynik bo nie sprawdza otrzymanych rezultatów w pełni, np. kiedy sprawdza tylko cześć zwróconego obiektu JSON i pomija kilka kluczy.
+5. Metody mają komentarze // cases: ... i podają one ilość faktycznych przypadków testowych pokrywanych przez dany test.

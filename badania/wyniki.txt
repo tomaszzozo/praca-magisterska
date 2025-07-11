@@ -1,0 +1,47 @@
+# BEZ KONTEKSTU #
+Pokrycie: 
+	Klasy: 100% (27/27)
+	Metody:	96% (72/75)
+	Linie: 92,5% (173/187)
+Liczba klas: 29
+Linijki kodu: 1754
+Liczba testów: 112
+Faktyczne przypadki testowe: 121
+Liczba wykrytych błędów-pułapek: 0
+Liczba błędów: 36
+Liczba niedokładności: 15
+Liczba testów jednostkowych: 64
+Liczba testów integracji: 48
+Liczba nieporawnie zkategoryzowanych klas testowych: 7
+
+# Z KONTEKSTEM #
+Pokrycie: 
+	Klasy: 100% (27/27)
+	Metody:	98,7% (74/75)
+	Linie: 97,3% (182/187)
+Liczba klas: 33
+Linijki kodu: 2625
+Liczba testów: 181
+Faktyczne przypadki testowe: 238
+Liczba wykrytych błędów-pułapek: 0
+Liczba błędów: 47
+Liczba niedokładności: 19
+Liczba testów jednostkowych: 88
+Liczba testów integracji: 93
+Liczba nieporawnie zkategoryzowanych klas testowych: 6
+
+# TESTY PROGRAMISTY #
+Pokrycie: 
+	Klasy: 100% (27/27)
+	Metody:	96% (72/75)
+	Linie: 98,4% (184/187)
+Liczba klas: 52
+Linijki kodu: 3735
+Liczba testów: 238
+Faktyczne przypadki testowe: 718
+Liczba wykrytych błędów-pułapek: 4
+Liczba błędów: -
+Liczba niedokładności: -
+Liczba testów jednostkowych: 33
+Liczba testów integracji: 205
+Liczba nieporawnie zkategoryzowanych klas testowych: -

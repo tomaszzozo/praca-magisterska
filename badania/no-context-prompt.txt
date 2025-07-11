@@ -1,0 +1,1 @@
+Wygeneruj testy jednostkowe i/lub integracyjne dla poniższej klasy, lub nie generuj nic jeżeli nie ma sensu testować danej klasy. Zaznacz, czy generowane testy są jednostkowe czy integracyjne. Możesz wygenerować osobne klasy jeżeli potrzebne są takie i takie. Nie dodawaj wyjaśnień, ani jakichkolwiek innych informacji. Tylko to, co można wkleić do projektu.
